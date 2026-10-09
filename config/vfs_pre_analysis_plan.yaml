@@ -1,0 +1,35 @@
+title: Disclosure-based independent implementation of VFS
+analysis_role: exploratory_prior_governance_results_known
+original_period: [2016-01-01, 2026-04-01]
+data_cutoff: 2026-04-01
+universe: all_positive_BE_ME_verified_G_financial_PIT_original_historical_panel
+formation_return_month: 7
+formation_information: preceding_June_KRX_month_end
+holding: annual_buy_and_hold_drift_no_monthly_retargeting
+pbr: same_June_market_cap_divided_by_fiscal_t_minus_1_verified_equity
+financial_units: ME_thousand_KRW_BE_100million_KRW
+pbr_cut: cross_section_median_ties_low
+g_cut: within_each_PBR_group_median_ties_bad
+g_proxy: outside_directors_divided_by_total_directors
+cell_cap: 0.25
+vfs_cell_allocation: [0.5, 0.5]
+cap_enforcement: at_annual_formation_only_drift_between_rebalances_reported
+value: same_eligible_universe_low_PBR_uncapped_market_cap_weight
+market: KOSPI_price_index_same_months
+return_basis: PRICE_RETURN_ONLY
+missing: invalidate_portfolio_from_first_missing_held_return_until_next_annual_reset_no_ex_post_reweight
+cost_bps_per_one_way_leg: [0, 10, 30]
+unknown_pretrade_weights: cost_NA_after_broken_holdings_path
+primary_window: longest_contiguous_common_valid_block_ties_earliest_selected_on_availability_only
+minimum_alpha_months: 24
+minimum_descriptive_months: 1
+hypotheses: [paired_mean_VFS_minus_Value, FF3_VFS_Value_and_spread, risk, confounding, generalization]
+hac_lags: [3, 6]
+inference: two_sided_HAC_small_sample_t_distribution_95pct_CI
+rf: long_once_spread_zero
+winsorization: none_original_quantile_unreported_do_not_clip_unverified_corporate_actions
+independent_oos: UNVERIFIED_all_available_history_prior_analysis_exposed
+secondary_specs: [equal_weight, exclude_universe_top5, g_cut_30, g_cut_70, delay_one_month, stale_365, size_neutral_G, kospi_reported_only, legacy_FF3, cost_10bp, cost_30bp]
+control_limits: ROE_and_assets_PIT_available_sector_dividend_liquidity_legal_threshold_unverified
+uncertainty: {block_lengths: [6, 12], repetitions: 2000, seed: 20260528, multiple_testing: Holm_all_estimable_secondary_tests}
+parameter_optimization: forbidden

@@ -1,0 +1,7 @@
+label,printed_page,table,period,strategy,annual_return_pct,annual_volatility_pct,sharpe,sortino,monthly_mdd_pct
+REFERENCE_ONLY,21,7,2016.01~2026.04,VFS_long,20.14,24.26,0.75,1.40,-33.2
+REFERENCE_ONLY,21,7,2016.01~2026.04,Value_long,12.63,21.06,0.50,0.79,-40.23
+REFERENCE_ONLY,21,7,2016.01~2026.04,KOSPI,18.10,24.38,0.66,1.24,-33.0
+REFERENCE_ONLY,21,7,2016.01~2026.04,VFS_long_short,9.10,12.04,0.59,1.07,-23.7
+REFERENCE_ONLY,21,7,2016.01~2026.04,Value_long_short,4.93,12.47,0.23,0.34,-31.7
+REFERENCE_ONLY,21,7,2016.01~2026.04,KOSDAQ,8.79,23.76,0.28,0.42,-36.8

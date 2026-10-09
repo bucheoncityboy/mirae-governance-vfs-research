@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "actual_months": 6,
+  "copied_files_hash_verified": 133,
+  "performance_recomputed": true,
+  "narrative_dashboard_same_results": true,
+  "local_link_failures": 0,
+  "secret_scan": "PASS",
+  "source_rows_published": false,
+  "empirical_completion": "EMPIRICAL_LIMITED"
+}

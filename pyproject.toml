@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vfs-research"
+version = "0.1.0"
+description = "Disclosure-based VFS independent empirical validation"
+requires-python = ">=3.12"
+dependencies = ["pandas>=2.2,<4", "numpy>=2,<3", "scipy>=1.14,<2", "statsmodels>=0.14,<0.16", "pyarrow>=18", "PyYAML>=6", "matplotlib>=3.9,<4", "exchange-calendars>=4.5,<5"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

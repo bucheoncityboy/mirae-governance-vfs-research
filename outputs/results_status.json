@@ -1,0 +1,38 @@
+{
+  "final_status": "EMPIRICAL_LIMITED",
+  "research_role": "exploratory",
+  "return_basis": "PRICE_RETURN_ONLY",
+  "original_period": "2016-01~2026-04",
+  "primary_start": "2021-07-01",
+  "primary_end": "2021-12-01",
+  "primary_n_months": 6,
+  "common_valid_months": 8,
+  "joint_companies": 782,
+  "joint_observations": 38742,
+  "independent_oos": "UNVERIFIED",
+  "full_investable_backtest": "NOT_VERIFIED",
+  "primary_alpha": "NOT_ESTIMATED",
+  "gate_a": "PASS_DIAGNOSTIC_ONLY",
+  "gate_b": "PASS_WITH_DOCUMENTED_ADAPTATIONS",
+  "gate_c": "LOCKED_EXPLORATORY",
+  "gate_d_f": "FAIL_MIN24",
+  "gate_e": "MATERIAL_BIASES_UNVERIFIED",
+  "gate_g_r_h": "LIMITED_REAL_RESULTS_QA_PENDING",
+  "blockers": [
+    "Missing held returns break annual holdings paths",
+    "No verified dividend/corporate-action/delisting payoffs",
+    "Historical exchange-wide universe unverified",
+    "No independent OOS",
+    "Original-before-correction disclosure vintage unverified"
+  ],
+  "bias_audit_counts": {
+    "UNVERIFIED": 10,
+    "PASS": 5,
+    "FAIL": 1
+  },
+  "robustness_specifications": 11,
+  "holm_estimable_tests": 0,
+  "gate_g": "PASS_LIMITED_DIAGNOSTICS",
+  "gate_r": "MAPPING_AND_NUMERIC_LINK_CHECK_PENDING",
+  "gate_h": "PR_PENDING"
+}

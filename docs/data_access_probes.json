@@ -1,0 +1,26 @@
+[
+  {
+    "provider": "OpenDART",
+    "http_status": 200,
+    "bytes": 4691,
+    "assessment": "not sufficient to certify historical total returns, delisting payoff or licensed redistribution"
+  },
+  {
+    "provider": "KRX official data",
+    "http_status": 403,
+    "bytes": 2421,
+    "assessment": "not sufficient to certify historical total returns, delisting payoff or licensed redistribution"
+  },
+  {
+    "provider": "Yahoo adjusted-price",
+    "http_status": 429,
+    "bytes": 23,
+    "assessment": "not sufficient to certify historical total returns, delisting payoff or licensed redistribution"
+  },
+  {
+    "provider": "Naver diagnostic prices",
+    "http_status": 200,
+    "bytes": 8258,
+    "assessment": "not sufficient to certify historical total returns, delisting payoff or licensed redistribution"
+  }
+]

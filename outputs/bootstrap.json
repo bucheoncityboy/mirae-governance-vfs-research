@@ -1,0 +1,10 @@
+{
+  "6": {
+    "status": "NOT_ESTIMATED",
+    "reason": "insufficient_blocks"
+  },
+  "12": {
+    "status": "NOT_ESTIMATED",
+    "reason": "insufficient_blocks"
+  }
+}

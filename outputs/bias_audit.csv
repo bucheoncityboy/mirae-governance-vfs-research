@@ -1,0 +1,17 @@
+check,status,evidence_and_remaining_risk
+public_disclosure_timing,PASS,raw G/BE hashes and receipt dates rechecked; every eligible formation precedes return
+original_disclosure_before_correction,UNVERIFIED,current retrieval vintage; original pre-amendment values unavailable
+historical_exchange_universe,UNVERIFIED,original panel is not certified exchange-wide historical membership
+terminal_delisting_payoff,UNVERIFIED,no terminal-return imputation; holdings path stops on missing return
+missing_held_return_handling,PASS,no zero fill or ex-post reweight; annual path invalidated
+cash_dividend_total_return,UNVERIFIED,PRICE_RETURN_ONLY; source arithmetic reproduces raw price pct_change
+corporate_actions_gt100_filter,UNVERIFIED,659 observations historically filtered; no unsupported repair
+financial_PIT_scope,PASS,"BE matched to official receipt, currency and account scope; correction vintage separately unverified"
+G_proxy_statutory_size_confound,UNVERIFIED,outside-director ratio is one proxy; consolidated assets cannot certify statutory separate-entity threshold
+historical_sector_ROE_momentum_liquidity,UNVERIFIED,"PIT ROE descriptive exposure only; sector, liquidity, dividends and causal controls incomplete"
+formation_weight_caps,PASS,"cell weights <=25%, final VFS <=12.5% at formation; annual drift reported"
+execution_costs,UNVERIFIED,"0/10/30bp assumed per one-way trade; liquidity, taxes, suspended execution and unknown reset turnover unresolved"
+parameter_lock,PASS,design lock committed before new VFS outcome viewing; all registered sensitivity results retained
+independent_OOS,UNVERIFIED,all history exposed to earlier study; no independent holdout
+statistical_sample_size,FAIL,6 contiguous common months <24; FF3/HAC alpha intentionally NA
+coverage_selection,UNVERIFIED,financial/G matching nonrandom; valid-month selection itself has availability bias

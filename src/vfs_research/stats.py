@@ -11,7 +11,10 @@ def contiguous(d):
 def regression(d, strategy, hac=3, minimum=24, mean_only=False):
     z=d.dropna(subset=[strategy,'rf','Mkt-RF','SMB','HML']).copy()
     fields={'strategy':strategy,'hac_lags':hac,'n_months':len(z),'status':'NOT_ESTIMATED','reason':'less_than_24_contiguous_months','alpha':np.nan,'t_hac':np.nan,'p_hac':np.nan,'ci_low':np.nan,'ci_high':np.nan,'beta_mkt':np.nan,'beta_smb':np.nan,'beta_hml':np.nan,'rf_subtracted':strategy!='spread' and not mean_only}
-    if len(z)<minimum or not contiguous(z):return fields
+    if len(z)<minimum:return fields
+    if not contiguous(z):
+        fields['reason']='noncontiguous_calendar_months'
+        return fields
     y=z[strategy]-(z.rf if fields['rf_subtracted'] else 0)
     X=pd.DataFrame({'const':np.ones(len(z))},index=z.index) if mean_only else sm.add_constant(z[['Mkt-RF','SMB','HML']],has_constant='add')
     m=sm.OLS(y,X).fit(cov_type='HAC',cov_kwds={'maxlags':hac,'use_correction':True},use_t=True)

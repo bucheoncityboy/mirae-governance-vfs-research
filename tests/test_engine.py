@@ -160,3 +160,19 @@ def test_private_raw_ignored():
 def test_original_ff3_120_hashes_unchanged():
     d=pd.read_csv(ROOT/'docs/original_ff3_integrity.csv')
     assert len(d)==120 and d.unchanged.all() and d.baseline_sha256.eq(d.current_sha256).all()
+
+
+def test_momentum_excludes_recent_and_future_returns():
+    from vfs_research.control_diagnostics import price_momentum_asof
+    dates=pd.date_range('2020-07-01','2021-08-01',freq='MS')
+    p=pd.DataFrame({'date':dates,'stock_code':'a','return':.01})
+    expected=(1.01**11)-1
+    assert price_momentum_asof(p,'2021-07-01').loc['a']==pytest.approx(expected)
+    p.loc[p.date.ge(pd.Timestamp('2021-06-01')),'return']=9.
+    assert price_momentum_asof(p,'2021-07-01').loc['a']==pytest.approx(expected)
+
+
+def test_momentum_missing_past_month_stays_unknown():
+    from vfs_research.control_diagnostics import price_momentum_asof
+    p=pd.DataFrame({'date':pd.date_range('2020-07-01','2021-05-01',freq='MS'),'stock_code':'a','return':.01}).drop(index=4)
+    assert pd.isna(price_momentum_asof(p,'2021-07-01').loc['a'])

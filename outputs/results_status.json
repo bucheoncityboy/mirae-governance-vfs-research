@@ -17,7 +17,7 @@
   "gate_c": "LOCKED_EXPLORATORY",
   "gate_d_f": "FAIL_MIN24",
   "gate_e": "MATERIAL_BIASES_UNVERIFIED",
-  "gate_g_r_h": "LIMITED_REAL_RESULTS_QA_PENDING",
+  "gate_g_r_h": "LIMITED_ARTIFACTS_VERIFIED_PR_MERGE_PENDING",
   "blockers": [
     "Missing held returns break annual holdings paths",
     "No verified dividend/corporate-action/delisting payoffs",
@@ -33,6 +33,12 @@
   "robustness_specifications": 11,
   "holm_estimable_tests": 0,
   "gate_g": "PASS_LIMITED_DIAGNOSTICS",
-  "gate_r": "MAPPING_AND_NUMERIC_LINK_CHECK_PENDING",
-  "gate_h": "PR_PENDING"
+  "gate_r": "PASS_LIMITED_NARRATIVE",
+  "gate_h": "PASS_PR_VERIFIED_MERGE_PENDING",
+  "new_repo_ci": "success",
+  "dashboard_url": "https://bucheoncityboy.github.io/mirae-governance-vfs-research/",
+  "cleanup_pr": "https://github.com/bucheoncityboy/fama-french-integrated-research/pull/2",
+  "portfolio_pr": "https://github.com/bucheoncityboy/portfolio-index/pull/1",
+  "prs_merged": false,
+  "original_full_US_suite": "UNRESOLVED_235_pass_23_fail_16_error_1_skip"
 }

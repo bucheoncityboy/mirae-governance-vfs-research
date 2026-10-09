@@ -4,7 +4,7 @@
 
 **검증 상태: EMPIRICAL_LIMITED.** 공통 연속 기간 2021-07~2021-12(6개월)의 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%입니다. VFS−Value 월평균 차이는 +0.43%p입니다. FF3 α·HAC t/p·95% CI는 최소 24개월 미충족으로 **NOT_ESTIMATED**입니다. 원천 PIT 결합 표본은 782기업·38,742 주식-월이지만, 이는 회귀 관측월 수가 아닙니다. 전체 원문 기간의 공통 유효월은 8개월이고 끊기지 않은 구간은 6개월뿐입니다. MSCI G 대신 사외이사 비율을 썼으며 **PRICE_RETURN_ONLY**, 배당·상폐·독립 OOS는 미검증입니다.
 
-[공식 원문 PDF](https://securities.miraeasset.com/bbs/maildownload/20260527170512707_154) · [독립 연구보고서](RESEARCH_REPORT.pdf) · [Executive Brief](EXECUTIVE_BRIEF.md) · [실제 차트](../outputs/figures/cumulative.png) · [정적 대시보드](../dashboard/index.html) · [재현 방법](../docs/REPRODUCIBILITY.md)
+[공식 원문 PDF](https://securities.miraeasset.com/bbs/maildownload/20260527170512707_154) · [독립 연구보고서](RESEARCH_REPORT.pdf) · [Executive Brief](EXECUTIVE_BRIEF.md) · [실제 차트](../outputs/figures/cumulative.png) · [배포 대시보드](https://bucheoncityboy.github.io/mirae-governance-vfs-research/) · [재현 방법](../docs/REPRODUCIBILITY.md)
 
 읽는 순서: 원문 배경 p5 → 가치평가 가설 p10 → 스타일 비교 p17 → **[VFS 규칙 p20](#04-rebuilding-the-vfs-strategy)** → **[원문과 실증 p21-23](#05-original-results-vs-our-backtest)** → **[다기간 검증 p28](#06-alpha-regimes--robustness)** → 결론 p25. [전체 목차·근거 매핑](../docs/REPORT_TO_IMPLEMENTATION_MAP.md)은 p2의 모든 항목과 본문 표·그림을 연결합니다.
 
@@ -113,6 +113,8 @@
 ![실제 동일 6개월 민감도 월평균 spread: 가격수익률, 비용 사양 별도, 추론 CI 없음](../outputs/figures/robustness.png)
 
 **실증 결과** — [편향 감사](../outputs/bias_audit.csv)와 [블록 부트스트랩](../outputs/bootstrap.json)은 해결한 절차와 남은 자료 제약을 나눕니다. 생존·상폐·기업행동·배당·역사적 업종·법정 규모요건·독립 OOS는 미검증입니다. Holm 보정에 투입할 추정 가능한 알파 검정도 없습니다.
+
+[ROE·12-1 가격 모멘텀 노출 진단](../outputs/control_exposure_diagnostics.csv)은 형성 이전 자료만 쓰며, 각 변수의 관측 비중을 함께 표시합니다. 이는 빠진 산업·배당·유동성 통제를 해결한 인과 검정이 아닙니다. EW 사양에서는 같은 6개월의 VFS−Value 월평균 차이가 음수로 바뀌어, 성과 차이의 규모·가중 방식 의존성도 남았습니다.
 
 **판정: NOT_ESTIMATED / OOS NOT VERIFIED.** 실패한 검증 게이트는 전략 실패의 확정도, 알파 부재의 확정도 아닙니다. 현재 자료로는 질문에 통계적으로 답할 수 없습니다.
 

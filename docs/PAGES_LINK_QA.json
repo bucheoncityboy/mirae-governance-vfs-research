@@ -1,0 +1,27 @@
+[
+  {
+    "url": "https://bucheoncityboy.github.io/mirae-governance-vfs-research/index.html",
+    "http_status": 200,
+    "sha256_match_local": true
+  },
+  {
+    "url": "https://bucheoncityboy.github.io/mirae-governance-vfs-research/cumulative.svg",
+    "http_status": 200,
+    "sha256_match_local": true
+  },
+  {
+    "url": "https://bucheoncityboy.github.io/mirae-governance-vfs-research/drawdown.svg",
+    "http_status": 200,
+    "sha256_match_local": true
+  },
+  {
+    "url": "https://bucheoncityboy.github.io/mirae-governance-vfs-research/robustness.svg",
+    "http_status": 200,
+    "sha256_match_local": true
+  },
+  {
+    "url": "https://bucheoncityboy.github.io/mirae-governance-vfs-research/monthly_returns.csv",
+    "http_status": 200,
+    "sha256_match_local": true
+  }
+]

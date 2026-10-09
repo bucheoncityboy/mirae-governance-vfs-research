@@ -56,4 +56,6 @@ def audit_all():
     pd.DataFrame(diag).to_csv(ROOT/'outputs/size_G_diagnostics.csv',index=False)
     status=json.loads((ROOT/'outputs/results_status.json').read_text());status['bias_audit_counts']=pd.Series([s for _,s,_ in checks]).value_counts().to_dict();status['robustness_specifications']=len(rows);status['holm_estimable_tests']=int(valid.sum())
     (ROOT/'outputs/results_status.json').write_text(json.dumps(status,ensure_ascii=False,indent=2)+'\n')
+    from .control_diagnostics import build_control_diagnostics
+    build_control_diagnostics()
     print(json.dumps({'audit_counts':status['bias_audit_counts'],'sensitivity_specs':len(rows),'estimable_alphas':int(valid.sum())}))

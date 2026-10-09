@@ -80,6 +80,7 @@ def build_pdf():
     para('EW, 전체 모집단 상위5 제외, G 분위수 30/70, 한 달 PIT 지연, stale 365일, 규모군 내부 G 분류, 당시 공시 시장구분, legacy FF3, 거래비용 10/30bp까지 11개 사양을 모두 남겼다. 좋은 결과만 대표로 선택하지 않았다.')
     para('그림은 공통 주 분석 6개월이 모두 유효한 사양의 월평균 spread 기술통계다. 오차막대나 유의성 추정은 없다. 가용성이 다른 사양과 미추정 상태는 robustness.csv에서 확인한다.')
     para('등록된 민감도에는 추정 가능한 알파 검정이 없어 Holm 보정 p도 NA다. 충분한 기간이 없는 WFA/독립 OOS를 수행한 것처럼 서술하지 않는다.')
+    para('PIT ROE와 12-1 가격 모멘텀은 관측 비중을 함께 적은 노출 진단으로 남겼다. EW 사양의 동일 6개월 월평균 spread는 음수로 바뀌어 가중 방식 의존성도 확인됐다. 완전한 교란 통제나 인과 추정은 아니다.')
     heading(9,'Original vs Our Findings / 결론')
     refs=pd.read_csv(ROOT/'references/original_report_reference_table.csv').head(3)
     table([['항목','REFERENCE_ONLY 원문','OUR_RESULT'],['G 정의','MSCI 다차원 점수','사외이사 비율 프록시'],['기간','2016.01~2026.04','2021.07~12, 6개월'],['수익률','현금배당 포함','PRICE_RETURN_ONLY'],['VFS','연평균 20.14% / Sharpe .75',f"누적 {pct(r.loc['VFS','total_return'])}"],['Value','연평균 12.63% / Sharpe .50',f"누적 {pct(r.loc['Value','total_return'])}"],['FF3 α','표7 미제시','NOT_ESTIMATED']],[90,185,185])

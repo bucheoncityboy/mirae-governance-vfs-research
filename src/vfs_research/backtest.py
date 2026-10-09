@@ -5,10 +5,15 @@ from .sorts import classify
 from .portfolio import make_weights,step,traded_weight,net_return
 
 
-def run(p, factors, *, formation_month=7, g_quantile=.5, equal_weight=False, exclude_top5=False, stale_days=550, size_neutral=False, kospi_only=False):
+def run(p, benchmark, *, formation_month=7, g_quantile=.5, equal_weight=False, exclude_top5=False, stale_days=550, size_neutral=False, kospi_only=False):
     dates=pd.date_range('2016-01-01','2026-04-01',freq='MS');records=[];counts=[];formations=[]
     held={'VFS':None,'Value':None};known={'VFS':True,'Value':True};broken={'VFS':False,'Value':False};funded={'VFS':False,'Value':False}
-    f=factors.set_index('date')
+    f=benchmark.copy()
+    if 'Market' not in f:
+        # Compatibility with previously archived factor-backed fixtures/diagnostics.
+        if not {'Mkt-RF','rf'}.issubset(f):raise ValueError('price benchmark needs Market column')
+        f['Market']=f['Mkt-RF']+f.rf
+    f=f.set_index('date')
     for date in dates:
         current=p.loc[p.date.eq(date)];trade={s:0. for s in held}
         if date.month==formation_month:
@@ -32,7 +37,7 @@ def run(p, factors, *, formation_month=7, g_quantile=.5, equal_weight=False, exc
                 formations.append({'date':date,'strategy':s,'eligible_n':len(q),'held_n':len(target_s) if target_s is not None else 0,'max_formation_weight':float(target_s.max()) if target_s is not None else np.nan,'traded_weight':trade[s],
                                    'weighted_log_ME':float(target_s@np.log(q.set_index('stock_code').loc[target_s.index,'lag_me'])) if target_s is not None else np.nan,
                                    'weighted_ROE':float(target_s@q.set_index('stock_code').loc[target_s.index,'roe']) if target_s is not None else np.nan})
-        row={'date':date,'Market':float(f.loc[date,'Mkt-RF']+f.loc[date,'rf']) if date in f.index else np.nan}
+        row={'date':date,'Market':float(f.loc[date,'Market']) if date in f.index else np.nan}
         realized=current.set_index('stock_code')['return']
         for s in held:
             w=held[s];gross=np.nan;reason='no_eligible_annual_formation' if w is None else 'broken_holdings_path'

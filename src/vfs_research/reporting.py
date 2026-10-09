@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from .data_ingest import ROOT,digest
 from .stats import performance
+from .strategy_diagnostics import vfs_observed_window,vfs_strategy_summary,export_strategy_diagnostics
 
 SOURCE='https://securities.miraeasset.com/bbs/maildownload/20260527170512707_154'
 REPO='https://github.com/bucheoncityboy/mirae-governance-vfs-research'
@@ -19,7 +20,13 @@ def pct(x):return 'NA' if pd.isna(x) else f'{x*100:+.2f}%'
 
 def result_summary():
     d,q,perf,s=public_inputs();means=float(q.spread.mean()) if len(q) else None
-    return {'label':'OUR_RESULT','start':s['primary_start'],'end':s['primary_end'],'n_months':len(q),'common_valid_months':s['common_valid_months'],'joint_companies':s['joint_companies'],'return_basis':'PRICE_RETURN_ONLY','cost_basis':'gross_0bp','mean_monthly_spread':means,'alpha_status':s['primary_alpha'],'independent_oos':s['independent_oos'],'metrics':perf.replace({np.nan:None}).to_dict('records')}
+    own=vfs_strategy_summary(d);window=vfs_observed_window(d)
+    return {'label':'OUR_RESULT','research_focus':'VFS_PORTFOLIO_BACKTEST','ff3_role':'SUPPLEMENTARY_ATTRIBUTION','vfs_own_window':{'start':str(window.date.min().date()),'end':str(window.date.max().date()),'n_months':len(window),'valid_months_total':int(d.VFS.notna().sum()),'metrics':own.replace({np.nan:None}).to_dict('records')},'start':s['primary_start'],'end':s['primary_end'],'n_months':len(q),'common_valid_months':s['common_valid_months'],'joint_companies':s['joint_companies'],'return_basis':'PRICE_RETURN_ONLY','cost_basis':'gross_0bp','mean_monthly_spread':means,'alpha_status':s['primary_alpha'],'independent_oos':s['independent_oos'],'metrics':perf.replace({np.nan:None}).to_dict('records')}
+
+
+def strategy_brief():
+    s=result_summary()['vfs_own_window'];r=pd.DataFrame(s['metrics']).set_index('strategy')
+    return f"VFS 자체의 최장 연속 관측은 {s['start'][:7]}~{s['end'][:7]}({s['n_months']}개월)이며, 누적 가격수익률은 VFS {pct(r.loc['VFS','total_return'])}, 같은 기간 KOSPI {pct(r.loc['Market','total_return'])}입니다."
 
 
 def performance_table(perf):
@@ -39,6 +46,11 @@ def figures():
     def save(fig,name,cap=caption):
         fig.text(.02,.012,cap,fontsize=8,color='#475569');fig.tight_layout(rect=(0,.055,1,1));fig.savefig(out/(name+'.png'),dpi=180);fig.savefig(out/(name+'.svg'));plt.close(fig)
         svg=out/(name+'.svg');svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
+    own=vfs_observed_window(d);own_x=pd.DatetimeIndex([own.date.iloc[0]-pd.Timedelta(days=1)]+list(own.date+pd.offsets.MonthEnd(0)))
+    fig,ax=plt.subplots(figsize=(9,4.4))
+    for z in ['VFS','Market']:ax.plot(own_x,np.r_[100,100*(1+own[z]).cumprod()],label=z,color=colors[z],linewidth=2)
+    ax.set(title='VFS observed holding path: independent of Value / FF3 availability',ylabel='Index (100 before first holding month)');ax.legend();ax.grid(alpha=.15)
+    save(fig,'vfs_observed',f"OUR_RESULT | {own.date.min():%Y-%m} to {own.date.max():%Y-%m} | N={len(own)} | PRICE_RETURN_ONLY | gross 0bp | separate 6-month paired comparison")
     x=pd.DatetimeIndex([q.date.iloc[0]-pd.Timedelta(days=1)]+list(q.date+pd.offsets.MonthEnd(0)))
     fig,ax=plt.subplots(figsize=(9,4.4))
     for z in colors:ax.plot(x,np.r_[100,100*(1+q[z]).cumprod()],label=z,color=colors[z],linewidth=2)
@@ -61,20 +73,21 @@ def figures():
     fig,ax=plt.subplots(figsize=(9,5))
     ax.barh(r.spec_id,r.primary_window_mean_spread*100,color='#64748b');ax.axvline(0,color='#0f172a',lw=.8);ax.set(title='Sensitivity: same six primary months, descriptive mean only',xlabel='VFS - Value mean, percentage points / month');save(fig,'robustness','OUR_RESULT | 2021-07 to 2021-12 | N=6 | PRICE_RETURN_ONLY | gross except cost rows | no inferential CI')
     z=pd.read_csv(ROOT/'outputs/size_G_diagnostics.csv');fig,ax=plt.subplots(figsize=(9,4));ax.plot(z.year,z.G_log_ME_correlation,marker='o',color='#2563eb');ax.set(title='Governance proxy versus firm size: formation cross-section',ylabel='Correlation (G, log market cap)',xlabel='Formation year');save(fig,'size_G','OUR_RESULT | July 2021-2025 cross-sections | correlation only | separate-entity legal threshold unverified')
-    print('ACTUAL_FIGURES',7,'ALPHA_CI_AND_12M_ROLLING_VOL_NOT_ESTIMATED')
+    print('ACTUAL_FIGURES',8,'VFS_OWN_AND_COMPARATOR_WINDOWS_SEPARATE')
 
 
 def narrative():
     d,q,perf,s=public_inputs();summary=result_summary();table=performance_table(perf);r=perf.set_index('strategy')
-    brief=f"공통 연속 기간 {s['primary_start'][:7]}~{s['primary_end'][:7]}({len(q)}개월)의 누적 가격수익률은 VFS {pct(r.loc['VFS','total_return'])}, Value {pct(r.loc['Value','total_return'])}, KOSPI {pct(r.loc['Market','total_return'])}입니다. VFS−Value 월평균 차이는 {pct(summary['mean_monthly_spread'])}p입니다. FF3 α·HAC t/p·95% CI는 최소 24개월 미충족으로 **NOT_ESTIMATED**입니다."
+    brief=f"Value와 동일 조건으로 비교하는 공통 연속 기간은 {s['primary_start'][:7]}~{s['primary_end'][:7]}({len(q)}개월)입니다. 이 기간 누적 가격수익률은 VFS {pct(r.loc['VFS','total_return'])}, Value {pct(r.loc['Value','total_return'])}, KOSPI {pct(r.loc['Market','total_return'])}이며, VFS−Value 월평균 차이는 {pct(summary['mean_monthly_spread'])}p입니다."
+    own_brief=strategy_brief()
     pages_link='https://bucheoncityboy.github.io/mirae-governance-vfs-research/'
     return f'''# Value Focus Style | 공시 기반 거버넌스 가치전략의 독립 재구현 및 검증
 
-**VFS의 단순 가치전략 대비 성과 차이는 거버넌스 정보의 증분인가, 기존 스타일 노출인가?** 미래에셋증권 유건호 연구원의 「멀티플 탈출」(2026-05-28)을 따라 이 질문을 검증하는 독립 개인 연구입니다. 미래에셋의 공식·공동 연구가 아닙니다.
+**미래에셋의 VFS 투자규칙을 실제 공시 시점에 맞춰 구성하면, 어떤 수익률·위험·보유경로가 나타나는가?** 유건호 연구원의 「멀티플 탈출」(2026-05-28)을 따라 VFS 자체의 백테스트와 Value·시장 비교를 수행하는 독립 개인 연구입니다.
 
-**검증 상태: EMPIRICAL_LIMITED.** {brief} 원천 PIT 결합 표본은 {s['joint_companies']}기업·{s['joint_observations']:,} 주식-월이지만, 이는 회귀 관측월 수가 아닙니다. 전체 원문 기간의 공통 유효월은 8개월이고 끊기지 않은 구간은 6개월뿐입니다. MSCI G 대신 사외이사 비율을 썼으며 **PRICE_RETURN_ONLY**, 배당·상폐·독립 OOS는 미검증입니다.
+**VFS 백테스트 상태: 부분 관측 / EMPIRICAL_LIMITED.** {own_brief} {brief} 원천 PIT 결합 표본은 {s['joint_companies']}기업·{s['joint_observations']:,} 주식-월입니다. MSCI G 대신 사외이사 비율을 썼으며 **PRICE_RETURN_ONLY**, gross 0bp, 배당·상폐·독립 OOS 미검증입니다. FF3는 성과 해석을 위한 보조 검정으로 하단에 구분했습니다.
 
-[공식 원문 PDF]({SOURCE}) · [독립 연구보고서](reports/RESEARCH_REPORT.pdf) · [Executive Brief](reports/EXECUTIVE_BRIEF.md) · [실제 차트](outputs/figures/cumulative.png) · [배포 대시보드]({pages_link}) · [재현 방법](docs/REPRODUCIBILITY.md)
+[공식 원문 PDF]({SOURCE}) · [독립 연구보고서](reports/RESEARCH_REPORT.pdf) · [Executive Brief](reports/EXECUTIVE_BRIEF.md) · [VFS 보유경로](outputs/figures/vfs_observed.png) · [배포 대시보드]({pages_link}) · [재현 방법](docs/REPRODUCIBILITY.md)
 
 읽는 순서: 원문 배경 p5 → 가치평가 가설 p10 → 스타일 비교 p17 → **[VFS 규칙 p20](#04-rebuilding-the-vfs-strategy)** → **[원문과 실증 p21-23](#05-original-results-vs-our-backtest)** → **[다기간 검증 p28](#06-alpha-regimes--robustness)** → 결론 p25. [전체 목차·근거 매핑](docs/REPORT_TO_IMPLEMENTATION_MAP.md)은 p2의 모든 항목과 본문 표·그림을 연결합니다.
 
@@ -84,9 +97,11 @@ def narrative():
 
 **우리의 구현** — 같은 모집단에서 VFS와 Value를 비교하고, 수익률 차이와 FF3 조정 차이를 분리했습니다. 결과를 보기 전 [설계 커밋](https://github.com/bucheoncityboy/mirae-governance-vfs-research/commit/09a105ce651bc28eaad1e0993b12678a41acf61f)을 남겼지만, 이전 G 연구를 알고 있었으므로 탐색 연구입니다.
 
-**실증 결과** — {brief}
+**실증 결과** — {own_brief} {brief}
 
-**판정: ADAPTED / NOT_ESTIMATED.** 짧은 구간에서 Value보다 손실이 작았고 시장보다 손실이 컸습니다. 이를 거버넌스 알파나 장기 우위의 입증으로 해석하지 않습니다.
+![VFS 자체의 실제 연속 보유경로: 2021-07~2022-02 N=8 PRICE_RETURN_ONLY gross 0bp; Value 비교는 별도 공통 6개월](outputs/figures/vfs_observed.png)
+
+**판정: ADAPTED / 부분 관측.** VFS 자체의 8개월 기록과 세 전략의 공통 6개월 비교는 서로 다른 분석입니다. 원수익과 보유경로를 먼저 검증하며, FF3 추정 가능 여부로 VFS 백테스트의 존재 여부를 판정하지 않습니다. [보유경로 중단 원인과 구현 가정](docs/VFS_BACKTEST_DIAGNOSIS.md).
 
 ## 01. Why Governance?
 
@@ -168,6 +183,8 @@ def narrative():
 
 **우리의 구현 - OUR EXTENSION** — FF3 세 회귀(VFS, Value, VFS−Value), HAC3/6, 95% CI, 블록 부트스트랩, 비용·가중·상위5 제외·G 컷·PIT 지연·규모중립 민감도를 사전 고정했습니다. spread에서 RF를 다시 차감하지 않습니다. 미완성 연도에서 결측월만 빼고 연간 수익률을 계산하지 않습니다.
 
+이 절의 FF3는 보조 위험조정 검정입니다. 주 작업인 VFS 구성·가중·리밸런싱·원수익 백테스트는 SMB/HML 자료 없이도 실행됩니다. α·t·p·CI는 최소 24개월 미충족으로 NOT_ESTIMATED이며, 이는 VFS 원수익이 존재하지 않는다는 뜻이 아닙니다.
+
 | 원문 다기간 분석 | 우리 독립 검증 | 결과 |
 | --- | --- | --- |
 | 연도별 롱/롱숏 수익률 | [연간 수익률 상태](outputs/annual_returns.csv) | VFS 완전한 12개월 연도 없음 |
@@ -209,16 +226,21 @@ p26 자기자본비용 추정과 p27 MSCI 다차원 점수·요인 계산(그림
 
 
 def report():
+    d,_,_,_=public_inputs();export_strategy_diagnostics(d)
     text,brief,summary=narrative()
     (ROOT/'README.md').write_text(text)
     (ROOT/'outputs/public_result_summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
     report=text.replace('](reports/','](').replace('](docs/','](../docs/').replace('](outputs/','](../outputs/').replace('](src/','](../src/').replace('](legacy_','](../legacy_').replace('](config/','](../config/').replace('](dashboard/','](../dashboard/').replace('](MIGRATION_STATUS.md)','](../MIGRATION_STATUS.md)')
     (ROOT/'reports/RESEARCH_REPORT.md').write_text(report)
-    (ROOT/'reports/EXECUTIVE_BRIEF.md').write_text('# Value Focus Style - Executive Brief\n\n독립 개인 Quant/ESG 연구 · EMPIRICAL_LIMITED · OUR_RESULT\n\n'+brief+'\n\n'+performance_table(pd.read_csv(ROOT/'outputs/performance_summary.csv'))+'\n\n기간: 2021-07~2021-12, N=6개월, PRICE_RETURN_ONLY, gross 0bp. CAGR/Sharpe는 짧은 기간의 연환산 진단치. MSCI G를 사외이사 비율로 대체했으므로 원문 동일 재현이 아닙니다. 배당·상폐·역사적 유니버스·독립 OOS 미검증. 결측 보유수익률은 사후 제외하지 않고 연간 경로를 중단했습니다.\n\n'+f'[상세 보고서](RESEARCH_REPORT.pdf) · [신규 연구]({REPO}) · [공식 원문]({SOURCE})\n')
+    (ROOT/'reports/EXECUTIVE_BRIEF.md').write_text('# Value Focus Style - Executive Brief\n\n독립 개인 Quant/ESG 연구 · EMPIRICAL_LIMITED · OUR_RESULT\n\n'+strategy_brief()+'\n\n'+brief+'\n\n'+performance_table(pd.read_csv(ROOT/'outputs/performance_summary.csv'))+'\n\n표의 기간: 2021-07~2021-12, N=6개월, PRICE_RETURN_ONLY, gross 0bp. VFS 자체의 8개월 기록은 별도 분석입니다. CAGR/Sharpe는 짧은 기간의 연환산 진단치. MSCI G를 사외이사 비율로 대체했으며, 배당·상폐·역사적 유니버스·독립 OOS 미검증입니다. 결측 이후 연간 경로 중단은 우리의 보수적 구현 가정입니다. FF3는 보조 검정이고 표본 부족으로 미추정입니다.\n\n'+f'[상세 보고서](RESEARCH_REPORT.pdf) · [신규 연구]({REPO}) · [공식 원문]({SOURCE})\n')
     d,q,perf,s=public_inputs();table=performance_table(perf)
     tr=''.join('<tr>'+''.join('<td>'+html.escape(v)+'</td>' for v in [r.strategy,pct(r.total_return),pct(r.mdd),f'{r.sharpe:.2f}'])+'</tr>' for r in perf.itertuples())
-    panels=''.join(f'<section><h2>{title}</h2><img src="{name}.svg" alt="{html.escape(title)} - OUR_RESULT, PRICE_RETURN_ONLY, 기간과 단위는 그림 하단" loading="lazy"></section>' for name,title in [('cumulative','누적수익률: 실제 공통 6개월'),('spread','월별 VFS−Value 차이'),('drawdown','월간 Drawdown'),('coverage','원문 기간과 실제 자료 커버리지'),('cells','연간 4셀 형성 기업수'),('robustness','강건성: 기술통계만 산출'),('size_G','규모와 G 프록시의 혼동')])
+    panels=''.join(f'<section><h2>{title}</h2><img src="{name}.svg" alt="{html.escape(title)} - OUR_RESULT, PRICE_RETURN_ONLY, 기간과 단위는 그림 하단" loading="lazy"></section>' for name,title in [('vfs_observed','VFS 자체의 보유경로: 연속 8개월'),('cumulative','Value·시장 비교: 공통 6개월'),('spread','월별 VFS−Value 차이'),('drawdown','월간 Drawdown'),('coverage','원문 기간과 실제 자료 커버리지'),('cells','연간 4셀 형성 기업수'),('robustness','강건성: 기술통계만 산출'),('size_G','규모와 G 프록시의 혼동')])
     page=f'''<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VFS 독립 검증 | EMPIRICAL_LIMITED</title><style>body{{font:16px/1.7 system-ui,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#f5f7fa;color:#172033;margin:0}}main{{max-width:1020px;margin:auto;padding:28px 20px}}h1{{line-height:1.3;font-size:clamp(26px,4vw,40px)}}section{{background:white;padding:22px;margin:24px 0;border-radius:10px}}img{{width:100%;height:auto}}.status{{background:#fff3d4;padding:15px;border-left:4px solid #b76c14}}table{{width:100%;border-collapse:collapse}}th,td{{text-align:right;padding:8px;border-bottom:1px solid #dae0e8}}th:first-child,td:first-child{{text-align:left}}a{{color:#1856ae}}.scroll{{overflow:auto}}@media(max-width:600px){{section{{padding:14px}}th,td{{font-size:14px}}}}</style><main><p>독립 개인 연구 · OUR_RESULT</p><h1>Value Focus Style<br>공시 기반 거버넌스 가치전략의 검증</h1><p>VFS의 Value 대비 성과 차이는 거버넌스의 증분인가, 기존 스타일 노출인가?</p><div class="status"><strong>EMPIRICAL_LIMITED · 전체 실증 미완료</strong><p>{brief.replace('**','')}</p><p>MSCI 점수 대신 사외이사 비율. PRICE_RETURN_ONLY / gross 0bp. 배당·상폐·독립 OOS 미검증. CAGR/Sharpe는 6개월의 연환산 진단치.</p></div><p><a href="{REPO}">Narrative README</a> · <a href="{REPO}/blob/main/reports/RESEARCH_REPORT.pdf">연구 PDF</a> · <a href="{SOURCE}">미래에셋 원문</a> · <a href="monthly_returns.csv">공개 월별 CSV</a></p><section><h2>실제 성과: 2021-07~12, N=6개월</h2><div class="scroll"><table><thead><tr><th>전략</th><th>누적</th><th>MDD</th><th>Sharpe*</th></tr></thead><tbody>{tr}</tbody></table></div></section>{panels}<section><h2>Figure 2: FF3 α · 95% CI</h2><p>NOT_ESTIMATED - 6개월 &lt; 최소 24개월. α, t, p, CI, factor beta와 12개월 rolling volatility는 NA입니다. 모의 결과로 대체하지 않았습니다.</p><h2>Independent OOS - NOT VERIFIED</h2><p>과거 G 연구를 이미 알고 설계했으며 충분한 신규 독립 기간이 없습니다.</p><p>이전 보조 FF3 G 알파는 LEGACY_ONLY이며 새 VFS 성과가 아닙니다.</p><a href="{REPO}/blob/main/outputs/bias_audit.csv">편향 감사 전체</a></section><footer>모든 OUR_RESULT 숫자는 동일한 공개 monthly_returns.csv에서 계산. 원문 표7 수치는 REFERENCE_ONLY. 투자 실행 가능성과 인과효과는 미검증.</footer><script id="result-data" type="application/json">{json.dumps(summary,ensure_ascii=False)}</script></main></html>'''
+    page=page.replace('VFS의 Value 대비 성과 차이는 거버넌스의 증분인가, 기존 스타일 노출인가?','실제 공시시점 자료로 구성한 VFS의 수익률·위험·보유경로는 어떠한가?')
+    page=page.replace('EMPIRICAL_LIMITED · 전체 실증 미완료','VFS 백테스트 · 부분 관측 / EMPIRICAL_LIMITED')
+    page=page.replace('<p>'+brief.replace('**','')+'</p>','<p>'+strategy_brief()+'</p><p>'+brief.replace('**','')+'</p>')
+    page=page.replace('<h2>Figure 2: FF3 α · 95% CI</h2>','<h2>보조 검정: FF3 α · 95% CI</h2>')
     (ROOT/'dashboard/index.html').write_text(page)
     import shutil
     for p in (ROOT/'outputs/figures').glob('*.svg'):shutil.copy2(p,ROOT/'dashboard'/p.name)
@@ -243,6 +265,11 @@ def verify_public():
     if published!=summary:raise ValueError('summary mismatch')
     page=(ROOT/'dashboard/index.html').read_text();embedded=json.loads(re.search(r'<script id="result-data" type="application/json">(.*?)</script>',page,re.S).group(1))
     if embedded!=summary:raise ValueError('dashboard numbers differ')
+    own=vfs_strategy_summary(d);stored=pd.read_csv(ROOT/'outputs/vfs_strategy_summary.csv')
+    for name in ['VFS','Market']:
+        a=own.set_index('strategy').loc[name];b=stored.set_index('strategy').loc[name]
+        for key in ['total_return','cagr','volatility','sharpe','sortino','mdd']:
+            if not np.isclose(a[key],b[key],equal_nan=True):raise ValueError('VFS own-path metric mismatch')
     _,brief,_=narrative()
     for p in ['README.md','reports/RESEARCH_REPORT.md','reports/EXECUTIVE_BRIEF.md','dashboard/index.html']:
         content=(ROOT/p).read_text()
@@ -270,5 +297,6 @@ def verify_public():
             content=p.read_text(errors='replace')
             if re.search(r'(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|crtfc_key=[A-Za-z0-9]{20,})',content):raise ValueError('potential exposed credential: '+str(p.relative_to(ROOT)))
     if forbidden:raise ValueError('raw/proprietary publication '+str(forbidden))
-    result={'status':'PASS','actual_months':len(q),'copied_files_hash_verified':len(copied),'performance_recomputed':True,'narrative_dashboard_same_results':True,'local_link_failures':0,'secret_scan':'PASS','source_rows_published':False,'empirical_completion':'EMPIRICAL_LIMITED'}
+    if {'SMB','HML','Mkt-RF'} & set(d.columns):raise ValueError('factor columns belong to supplementary inputs, not the VFS raw-return file')
+    result={'status':'PASS','research_focus':'VFS_PORTFOLIO_BACKTEST','actual_months':len(q),'paired_comparison_months':len(q),'vfs_own_months':len(vfs_observed_window(d)),'copied_files_hash_verified':len(copied),'performance_recomputed':True,'narrative_dashboard_same_results':True,'local_link_failures':0,'secret_scan':'PASS','source_rows_published':False,'empirical_completion':'EMPIRICAL_LIMITED'}
     (ROOT/'outputs/public_verification.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))

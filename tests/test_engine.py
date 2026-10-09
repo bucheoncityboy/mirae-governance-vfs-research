@@ -176,3 +176,24 @@ def test_momentum_missing_past_month_stays_unknown():
     from vfs_research.control_diagnostics import price_momentum_asof
     p=pd.DataFrame({'date':pd.date_range('2020-07-01','2021-05-01',freq='MS'),'stock_code':'a','return':.01}).drop(index=4)
     assert pd.isna(price_momentum_asof(p,'2021-07-01').loc['a'])
+
+
+def test_vfs_backtest_needs_no_ff3_factors():
+    p=fixture_panel();f=factor_fixture();benchmark=f[['date','rf']].copy();benchmark['Market']=f['Mkt-RF']+f.rf
+    direct,_,_=run(p,benchmark);archived,_,_=run(p,f)
+    for name in ['VFS','Value','Market']:
+        assert np.allclose(direct[name],archived[name],equal_nan=True)
+
+
+def test_value_missing_month_does_not_shorten_vfs_own_diagnostic():
+    from vfs_research.strategy_diagnostics import vfs_observed_window
+    dates=pd.date_range('2021-07-01',periods=8,freq='MS')
+    d=pd.DataFrame({'date':dates,'VFS':.01,'Market':.005,'Value':[.01]*6+[np.nan]*2})
+    assert len(vfs_observed_window(d))==8
+
+
+def test_vfs_own_diagnostic_never_bridges_missing_month():
+    from vfs_research.strategy_diagnostics import vfs_observed_window
+    dates=pd.date_range('2021-07-01',periods=8,freq='MS')
+    d=pd.DataFrame({'date':dates,'VFS':[.01]*3+[np.nan]+[.01]*4,'Market':.005})
+    assert len(vfs_observed_window(d))==4

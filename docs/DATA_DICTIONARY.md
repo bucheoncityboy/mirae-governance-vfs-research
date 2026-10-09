@@ -13,6 +13,10 @@
 | *_max_weight | Beginning-of-month weight after drift; cap only at formation |
 | Mkt-RF / SMB / HML / rf | Conditional reconstructed Korean FF3 factors, monthly decimals |
 | performance_summary.csv | Contiguous block summary; CAGR/Sharpe annualized and short-sample diagnostic |
+| vfs_strategy_summary.csv / vfs_observed_path.csv | VFS's own longest contiguous known holding path and same-period Market, independent of Value or factor availability |
+| observed_segments.csv | Every strategy's contiguous observed blocks; no connection across missing months |
+| factor_test_inputs.csv | Supplementary factor join, separate from the VFS raw-return file |
+| vfs_missing_breaks.csv | Aggregated first-break counts/weights by annual formation and strategy; security-level events retained privately |
 | ff3_alphas.csv | Monthly alpha/t/p/CI; NA when <24 consecutive months |
 | formation_summary.csv | Aggregated formation counts and weighted log size/ROE; no security rows |
 | coverage_matrix.csv | Original horizon vs available G/BE/returns; firms, not independent time-series N |

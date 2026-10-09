@@ -15,9 +15,9 @@
   "gate_a": "PASS_DIAGNOSTIC_ONLY",
   "gate_b": "PASS_WITH_DOCUMENTED_ADAPTATIONS",
   "gate_c": "LOCKED_EXPLORATORY",
-  "gate_d_f": "FAIL_MIN24",
+  "gate_d_f": "VFS_DATA_PARTIAL_AUXILIARY_FF3_MIN24_NOT_MET",
   "gate_e": "MATERIAL_BIASES_UNVERIFIED",
-  "gate_g_r_h": "LIMITED_ARTIFACTS_VERIFIED_PR_MERGE_PENDING",
+  "gate_g_r_h": "VFS_FOCUS_CORRECTION_VERIFIED_PR_MERGE_PENDING",
   "blockers": [
     "Missing held returns break annual holdings paths",
     "No verified dividend/corporate-action/delisting payoffs",
@@ -25,13 +25,6 @@
     "No independent OOS",
     "Original-before-correction disclosure vintage unverified"
   ],
-  "bias_audit_counts": {
-    "UNVERIFIED": 10,
-    "PASS": 5,
-    "FAIL": 1
-  },
-  "robustness_specifications": 11,
-  "holm_estimable_tests": 0,
   "gate_g": "PASS_LIMITED_DIAGNOSTICS",
   "gate_r": "PASS_LIMITED_NARRATIVE",
   "gate_h": "PASS_PR_VERIFIED_MERGE_PENDING",
@@ -40,5 +33,22 @@
   "cleanup_pr": "https://github.com/bucheoncityboy/fama-french-integrated-research/pull/2",
   "portfolio_pr": "https://github.com/bucheoncityboy/portfolio-index/pull/1",
   "prs_merged": false,
-  "original_full_US_suite": "UNRESOLVED_235_pass_23_fail_16_error_1_skip"
+  "original_full_US_suite": "UNRESOLVED_235_pass_23_fail_16_error_1_skip",
+  "research_focus": "VFS_PORTFOLIO_BACKTEST",
+  "ff3_role": "SUPPLEMENTARY_ATTRIBUTION",
+  "vfs_valid_months": 10,
+  "vfs_longest_contiguous_months": 8,
+  "vfs_history_status": "PARTIAL_OBSERVED_PRICE_HISTORY",
+  "vfs_window_start": "2021-07-01",
+  "vfs_window_end": "2022-02-01",
+  "vfs_original_rule_vs_missing_assumption": "annual_path_stop_is_our_conservative_assumption",
+  "vfs_break_price_unavailable_records": 4,
+  "vfs_break_gt100_filtered_records": 3,
+  "bias_audit_counts": {
+    "UNVERIFIED": 10,
+    "PASS": 5,
+    "FAIL": 1
+  },
+  "robustness_specifications": 11,
+  "holm_estimable_tests": 0
 }

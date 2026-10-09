@@ -1,6 +1,6 @@
 # Migration and acceptance status - 2026-10-10 KST
 
-**Overall: EMPIRICAL_LIMITED / requested empirical completion NOT ACHIEVED.** Strict common history is six consecutive months, not the required 24. Source separation and portfolio listing are PRs awaiting review, not merged changes.
+**Overall: VFS backtest partially observed / EMPIRICAL_LIMITED.** VFS's own longest contiguous history is eight months; the locked Value/Market paired comparison is six. FF3 is an auxiliary attribution test with insufficient observations. Remaining total-return/corporate-action/history gaps prevent full empirical completion. Source separation and portfolio listing remain unmerged PRs.
 
 | Repository / artifact | Verified state |
 | --- | --- |
@@ -29,9 +29,10 @@
 - GATE A: PASS_DIAGNOSTIC_ONLY. 4,540 G / 4,382 financial observations and 9,186 raw objects reverified. 782 companies / 38,742 joint stock-months. Only 8 common valid months, longest 6 (2021.07-12). Investable total-return validation UNVERIFIED.
 - GATE B: PASS_WITH_DOCUMENTED_ADAPTATIONS. Outside-director ratio, price returns, median cutoffs, June information/July entry, no added winsorization; formation-only cap timing explicit.
 - GATE C: LOCKED_EXPLORATORY. Remote lock before new outcomes; prior results known. D004 fixes initial cost accounting without changing gross returns; D005 adds registered descriptive controls only.
-- GATE D/F: FAIL_MIN24. FF3 alpha/t/p/CI and spread HAC mean inference remain NOT_ESTIMATED. No independent OOS.
+- VFS own-return result: 2021.07-2022.02, eight observed months, cumulative -17.30% versus same-period KOSPI -18.96%. This does not replace the locked six-month paired Value comparison. Direct price/RF ingestion removes the VFS engine's FF3-factor dependency.
+- GATE D/F: VFS_DATA_PARTIAL / AUXILIARY_FF3_MIN24_NOT_MET. FF3 alpha/t/p/CI and spread HAC inference remain NOT_ESTIMATED. No independent OOS.
 - GATE E: 5 PASS / 10 UNVERIFIED / 1 FAIL. Original full US suite separately UNRESOLVED; compatible rerun 235 passed / 23 failed / 16 errors / 1 skipped. Offline regression subset 92 passed. See docs/ORIGINAL_REGRESSION_CHECK.md.
-- GATE G: PASS_LIMITED_DIAGNOSTICS. Seven actual-data PNG/SVG exhibits, dashboard and ten-page PDF; alpha CI/12-month rolling volatility labelled NOT_ESTIMATED.
+- GATE G: PASS_LIMITED_DIAGNOSTICS. Eight actual-data PNG/SVG exhibits, including a separate VFS own-return path; dashboard and ten-page PDF; alpha CI/12-month rolling volatility NOT_ESTIMATED.
 - GATE R: PASS_LIMITED_NARRATIVE. Every p2 contents entry mapped; source and independent results labelled; identical public inputs; actual local/external links and desktop/mobile rendering checked.
 - GATE H: PASS_PR_VERIFIED_MERGE_PENDING. Minimal portfolio row reflects limited results, live PDF/Pages, academic FF3 unchanged.
 

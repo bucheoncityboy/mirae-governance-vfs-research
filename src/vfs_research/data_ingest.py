@@ -17,6 +17,12 @@ def paths():
 def digest(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
+def load_benchmark(ff3_root):
+    """Price-index benchmark and RF; VFS backtesting needs no SMB/HML inputs."""
+    d=pd.read_parquet(Path(ff3_root)/'data/market_excess_return.parquet')
+    return d[['date','mkt_return','rf']].rename(columns={'mkt_return':'Market'})
+
+
 def number(x):
     try:return float(str(x).replace(',','').strip())
     except (ValueError,TypeError):return np.nan

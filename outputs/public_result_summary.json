@@ -1,5 +1,45 @@
 {
   "label": "OUR_RESULT",
+  "research_focus": "VFS_PORTFOLIO_BACKTEST",
+  "ff3_role": "SUPPLEMENTARY_ATTRIBUTION",
+  "vfs_own_window": {
+    "start": "2021-07-01",
+    "end": "2022-02-01",
+    "n_months": 8,
+    "valid_months_total": 10,
+    "metrics": [
+      {
+        "strategy": "VFS",
+        "start": "2021-07-01",
+        "end": "2022-02-01",
+        "n_months": 8,
+        "total_return": -0.17296637955336547,
+        "cagr": -0.24788413937762444,
+        "volatility": 0.16540645467830922,
+        "sharpe": -1.6702757922402087,
+        "sortino": -1.7962965298513172,
+        "mdd": -0.19120702170876847,
+        "role": "SHORT_WINDOW_DIAGNOSTIC",
+        "return_basis": "PRICE_RETURN_ONLY",
+        "cost_bps": 0
+      },
+      {
+        "strategy": "Market",
+        "start": "2021-07-01",
+        "end": "2022-02-01",
+        "n_months": 8,
+        "total_return": -0.18959201558579064,
+        "cagr": -0.2704491516919375,
+        "volatility": 0.1590253240728837,
+        "sharpe": -1.928330938001268,
+        "sortino": -1.8941467370285348,
+        "mdd": -0.20016550789929144,
+        "role": "SHORT_WINDOW_DIAGNOSTIC",
+        "return_basis": "PRICE_RETURN_ONLY",
+        "cost_bps": 0
+      }
+    ]
+  },
   "start": "2021-07-01",
   "end": "2021-12-01",
   "n_months": 6,
@@ -46,12 +86,12 @@
       "start": "2021-07-01",
       "end": "2021-12-01",
       "n_months": 6,
-      "total_return": -0.1049530711502513,
-      "cagr": -0.1988909951566329,
-      "volatility": 0.123515391733415,
-      "sharpe": -1.768309335151861,
+      "total_return": -0.1049530711502516,
+      "cagr": -0.1988909951566335,
+      "volatility": 0.1235153917334152,
+      "sharpe": -1.7683093351518613,
       "sortino": -2.0045713432025223,
-      "mdd": -0.1471617756652298,
+      "mdd": -0.1471617756652301,
       "role": "SHORT_WINDOW_DIAGNOSTIC",
       "return_basis": "PRICE_RETURN_ONLY",
       "cost_bps": 0

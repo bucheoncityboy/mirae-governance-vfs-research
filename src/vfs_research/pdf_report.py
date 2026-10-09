@@ -9,7 +9,7 @@ from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
 from reportlab.platypus import SimpleDocTemplate,Paragraph,Spacer,Table,TableStyle,Image,PageBreak
 from .data_ingest import ROOT
-from .reporting import public_inputs,pct,result_summary,SOURCE,REPO
+from .reporting import public_inputs,pct,result_summary,strategy_brief,SOURCE,REPO
 
 
 def build_pdf():
@@ -38,10 +38,11 @@ def build_pdf():
     heading(1,'Investment Question / Executive Summary')
     para('Value Focus Style:<br/>공시 기반 거버넌스를 활용한<br/>가치전략의 재구현과 실증 검증','Title')
     para('독립 개인 Quant/ESG 연구 | 2026-10-10 | EMPIRICAL_LIMITED','Small')
-    para('VFS의 Value 대비 성과 차이는 거버넌스 정보의 증분인가, 기존 스타일 노출인가?')
+    para('실제 공시 시점에 맞춰 VFS를 구성하면 수익률·위험·보유경로는 어떻게 나타나는가?')
     para('미래에셋 「멀티플 탈출」(2026-05-28)의 PBR×G 규칙을 공시 시점에 맞춰 구현했다. MSCI 점수를 사외이사 비율로 바꾼 독립 재구현이며 원문 동일 재현이나 미래에셋 공동 연구가 아니다.')
+    para(strategy_brief()+' VFS 자체의 기록과 Value 비교의 공통기간을 구분한다.')
     para(f"실제 공통 연속기간은 2021-07~2021-12, 월 N={len(q)}이다. VFS 누적 {pct(r.loc['VFS','total_return'])}, Value {pct(r.loc['Value','total_return'])}, 시장 {pct(r.loc['Market','total_return'])}. VFS−Value 월평균 {pct(s['mean_monthly_spread'])}p. 모든 수익률은 PRICE_RETURN_ONLY, gross 0bp다.")
-    para('FF3 α/t/p/95% CI는 NOT_ESTIMATED: 6개월은 사전 최소 24개월을 충족하지 않는다. 배당·상폐·역사적 모집단·독립 OOS는 미검증이다. 손실 차이는 관찰됐지만 알파 또는 인과효과를 입증하지 못했다.')
+    para('배당·상폐·역사적 모집단·독립 OOS는 미검증이다. FF3는 보조 위험조정 검정이며 표본 부족으로 미추정이다. VFS 백테스트 실행 자체에는 FF3 팩터가 필요하지 않다.')
     para('출처: 공식 원문 p20-23, p28 / OUR_RESULT: outputs/monthly_returns.csv 및 performance_summary.csv. 본 보고서는 새 VFS 결과와 과거 G 파일럿을 구분한다.','Small')
     heading(2,'Original Research / 원문을 읽는 순서')
     table([['원문 인쇄 페이지','연구 역할','우리 검증'],['p3 / p5 / p8','핵심 질문·반도체·거버넌스 배경','배경은 CONTEXT_ONLY'],['p10-15','ROE/COE·적정 멀티플','PBR만 구현; COE NOT_TESTED'],['p17-18','가치·성장 스타일의 한계','동일 모집단 Value 비교'],['p20-21 표6/7','2×2 VFS·25% cap·성과','규칙 구현, G/수익률 대체'],['p22-23 표8-10','편입종목과 스타일 특성','규모/ROE 집계, 섹터 미검증'],['p25','멀티플 탈출의 조건','독립 제한적 결론'],['p26-27 그림39','COE·MSCI 요인 계산','NOT_REPLICATED'],['p28 그림40-42','다기간 수익률·Sharpe','완전한 VFS 연간 성과 없음']],[105,165,190])
@@ -63,8 +64,8 @@ def build_pdf():
     table(rows,[75,100,100,80,105]);figure('cumulative',220)
     para('2021-07~2021-12, N=6개월, gross 0bp, 배당 미포함 가격수익률. 투자 직전 NAV=100을 포함한다. *연환산 CAGR·Sharpe는 6개월의 수학적 진단치이며 장기 기대수익률이 아니다. 누적성과와 통계적 우월성은 별개다.','Small')
     para('VFS는 Value보다 손실이 작았지만 KOSPI보다 손실이 컸다. 이 기간은 원문 2016-2026년과 다르고, 같은 MSCI 모집단도 아니다.')
-    heading(6,'Risk / FF3 α는 미추정')
-    para('주 검정: D = VFS−Value의 쌍별 월평균과 FF3 조정 절편. 롱은 RF를 한 번 차감하며 D는 RF를 차감하지 않는다. HAC3/6, finite-sample correction, Student-t 95% CI를 고정했다.')
+    heading(6,'Supplementary / FF3 위험조정 검정')
+    para('VFS 원수익 백테스트 이후 수행하는 보조 분석이다. D = VFS−Value의 쌍별 월평균과 FF3 조정 절편을 구분한다. 롱은 RF를 한 번 차감하며 D는 RF를 차감하지 않는다. HAC3/6과 Student-t CI를 고정했다.')
     table([['검정','결과','원인'],['VFS FF3 α/t/p/CI','NA / NOT_ESTIMATED','6 < 24개월'],['Value FF3 α/t/p/CI','NA / NOT_ESTIMATED','6 < 24개월'],['VFS−Value α/t/p/CI','NA / NOT_ESTIMATED','6 < 24개월'],['D 월평균 HAC','NA / NOT_ESTIMATED','표본 부족'],['블록 부트스트랩 6/12','NA','최소 2개 블록 부족'],['12개월 rolling volatility','NA','6개월뿐']],[175,140,145])
     figure('drawdown',200)
     para('Figure 2 알파 신뢰구간은 그리지 않았다. 데이터 없는 추론 그림을 모의 숫자로 대체하지 않는다. 원문의 거버넌스 보상 해석과 FF3 통계 알파는 구분한다.','Small')

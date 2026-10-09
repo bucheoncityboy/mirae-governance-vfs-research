@@ -3,7 +3,7 @@ from datetime import datetime,timezone
 import numpy as np
 import pandas as pd
 import yaml
-from .data_ingest import ROOT,paths,load_panel,return_audit,digest
+from .data_ingest import ROOT,paths,load_panel,return_audit,digest,load_benchmark
 from .factors import load_factors
 from .backtest import run,longest_block
 from .stats import regression,performance,block_bootstrap_mean
@@ -21,8 +21,8 @@ def config():
 
 
 def gate_a():
-    p,g,f,evidence=load_panel();legacy,ff3=paths();factors=load_factors(legacy)
-    returns,cells,formation=run(p,factors)
+    p,g,f,evidence=load_panel();legacy,ff3=paths();benchmark=load_benchmark(ff3)
+    returns,cells,formation=run(p,benchmark)
     dates=longest_block(returns);valid=int(returns.common_valid.sum())
     coverage=p.groupby('date').agg(population_n=('stock_code','size'),g_pit_n=('G_PIT','sum'),financial_pit_n=('financial_PIT','sum'),joint_n=('joint_eligible','sum'),missing_return_n=('return',lambda x:x.isna().sum())).reset_index()
     coverage=coverage.loc[coverage.date.between('2016-01-01','2026-04-01')]
@@ -58,12 +58,12 @@ def data_build():
 
 
 def backtest():
-    config();legacy,_=paths();p=pd.read_parquet(ROOT/'data/private/pit_panel.parquet');f=load_factors(legacy)
-    d,c,h=run(p,f);window=longest_block(d)
+    config();legacy,ff3=paths();p=pd.read_parquet(ROOT/'data/private/pit_panel.parquet');benchmark=load_benchmark(ff3)
+    d,c,h=run(p,benchmark);window=longest_block(d)
     gate=json.loads((ROOT/'outputs/gate_a.json').read_text())
     assert len(window)==gate['longest_common_contiguous_months']
     d['primary_window']=d.date.isin(window)
-    d=d.merge(f,on='date',how='left',validate='one_to_one');d.to_csv(ROOT/'outputs/monthly_returns.csv',index=False)
+    d=d.merge(benchmark[['date','rf']],on='date',how='left',validate='one_to_one');d.to_csv(ROOT/'outputs/monthly_returns.csv',index=False)
     c.to_csv(ROOT/'outputs/cell_formation_coverage.csv',index=False);h.to_csv(ROOT/'outputs/formation_summary.csv',index=False)
     q=d.loc[d.primary_window]
     perf=[performance(q,s) for s in ['VFS','Value','Market']] if len(q) else []
@@ -76,12 +76,21 @@ def backtest():
             years.append({'year':year,'strategy':s,'valid_months':int(z[s].notna().sum()),'return':float((1+z[s]).prod()-1) if ok else np.nan,'status':'COMPLETE_CALENDAR_YEAR' if ok else 'NOT_ESTIMATED_INCOMPLETE_YEAR'})
     pd.DataFrame(years).to_csv(ROOT/'outputs/annual_returns.csv',index=False)
     status={'final_status':'EMPIRICAL_LIMITED','research_role':'exploratory','return_basis':'PRICE_RETURN_ONLY','original_period':'2016-01~2026-04','primary_start':str(q.date.min().date()) if len(q) else None,'primary_end':str(q.date.max().date()) if len(q) else None,'primary_n_months':len(q),'common_valid_months':int(d.common_valid.sum()),'joint_companies':gate['joint_companies'],'joint_observations':gate['joint_observations'],'independent_oos':'UNVERIFIED','full_investable_backtest':'NOT_VERIFIED','primary_alpha':'NOT_ESTIMATED' if len(q)<24 else 'EXPLORATORY','gate_a':gate['gate_a'],'gate_b':'PASS_WITH_DOCUMENTED_ADAPTATIONS','gate_c':'LOCKED_EXPLORATORY','gate_d_f':'FAIL_MIN24' if len(q)<24 else 'EMPIRICAL_LIMITED','gate_e':'MATERIAL_BIASES_UNVERIFIED','gate_g_r_h':'PENDING','blockers':['Missing held returns break annual holdings paths','No verified dividend/corporate-action/delisting payoffs','Historical exchange-wide universe unverified','No independent OOS','Original-before-correction disclosure vintage unverified']}
-    write_json(ROOT/'outputs/results_status.json',status)
+    status_path=ROOT/'outputs/results_status.json'
+    previous=json.loads(status_path.read_text()) if status_path.exists() else {}
+    for key in ['gate_g','gate_r','gate_h','new_repo_ci','dashboard_url','cleanup_pr','portfolio_pr','prs_merged','original_full_US_suite']:
+        if key in previous:status[key]=previous[key]
+    status.update(research_focus='VFS_PORTFOLIO_BACKTEST',ff3_role='SUPPLEMENTARY_ATTRIBUTION',vfs_valid_months=int(d.VFS.notna().sum()))
+    own=d.assign(vfs_valid=d.VFS.notna()&d.Market.notna());own_dates=longest_block(own,'vfs_valid')
+    status.update(vfs_longest_contiguous_months=len(own_dates),vfs_history_status='PARTIAL_OBSERVED_PRICE_HISTORY',vfs_window_start=str(own_dates[0].date()) if own_dates else None,vfs_window_end=str(own_dates[-1].date()) if own_dates else None)
+    write_json(status_path,status)
     print(json.dumps(status,ensure_ascii=False))
 
 
 def factor_test():
-    config();d=pd.read_csv(ROOT/'outputs/monthly_returns.csv',parse_dates=['date']);q=d.loc[d.primary_window]
+    config();legacy,_=paths();d=pd.read_csv(ROOT/'outputs/monthly_returns.csv',parse_dates=['date'])
+    factors=load_factors(legacy).drop(columns=['rf'])
+    d=d.merge(factors,on='date',how='left',validate='one_to_one');d.to_csv(ROOT/'outputs/factor_test_inputs.csv',index=False);q=d.loc[d.primary_window]
     rows=[regression(q,s,hac=h) for h in [3,6] for s in ['VFS','Value','spread']]
     pd.DataFrame(rows).to_csv(ROOT/'outputs/ff3_alphas.csv',index=False)
     pd.DataFrame([regression(q,'spread',mean_only=True)]).to_csv(ROOT/'outputs/paired_mean_test.csv',index=False)

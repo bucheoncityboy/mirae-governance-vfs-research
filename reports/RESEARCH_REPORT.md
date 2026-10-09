@@ -1,10 +1,10 @@
 # Value Focus Style | 공시 기반 거버넌스 가치전략의 독립 재구현 및 검증
 
-**VFS의 단순 가치전략 대비 성과 차이는 거버넌스 정보의 증분인가, 기존 스타일 노출인가?** 미래에셋증권 유건호 연구원의 「멀티플 탈출」(2026-05-28)을 따라 이 질문을 검증하는 독립 개인 연구입니다. 미래에셋의 공식·공동 연구가 아닙니다.
+**미래에셋의 VFS 투자규칙을 실제 공시 시점에 맞춰 구성하면, 어떤 수익률·위험·보유경로가 나타나는가?** 유건호 연구원의 「멀티플 탈출」(2026-05-28)을 따라 VFS 자체의 백테스트와 Value·시장 비교를 수행하는 독립 개인 연구입니다.
 
-**검증 상태: EMPIRICAL_LIMITED.** 공통 연속 기간 2021-07~2021-12(6개월)의 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%입니다. VFS−Value 월평균 차이는 +0.43%p입니다. FF3 α·HAC t/p·95% CI는 최소 24개월 미충족으로 **NOT_ESTIMATED**입니다. 원천 PIT 결합 표본은 782기업·38,742 주식-월이지만, 이는 회귀 관측월 수가 아닙니다. 전체 원문 기간의 공통 유효월은 8개월이고 끊기지 않은 구간은 6개월뿐입니다. MSCI G 대신 사외이사 비율을 썼으며 **PRICE_RETURN_ONLY**, 배당·상폐·독립 OOS는 미검증입니다.
+**VFS 백테스트 상태: 부분 관측 / EMPIRICAL_LIMITED.** VFS 자체의 최장 연속 관측은 2021-07~2022-02(8개월)이며, 누적 가격수익률은 VFS -17.30%, 같은 기간 KOSPI -18.96%입니다. Value와 동일 조건으로 비교하는 공통 연속 기간은 2021-07~2021-12(6개월)입니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며, VFS−Value 월평균 차이는 +0.43%p입니다. 원천 PIT 결합 표본은 782기업·38,742 주식-월입니다. MSCI G 대신 사외이사 비율을 썼으며 **PRICE_RETURN_ONLY**, gross 0bp, 배당·상폐·독립 OOS 미검증입니다. FF3는 성과 해석을 위한 보조 검정으로 하단에 구분했습니다.
 
-[공식 원문 PDF](https://securities.miraeasset.com/bbs/maildownload/20260527170512707_154) · [독립 연구보고서](RESEARCH_REPORT.pdf) · [Executive Brief](EXECUTIVE_BRIEF.md) · [실제 차트](../outputs/figures/cumulative.png) · [배포 대시보드](https://bucheoncityboy.github.io/mirae-governance-vfs-research/) · [재현 방법](../docs/REPRODUCIBILITY.md)
+[공식 원문 PDF](https://securities.miraeasset.com/bbs/maildownload/20260527170512707_154) · [독립 연구보고서](RESEARCH_REPORT.pdf) · [Executive Brief](EXECUTIVE_BRIEF.md) · [VFS 보유경로](../outputs/figures/vfs_observed.png) · [배포 대시보드](https://bucheoncityboy.github.io/mirae-governance-vfs-research/) · [재현 방법](../docs/REPRODUCIBILITY.md)
 
 읽는 순서: 원문 배경 p5 → 가치평가 가설 p10 → 스타일 비교 p17 → **[VFS 규칙 p20](#04-rebuilding-the-vfs-strategy)** → **[원문과 실증 p21-23](#05-original-results-vs-our-backtest)** → **[다기간 검증 p28](#06-alpha-regimes--robustness)** → 결론 p25. [전체 목차·근거 매핑](../docs/REPORT_TO_IMPLEMENTATION_MAP.md)은 p2의 모든 항목과 본문 표·그림을 연결합니다.
 
@@ -14,9 +14,11 @@
 
 **우리의 구현** — 같은 모집단에서 VFS와 Value를 비교하고, 수익률 차이와 FF3 조정 차이를 분리했습니다. 결과를 보기 전 [설계 커밋](https://github.com/bucheoncityboy/mirae-governance-vfs-research/commit/09a105ce651bc28eaad1e0993b12678a41acf61f)을 남겼지만, 이전 G 연구를 알고 있었으므로 탐색 연구입니다.
 
-**실증 결과** — 공통 연속 기간 2021-07~2021-12(6개월)의 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%입니다. VFS−Value 월평균 차이는 +0.43%p입니다. FF3 α·HAC t/p·95% CI는 최소 24개월 미충족으로 **NOT_ESTIMATED**입니다.
+**실증 결과** — VFS 자체의 최장 연속 관측은 2021-07~2022-02(8개월)이며, 누적 가격수익률은 VFS -17.30%, 같은 기간 KOSPI -18.96%입니다. Value와 동일 조건으로 비교하는 공통 연속 기간은 2021-07~2021-12(6개월)입니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며, VFS−Value 월평균 차이는 +0.43%p입니다.
 
-**판정: ADAPTED / NOT_ESTIMATED.** 짧은 구간에서 Value보다 손실이 작았고 시장보다 손실이 컸습니다. 이를 거버넌스 알파나 장기 우위의 입증으로 해석하지 않습니다.
+![VFS 자체의 실제 연속 보유경로: 2021-07~2022-02 N=8 PRICE_RETURN_ONLY gross 0bp; Value 비교는 별도 공통 6개월](../outputs/figures/vfs_observed.png)
+
+**판정: ADAPTED / 부분 관측.** VFS 자체의 8개월 기록과 세 전략의 공통 6개월 비교는 서로 다른 분석입니다. 원수익과 보유경로를 먼저 검증하며, FF3 추정 가능 여부로 VFS 백테스트의 존재 여부를 판정하지 않습니다. [보유경로 중단 원인과 구현 가정](../docs/VFS_BACKTEST_DIAGNOSIS.md).
 
 ## 01. Why Governance?
 
@@ -102,6 +104,8 @@
 
 **우리의 구현 - OUR EXTENSION** — FF3 세 회귀(VFS, Value, VFS−Value), HAC3/6, 95% CI, 블록 부트스트랩, 비용·가중·상위5 제외·G 컷·PIT 지연·규모중립 민감도를 사전 고정했습니다. spread에서 RF를 다시 차감하지 않습니다. 미완성 연도에서 결측월만 빼고 연간 수익률을 계산하지 않습니다.
 
+이 절의 FF3는 보조 위험조정 검정입니다. 주 작업인 VFS 구성·가중·리밸런싱·원수익 백테스트는 SMB/HML 자료 없이도 실행됩니다. α·t·p·CI는 최소 24개월 미충족으로 NOT_ESTIMATED이며, 이는 VFS 원수익이 존재하지 않는다는 뜻이 아닙니다.
+
 | 원문 다기간 분석 | 우리 독립 검증 | 결과 |
 | --- | --- | --- |
 | 연도별 롱/롱숏 수익률 | [연간 수익률 상태](../outputs/annual_returns.csv) | VFS 완전한 12개월 연도 없음 |
@@ -124,7 +128,7 @@
 
 **우리의 구현** — 투자규칙을 공시 시점에 맞춰 번역하고, 실제 보유경로가 어디서 끊기는지 확인했습니다. 원문과 같은 성과를 얻기 위해 표본이나 조건을 바꾸지 않았습니다.
 
-**실증 결과** — 공통 연속 기간 2021-07~2021-12(6개월)의 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%입니다. VFS−Value 월평균 차이는 +0.43%p입니다. FF3 α·HAC t/p·95% CI는 최소 24개월 미충족으로 **NOT_ESTIMATED**입니다. 원본에서 절대 가격수익률 100% 초과 659건을 제거한 사실도 다시 확인했습니다. 배당과 상폐 대가, 수정주가·공시 정정 이전 값, 역사적 모집단을 확보해야 검증을 진전시킬 수 있습니다.
+**실증 결과** — Value와 동일 조건으로 비교하는 공통 연속 기간은 2021-07~2021-12(6개월)입니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며, VFS−Value 월평균 차이는 +0.43%p입니다. 원본에서 절대 가격수익률 100% 초과 659건을 제거한 사실도 다시 확인했습니다. 배당과 상폐 대가, 수정주가·공시 정정 이전 값, 역사적 모집단을 확보해야 검증을 진전시킬 수 있습니다.
 
 **판정: EMPIRICAL_LIMITED.** 규칙과 데이터 연결은 재구현했지만, 투자 가능한 장기 전략·유의한 FF3 알파·거버넌스 인과효과는 입증하지 못했습니다. 다음 분석은 같은 설계를 유지한 완전한 기업행동·총수익률 자료와 충분한 신규 독립기간에서 수행해야 합니다.
 

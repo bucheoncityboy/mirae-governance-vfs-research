@@ -2,7 +2,7 @@
 
 구형 `bucheoncityboy/korea-governance-ff3`는 통합 FF 저장소와 별개의 초기 탐색연구 저장소다. 신규 VFS 저장소로 연구를 모으기 위해 전체 공개 스냅샷 52개 파일을 [legacy_standalone_governance](../legacy_standalone_governance/README.md)에 원래 상대경로와 내용 그대로 보존했다. 통합 저장소에서 먼저 옮긴 133개 파일의 스냅샷도 그대로 유지한다.
 
-**현재 상태: 전체 이관과 로컬 이력 백업 완료, GitHub 저장소 삭제는 최종 승인 대기.** 삭제 완료라고 주장하지 않는다. 원본 미국·한국 FF3를 보존하는 `fama-french-integrated-research`는 삭제 대상이 아니다.
+**현재 상태: 전체 이관과 로컬 이력 백업 완료, 저장소 삭제는 사용자 승인 완료, GitHub 관리자 본인인증 대기.** 삭제 완료라고 주장하지 않는다. 원본 미국·한국 FF3를 보존하는 `fama-french-integrated-research`는 삭제 대상이 아니다.
 
 ## 보존 근거
 
@@ -25,3 +25,7 @@
 ## 포트폴리오 실제 반영
 
 [portfolio-index PR #1](https://github.com/bucheoncityboy/portfolio-index/pull/1)을 사용자 요청에 따라 병합했다. 공개 main의 merge commit은 [`f3e9afe166613c4fc61f20c02356428b56d1931d`](https://github.com/bucheoncityboy/portfolio-index/commit/f3e9afe166613c4fc61f20c02356428b56d1931d)이다. 개인 연구 한 행만 VFS로 교체했고 교내 FF3 학회 연구는 보존했다. 신규 저장소·연구 PDF·Pages 링크가 실제 공개 README에 표시되는 것을 확인했다.
+
+## 삭제 실행 상태
+
+사용자가 2026-10-11 KST 구형 저장소 자체의 삭제를 명시적으로 승인했다. GitHub 최종 Delete 버튼을 실행했으나 `Confirm access` 관리자 재인증에 도달했다. 인증 완료 전 저장소는 아직 존재하며 삭제 완료로 표시하지 않는다. GitHub Mobile 인증 요청은 만료됐으며 계정 소유자의 재인증이 필요하다. 원래 연구 파일과 전체 Git 백업은 안전하게 보존되어 있다.

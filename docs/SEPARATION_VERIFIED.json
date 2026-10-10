@@ -19,5 +19,6 @@
   "post_merge_full_suite": "not_rerun_existing_input_issues_documented",
   "portfolio_main": "f3e9afe166613c4fc61f20c02356428b56d1931d",
   "standalone_legacy_files_preserved": 52,
-  "standalone_deletion_status": "PENDING_FINAL_APPROVAL"
+  "standalone_deletion_status": "APPROVED_AWAITING_GITHUB_ADMIN_AUTHENTICATION",
+  "standalone_deletion_approved": true
 }

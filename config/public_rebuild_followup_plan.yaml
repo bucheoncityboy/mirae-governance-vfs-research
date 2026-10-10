@@ -1,0 +1,29 @@
+study: Public-source VFS reconstruction follow-up
+registered_on_kst: 2026-10-11
+baseline_vfs_commit: c8abb0fd648df9eed6b80250cd25b96ca67963b2
+baseline_ff3_commit: dc47a81b214cfb1aac210d0568938eb652f75b03
+role: EXPLORATORY_FOLLOWUP_PRIOR_RESULTS_KNOWN
+primary_design: preserve_existing_vfs_pre_analysis_plan_and_hash
+vintage: collect_current_official_responses_and_preserve_receipts_hashes_UTC
+old_hash_equality_target: false
+smoke: fixed_legacy_five_codes_and_five_years; verify_mapping_counts_dates_equity_match
+smoke_request_budget: 200
+full_collection: only_after_authenticated_smoke_and_request_budget_review
+request_budget_per_run: 19000
+return_window: 2016-01-01_to_2026-04-01
+missing_returns: retain_original_strict_annual_path_stop; no_zero_fill_or_ex_post_drop
+return_repairs: official_corporate_action_or_terminal_payoff_evidence_only; versioned_event_ledger
+alpha_minimum_contiguous_months: 24
+alpha_inference: OLS_with_HAC3_and_HAC6; alpha_spread_CI_p_reported_together
+pbr_matched_g_neutral:
+  role: EXPLORATORY_STYLE_MATCHED_COMPARATOR_NOT_NEW_PRIMARY
+  universe: same_PIT_joint_eligible_universe
+  formation: existing_annual_July_formation
+  pbr_groups: same_Low_High_median_groups_and_ties
+  group_budgets: [0.5, 0.5]
+  g_selection: none_within_either_PBR_group
+  weighting: same_lagged_ME; capped_25pct_inside_each_PBR_group
+  limits: matches_binary_PBR_budget_not_full_continuous_PBR_distribution_or_size
+independent_oos: UNVERIFIED_prior_history_and_old_results_known
+redistribution: no_source_or_security_level_derivatives_uploaded_to_any_GitHub_repo
+publication: preserve_baseline_snapshots; new_vintage_results_require_difference_report

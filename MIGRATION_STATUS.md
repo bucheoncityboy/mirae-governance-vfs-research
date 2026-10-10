@@ -1,14 +1,15 @@
 # Migration and acceptance status - 2026-10-10 KST
 
-**Overall: VFS backtest partially observed / EMPIRICAL_LIMITED.** VFS's own longest contiguous history is eight months; the locked Value/Market paired comparison is six. FF3 is an auxiliary attribution test with insufficient observations. Remaining total-return/corporate-action/history gaps prevent full empirical completion. Source separation and portfolio listing remain unmerged PRs.
+**Source repository separation: COMPLETED after user-approved PR #2 merge on 2026-10-11 KST.** The FF repository main now contains only the 120 original protected files. VFS research remains partially observed / EMPIRICAL_LIMITED; VFS own history is eight months, the paired comparison six. The portfolio-index PR remains unmerged.
 
 | Repository / artifact | Verified state |
 | --- | --- |
 | New public repo | https://github.com/bucheoncityboy/mirae-governance-vfs-research |
 | Publication HEAD at initial CI/Pages verification | 7eaae94cdd66f82bd966c55e21d3bed7f2b02fd5; later acceptance commits are in main history |
 | Before-outcomes design commit | 09a105ce651bc28eaad1e0993b12678a41acf61f |
-| Original source main HEAD | 7e7eb6a41e1d798f45d10b96e704e6c476cd6091 - unchanged |
-| Original cleanup commit / Draft PR | 8b8873bc383f7ca7ed1caab82439fa42b793ccb8 / https://github.com/bucheoncityboy/fama-french-integrated-research/pull/2 |
+| Original source main HEAD after approved separation | dc47a81b214cfb1aac210d0568938eb652f75b03; governance directory/workflow absent |
+| Original cleanup commit / merged PR | 8b8873bc383f7ca7ed1caab82439fa42b793ccb8 / https://github.com/bucheoncityboy/fama-french-integrated-research/pull/2 |
+| Approved merge commit | https://github.com/bucheoncityboy/fama-french-integrated-research/commit/dc47a81b214cfb1aac210d0568938eb652f75b03 |
 | Original 120-file SHA256 | PASS, original US/Korean FF3 source/data/PDF/README unchanged |
 | Cleanup proposed tree | 7d366a75c62e1f2f5dd1b8817222a75adb6933bd - exactly baseline 81f3bd9; only 141 governance/workflow files removed |
 | Initial main CI | https://github.com/bucheoncityboy/mirae-governance-vfs-research/actions/runs/37985851830 - success |
@@ -22,7 +23,7 @@
 | new_vfs_repo_link_ok / report_link_ok / dashboard_link_ok | true / true / true |
 | portfolio change scope | One HTML row; other content byte-identical; academic FF3 row preserved |
 | render_check | GitHub preview and desktop/mobile dashboard checked; seven images loaded; 390px dashboard has no horizontal overflow |
-| merged | false for both PRs; no merge, force-push or default-branch change |
+| merged | cleanup PR #2: true (explicit user approval); portfolio PR #1: false. No force-push or default-branch change |
 
 ## Validation gates
 
@@ -38,4 +39,4 @@
 
 Publication inventory and 133 immutable legacy copy hashes: [manifest](docs/migration_manifest.csv). FnGuide security rows, DART bodies, credentials, unreviewed history bundle and original Mirae PDF remain excluded. Public outputs contain aggregates only; source-data redistribution rights remain UNVERIFIED. No blanket third-party license is claimed.
 
-Unresolved: complete historical listing/delisting/terminal payoffs, dividend/corporate-action total returns, original-before-correction filings, historical industry/liquidity/legal-entity assets, sufficient independent OOS, and original US full-suite input/environment issues. Successful software CI and formatted artifacts do not resolve empirical blockers. Post-merge regression cannot be checked before user review and merge.
+Unresolved research issues: historical listing/delisting/terminal payoffs, dividend/corporate-action total returns, original-before-correction filings, industry/liquidity/legal-entity assets, independent OOS, and original US full-suite input/environment issues. They do not change the verified source separation: remote main tree equals baseline 81f3bd9, all 120 protected blobs match, and the legacy snapshot 133 blobs match the copied source. [Separation verification](docs/SEPARATION_VERIFIED.json).

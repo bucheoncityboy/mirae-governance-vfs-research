@@ -1,0 +1,20 @@
+{
+  "verified_on": "2026-10-11 KST",
+  "source_repo": "bucheoncityboy/fama-french-integrated-research",
+  "source_main": "dc47a81b214cfb1aac210d0568938eb652f75b03",
+  "source_main_tree": "7d366a75c62e1f2f5dd1b8817222a75adb6933bd",
+  "baseline_commit": "81f3bd921ffcb4ea84c19123d798fbcb830ee9e3",
+  "main_tree_equals_baseline": true,
+  "original_files_preserved": 120,
+  "all_protected_blobs_unchanged": true,
+  "governance_directory_absent": true,
+  "governance_workflow_absent": true,
+  "legacy_remote_blobs_verified": 133,
+  "cleanup_pr_url": "https://github.com/bucheoncityboy/fama-french-integrated-research/pull/2",
+  "cleanup_pr_merged": true,
+  "merge_approval": "explicit_human_PR_2_merge_approval",
+  "portfolio_pr_merged": false,
+  "post_merge_regression_subset_passed": 92,
+  "post_merge_regression_subset_failed": 0,
+  "post_merge_full_suite": "not_rerun_existing_input_issues_documented"
+}

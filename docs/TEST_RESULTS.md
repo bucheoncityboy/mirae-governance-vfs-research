@@ -5,7 +5,8 @@
 - Public numeric/README/report/dashboard consistency, local links, design lock, 133 legacy copy hashes and credential/source-row audit: PASS.
 - Original protected 120-file audit after all original tests: PASS, no byte changes. Cleanup tree exactly matches original baseline.
 - Original offline regression/intercept/GRS subset: **92 passed**.
-- Original full US compatibility suite: **235 passed / 23 failed / 16 errors / 1 skipped**; source input/path expectations remain unresolved; cleanup stays Draft. No claim of a clean full original suite.
+- Post-merge main checkout dc47a81 core regression/intercept/GRS rerun: **92 passed** (15.27s). Remote main tree equals the protected original baseline, and both governance paths are absent.
+- Original full US compatibility suite: **235 passed / 23 failed / 16 errors / 1 skipped**; source input/path expectations remain unresolved. No clean-full-suite claim. The separation PR was reviewed and merged with explicit user approval on 2026-10-11 KST; all 120 protected files remain unchanged in remote main.
 - Real G/BE cache checks: 4,540 G, 4,382 financial, 9,186 raw objects rehashed. Price arithmetic error zero; 659 historical >100% filters documented.
 - Eight real-data PNG+SVG figures, including VFS's own 8-month observed path separately from the locked six-month paired comparison. No synthetic empirical chart. Alpha CI and 12-month volatility NOT_ESTIMATED.
 - Ten-page PDF: all pages rendered; Korean font, chart captions and tables checked. No company logo or unauthorized source PDF copy.
@@ -13,6 +14,6 @@
 - GitHub Pages initial deployment and main CI succeeded. Final acceptance commit receives the same workflows; its final run URLs are reported separately.
 - Pages HTML, cumulative/drawdown/robustness SVG and monthly CSV returned HTTP 200 with hashes equal to local versions at deployment verification.
 - Portfolio one-row change: table/tr/td balanced; all other bytes unchanged; academic FF3 retained; actual new repo/PDF/Pages links valid.
-- No merge, force-push, repository deletion, default-branch or credential/permission expansion performed.
+- User-approved separation PR #2 merge completed. Portfolio PR #1 remains unmerged. No force-push, repository deletion, default-branch or credential/permission expansion performed.
 
 VFS history is **PARTIALLY_OBSERVED / EMPIRICAL_LIMITED**. The 24-month condition applies to supplementary factor inference, not existence of the VFS raw-return backtest. Full total-return/corporate-action history and independent OOS remain unresolved. Software tests do not establish long-run or causal performance.

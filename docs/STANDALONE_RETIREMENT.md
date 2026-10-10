@@ -1,8 +1,8 @@
-# 구형 독립 저장소의 이관 및 삭제 준비 — 2026-10-11 KST
+# 구형 독립 저장소의 이관 및 승인된 삭제 완료 — 2026-10-11 KST
 
 구형 `bucheoncityboy/korea-governance-ff3`는 통합 FF 저장소와 별개의 초기 탐색연구 저장소다. 신규 VFS 저장소로 연구를 모으기 위해 전체 공개 스냅샷 52개 파일을 [legacy_standalone_governance](../legacy_standalone_governance/README.md)에 원래 상대경로와 내용 그대로 보존했다. 통합 저장소에서 먼저 옮긴 133개 파일의 스냅샷도 그대로 유지한다.
 
-**현재 상태: 전체 이관과 로컬 이력 백업 완료, 저장소 삭제는 사용자 승인 완료, GitHub 관리자 본인인증 대기.** 삭제 완료라고 주장하지 않는다. 원본 미국·한국 FF3를 보존하는 `fama-french-integrated-research`는 삭제 대상이 아니다.
+**현재 상태: 전체 이관·로컬 이력 백업·사용자 승인·GitHub 저장소 삭제 완료.** GitHub 성공 메시지와 구형 공개 URL/API의 HTTP 404를 확인했다. 원본 미국·한국 FF3를 보존하는 `fama-french-integrated-research`는 삭제 대상이 아니다.
 
 ## 보존 근거
 
@@ -28,4 +28,6 @@
 
 ## 삭제 실행 상태
 
-사용자가 2026-10-11 KST 구형 저장소 자체의 삭제를 명시적으로 승인했다. GitHub 최종 Delete 버튼을 실행했으나 `Confirm access` 관리자 재인증에 도달했다. 인증 완료 전 저장소는 아직 존재하며 삭제 완료로 표시하지 않는다. GitHub Mobile 인증 요청은 만료됐으며 계정 소유자의 재인증이 필요하다. 원래 연구 파일과 전체 Git 백업은 안전하게 보존되어 있다.
+사용자가 2026-10-11 KST 구형 저장소 자체의 삭제를 명시적으로 승인했다. 첫 Delete 실행은 `Confirm access` 관리자 재인증에 도달했다. 요청 만료 후 사용자 요청에 따라 다시 인증을 보냈고, 계정 소유자가 GitHub Mobile 본인인증을 완료했다. 이어서 GitHub가 `Your repository "bucheoncityboy/korea-governance-ff3" was successfully deleted.`를 표시했다. 구형 URL과 API는 모두 HTTP 404이다. 원래 연구 파일과 전체 Git 백업은 안전하게 보존되어 있다.
+
+최종 링크 확인: `portfolio-index`, 신규 VFS 저장소, 신규 PDF, GitHub Pages가 모두 HTTP 200. 포트폴리오 공개 main에는 VFS 소개가 있고 구형 저장소 링크는 없으며 학회 FF3 링크는 보존됐다. 원래 미국·한국 FF3 저장소는 변경하지 않았다. 실증 연구의 EMPIRICAL_LIMITED 상태는 그대로다.

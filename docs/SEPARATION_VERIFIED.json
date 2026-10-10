@@ -19,6 +19,13 @@
   "post_merge_full_suite": "not_rerun_existing_input_issues_documented",
   "portfolio_main": "f3e9afe166613c4fc61f20c02356428b56d1931d",
   "standalone_legacy_files_preserved": 52,
-  "standalone_deletion_status": "APPROVED_AWAITING_GITHUB_ADMIN_AUTHENTICATION",
-  "standalone_deletion_approved": true
+  "standalone_deletion_status": "DELETED_USER_APPROVED",
+  "standalone_deletion_approved": true,
+  "standalone_repo_url_http_status": 404,
+  "standalone_repo_api_http_status": 404,
+  "standalone_github_deletion_success_banner": true,
+  "standalone_history_backup_verified": true,
+  "portfolio_old_standalone_links_absent": true,
+  "portfolio_academic_ff3_link_preserved": true,
+  "linked_new_repo_report_dashboard_http_status": 200
 }

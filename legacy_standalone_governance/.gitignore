@@ -1,0 +1,12 @@
+.venv/
+.cache/
+__pycache__/
+.pytest_cache/
+.DS_Store
+*.pyc
+.env
+*.key
+korea-market/governance-extension/data/raw/*
+!korea-market/governance-extension/data/raw/.gitkeep
+korea-market/governance-extension/data/processed/*.parquet
+korea-market/governance-extension/data/corp_map.csv

@@ -5,6 +5,7 @@
   "paired_comparison_months": 6,
   "vfs_own_months": 8,
   "copied_files_hash_verified": 133,
+  "standalone_legacy_files_hash_verified": 52,
   "performance_recomputed": true,
   "narrative_dashboard_same_results": true,
   "local_link_failures": 0,

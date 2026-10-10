@@ -1,0 +1,19 @@
+check,verdict,count,detail
+stock_month_unique,PASS,0.0,unique code/date
+stock_code_format,PASS,1054.0,A + six alphanumeric characters; identifiers preserved as strings
+alphanumeric_ticker_support,PASS,2.0,two actual source tickers contain letters; digit-only validation would incorrectly reject them
+bm_unit_arithmetic,PASS,0.0,BE eok KRW / (ME thousand KRW / 100000)
+return_unit,PASS,,decimal returns verified against price pct_change in source; 0.01 = 1%
+dividend_total_return,NOT_TESTED,,source uses price pct_change; dividend inclusion is not established by metadata
+market_classification,NOT_TESTED,,source infers KOSDAQ from ticker digit; never used for market-stratified results
+historical_universe,NOT_TESTED,,listing/delisting membership and delisting returns not independently verified
+financial_publication_dates,NOT_TESTED,,BE panel has fiscal years but no actual financial filing dates
+extreme_return_filter,NOT_TESTED,,source sets abs(return)>1 to missing; excluded returns not reconstructed
+missing_month_gaps,PASS,30.0,non-adjacent month lag weights are removed in spec-aligned reconstruction
+missing_derived_factors_korea.csv,NOT_TESTED,,original derived CSV availability
+missing_derived_portfolios_25_korea.csv,NOT_TESTED,,original derived CSV availability
+legacy_path_build_panel_data.py,NOT_TESTED,,korean_ff3_v2
+legacy_path_scripts/construct_6_portfolios.py,NOT_TESTED,,korean_ff3_v2
+legacy_path_scripts/run_regression_korea.py,NOT_TESTED,,fama-ff3-
+june_book_equity_fiscal_year,FAIL,22963.0,"June BE rows are fiscal year t-2, rather than the stated t-1"
+june_panel_formation_year,FAIL,,June panel rows belong to previous port_year; legacy 6-sort prefers previous formation BM

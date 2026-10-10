@@ -1,0 +1,7 @@
+file,rows,stocks,months,start,end,duplicate_keys,columns,dtypes
+korea-market/data/book_equity_monthly.parquet,275556,1136.0,324,2000-07-01,2027-06-01,0,code|date|be|be_year|be_positive_flag,code:str|date:datetime64[ns]|be:float64|be_year:int64|be_positive_flag:bool
+korea-market/data/financial_data_long.parquet,1459200,1136.0,316,1999-12-01,2026-03-01,0,code|name|item_code|date|value,code:str|name:str|item_code:str|date:datetime64[ns]|value:float64
+korea-market/data/market_data_long.parquet,722729,1144.0,318,1999-12-01,2026-05-01,0,code|name|item_code|date|value,code:str|name:str|item_code:str|date:datetime64[ns]|value:float64
+korea-market/data/market_excess_return.parquet,316,,316,2000-02-01,2026-05-01,0,date|mkt_return|rf|mkt_rf,date:datetime64[ns]|mkt_return:float64|rf:float64|mkt_rf:float64
+korea-market/data/panel_data.parquet,226563,1054.0,318,1999-12-01,2026-05-01,0,code|name|date|return|me|me_june|be|bm|port_year|is_kosdaq,code:str|name:str|date:datetime64[ns]|return:float64|me:float64|me_june:float64|be:float64|bm:float64|port_year:int32|is_kosdaq:object
+korea-market/data/stock_returns.parquet,226563,1054.0,318,1999-12-01,2026-05-01,0,code|name|date|return|me|shrout,code:str|name:str|date:datetime64[ns]|return:float64|me:float64|shrout:float64

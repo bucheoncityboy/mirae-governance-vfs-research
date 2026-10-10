@@ -1,0 +1,16 @@
+spec_version: '1.0'
+source_repository: https://github.com/bucheoncityboy/fama-french-integrated-research
+source_commit: 81f3bd921ffcb4ea84c19123d798fbcb830ee9e3
+benchmark_start: '2000-07-01'
+benchmark_end: '2026-05-01'
+primary_governance_proxy: outside_director_ratio
+primary_weight: VW
+g_cutoff: 0.5
+minimum_stocks_per_cell: 5
+minimum_regression_months: 24
+hac_lags: 3
+max_governance_age_days: 550
+information_rule: filing_date_plus_one_day_then_ceiling_month_end
+return_unit: decimal
+industry_and_profitability_controls: not_available
+transaction_cost_analysis: not_estimated_without_verified_turnover

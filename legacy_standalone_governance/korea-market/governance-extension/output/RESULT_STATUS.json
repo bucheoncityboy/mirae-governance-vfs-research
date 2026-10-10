@@ -1,0 +1,33 @@
+{
+  "status": "limited",
+  "research_route": "fallback_c",
+  "run_date": "2026-10-09T08:42:46.769773+00:00",
+  "spec_version": "1.0",
+  "source_commit": "81f3bd921ffcb4ea84c19123d798fbcb830ee9e3",
+  "sample_start": "2000-07",
+  "sample_end": "2026-05",
+  "number_of_stocks": 1054,
+  "number_of_months": 311,
+  "governance_proxy": "outside_director_ratio",
+  "data_available_at_verified": false,
+  "ff3_reproduced": true,
+  "ff3_reproduction_scope": "README rounded factor premia and OLS t; GRS not rerun",
+  "primary_alpha_estimated": false,
+  "source_files_unchanged": true,
+  "number_of_source_files_hashed": 120,
+  "blockers": [
+    "No historical governance evidence supplied",
+    "DART_API_KEY absent"
+  ],
+  "remaining_limitations": [
+    "dividend inclusion not verified",
+    "listing/delisting and original universe not verified",
+    "industry/profitability data unavailable",
+    "governance causality not identified"
+  ],
+  "next_required_input": [
+    "historical governance observations with receipt/date/raw source hashes",
+    "official corp_code/stock_code mapping",
+    "financial filing dates for fiscal t-1 BM"
+  ]
+}

@@ -1,0 +1,2 @@
+source,endpoint,status,reason,api_key_present,unauthenticated_probe
+OpenDART,outcmpnyDrctrNdChangeSttus.json,not_collected,No verified governance observations,False,"HTML, not validated JSON"

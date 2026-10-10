@@ -1,6 +1,6 @@
-# Migration and acceptance status - 2026-10-10 KST
+# Migration and acceptance status - 2026-10-11 KST
 
-**Source repository separation: COMPLETED after user-approved PR #2 merge on 2026-10-11 KST.** The FF repository main now contains only the 120 original protected files. VFS research remains partially observed / EMPIRICAL_LIMITED; VFS own history is eight months, the paired comparison six. The portfolio-index PR remains unmerged.
+**Source repository separation: COMPLETED after user-approved PR #2 merge on 2026-10-11 KST.** The FF repository main now contains only the 120 original protected files. VFS research remains partially observed / EMPIRICAL_LIMITED; VFS own history is eight months, the paired comparison six. The portfolio-index PR #1 is merged and verified on public main.
 
 | Repository / artifact | Verified state |
 | --- | --- |
@@ -23,7 +23,7 @@
 | new_vfs_repo_link_ok / report_link_ok / dashboard_link_ok | true / true / true |
 | portfolio change scope | One HTML row; other content byte-identical; academic FF3 row preserved |
 | render_check | GitHub preview and desktop/mobile dashboard checked; seven images loaded; 390px dashboard has no horizontal overflow |
-| merged | cleanup PR #2: true (explicit user approval); portfolio PR #1: false. No force-push or default-branch change |
+| merged | cleanup PR #2: true (explicit user approval); portfolio PR #1: true (subsequent user request). No force-push or default-branch change |
 
 ## Validation gates
 
@@ -35,8 +35,10 @@
 - GATE E: 5 PASS / 10 UNVERIFIED / 1 FAIL. Original full US suite separately UNRESOLVED; compatible rerun 235 passed / 23 failed / 16 errors / 1 skipped. Offline regression subset 92 passed. See docs/ORIGINAL_REGRESSION_CHECK.md.
 - GATE G: PASS_LIMITED_DIAGNOSTICS. Eight actual-data PNG/SVG exhibits, including a separate VFS own-return path; dashboard and ten-page PDF; alpha CI/12-month rolling volatility NOT_ESTIMATED.
 - GATE R: PASS_LIMITED_NARRATIVE. Every p2 contents entry mapped; source and independent results labelled; identical public inputs; actual local/external links and desktop/mobile rendering checked.
-- GATE H: PASS_PR_VERIFIED_MERGE_PENDING. Minimal portfolio row reflects limited results, live PDF/Pages, academic FF3 unchanged.
+- GATE H: PASS_MERGED_VERIFIED. Minimal portfolio row reflects limited results, live PDF/Pages, academic FF3 unchanged.
 
 Publication inventory and 133 immutable legacy copy hashes: [manifest](docs/migration_manifest.csv). FnGuide security rows, DART bodies, credentials, unreviewed history bundle and original Mirae PDF remain excluded. Public outputs contain aggregates only; source-data redistribution rights remain UNVERIFIED. No blanket third-party license is claimed.
 
 Unresolved research issues: historical listing/delisting/terminal payoffs, dividend/corporate-action total returns, original-before-correction filings, industry/liquidity/legal-entity assets, independent OOS, and original US full-suite input/environment issues. They do not change the verified source separation: remote main tree equals baseline 81f3bd9, all 120 protected blobs match, and the legacy snapshot 133 blobs match the copied source. [Separation verification](docs/SEPARATION_VERIFIED.json).
+
+Portfolio public main merge commit: [f3e9afe166613c4fc61f20c02356428b56d1931d](https://github.com/bucheoncityboy/portfolio-index/commit/f3e9afe166613c4fc61f20c02356428b56d1931d). Old standalone repository: all 52 files copied immutably, all refs backed up locally and verified; repository deletion pending final approval. [Retirement record](docs/STANDALONE_RETIREMENT.md).

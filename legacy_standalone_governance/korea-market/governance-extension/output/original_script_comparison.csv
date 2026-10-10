@@ -1,0 +1,5 @@
+field,n_months,max_abs_error,pass
+Mkt-RF,311,0.0,True
+SMB,311,1.1102230246251565e-16,True
+HML,311,1.0408340855860843e-16,True
+rf,311,0.0,True

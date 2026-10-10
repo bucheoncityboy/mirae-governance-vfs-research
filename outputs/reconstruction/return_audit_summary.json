@@ -1,10 +1,19 @@
 {
   "gt100_filtered": 659,
-  "missing_returns": 1716,
+  "missing_returns": 2068,
+  "audit_scope": "ALL_STOCK_RETURN_RECORDS_LEFT_JOINED_TO_PRICES",
+  "stock_return_rows": 226563,
+  "missing_price_rows_preserved": 352,
+  "previous_inner_join_missing_count": 1716,
+  "study_2016_01_to_2026_04_missing_returns": 339,
+  "study_2016_01_to_2026_04_gt100_filtered": 213,
   "price_arithmetic_max_abs_error": 0.0,
   "economic_returns_corrected": 0,
   "official_corporate_action_verification": "UNVERIFIED",
   "original_ff3_inputs_modified": false,
-  "held_security_attribution": "BLOCKED_MISSING_JOINT_G_PIT_PANEL",
-  "missingness_categories_overlap": true
+  "held_security_attribution": "COMPLETED_FOR_BOTH_RECOLLECTED_STRATEGIES",
+  "missingness_categories_overlap": true,
+  "held_missing_records": 13,
+  "held_gt100_filtered": 5,
+  "held_raw_price_missing": 8
 }

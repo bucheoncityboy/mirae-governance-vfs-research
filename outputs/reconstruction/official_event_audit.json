@@ -1,0 +1,17 @@
+{
+  "role": "OFFICIAL_DISCLOSURE_TITLE_LEADS_NOT_PAYOFF_VERIFICATION",
+  "unique_held_security_months": 11,
+  "successfully_queried": 11,
+  "unique_candidate_receipts": 58,
+  "title_candidate_records_with_repeats": 58,
+  "new_requests": 14,
+  "request_budget": 100,
+  "window_days_before_after": [
+    365,
+    90
+  ],
+  "economic_returns_repaired": 0,
+  "corporate_action_payoffs": "UNVERIFIED",
+  "receipt_documents_and_exchange_adjustment_terms": "NOT_VERIFIED",
+  "old_strategy_rules_changed": false
+}

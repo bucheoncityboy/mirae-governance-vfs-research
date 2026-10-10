@@ -1,0 +1,30 @@
+{
+  "scope": "CURRENT_VINTAGE_RECOLLECTED_INPUTS",
+  "files": [
+    {
+      "file": "joint_panel.parquet",
+      "sha256": "7514bb99c521b8178a04cdaab7864da4645bc2afcceed0cd9ea47ec1e397d8db",
+      "bytes": 2801206,
+      "rows": 96379,
+      "source": "FRESH_OFFICIAL_DART_AND_OWNER_AUTHORIZED_FF3",
+      "redistribution": "UNVERIFIED_NO_GITHUB_UPLOAD"
+    },
+    {
+      "file": "governance_pit.parquet",
+      "sha256": "732d374b7938d3b3720c662fdd3f1987976268904574ac18328bc82133cc825e",
+      "bytes": 511173,
+      "rows": 4682,
+      "source": "FRESH_OFFICIAL_DART_AND_OWNER_AUTHORIZED_FF3",
+      "redistribution": "UNVERIFIED_NO_GITHUB_UPLOAD"
+    },
+    {
+      "file": "verified_financials.parquet",
+      "sha256": "5a426ce3e32cf2149f522fe6335b562dd2dd95b41ab1c087c018dc0fed39a912",
+      "bytes": 612143,
+      "rows": 4382,
+      "source": "FRESH_OFFICIAL_DART_AND_OWNER_AUTHORIZED_FF3",
+      "redistribution": "UNVERIFIED_NO_GITHUB_UPLOAD"
+    }
+  ],
+  "old_hash_forcing": false
+}

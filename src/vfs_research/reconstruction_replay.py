@@ -18,7 +18,7 @@ from .sorts import classify
 from .universe import eligible
 from .backtest import longest_block
 from .factors import load_factors
-from .reconstruction import g_neutral_weights, write_json
+from .reconstruction import g_neutral_weights, write_json, price_return_audit, public_audit
 from .stats import regression, performance
 
 
@@ -48,12 +48,31 @@ def holdings_gaps(panel, private):
                 _, held[strategy] = step(weights, realized)
             except ValueError:
                 broken[strategy] = True
-    detail = pd.DataFrame(events)
+    detail = pd.DataFrame(events, columns=['date','strategy','stock_code','held_weight_before_break','economic_return_repair'])
     detail.to_csv(Path(private) / 'held_missing_returns.csv', index=False)
     return detail.groupby(['date', 'strategy']).size().rename('missing_held_securities').reset_index()
 
 
-def run(workspace, ff3, output):
+def diagnose_held_gaps(workspace, ff3, output):
+    detail = pd.read_csv(workspace / 'data/private/held_missing_returns.csv', dtype={'stock_code':str}, parse_dates=['date'])
+    detail['code'] = 'A' + detail.stock_code
+    prices = price_return_audit(pd.read_parquet(ff3/'data/stock_returns.parquet'), pd.read_parquet(ff3/'data/market_data_long.parquet'))
+    detail = detail.merge(prices[['code','date','return','value','unfiltered','gt100_filtered']], on=['code','date'], how='left', indicator='source_join', validate='many_to_one')
+    detail['raw_price_missing'] = detail.value.isna()
+    detail['source_row_missing'] = detail.source_join.eq('left_only')
+    detail['gt100_filtered'] = detail.gt100_filtered.fillna(False).astype(bool)
+    detail['unclassified_missing'] = ~detail.raw_price_missing & ~detail.gt100_filtered
+    detail.to_csv(workspace/'data/private/held_gap_source_diagnosis.csv',index=False)
+    aggregate = detail.groupby(['date','strategy']).agg(missing_held_securities=('stock_code','size'), missing_weight=('held_weight_before_break','sum'), raw_price_missing=('raw_price_missing','sum'), source_row_missing=('source_row_missing','sum'), gt100_filtered=('gt100_filtered','sum'), unclassified_missing=('unclassified_missing','sum')).reset_index()
+    aggregate['economic_payoff_verification']='UNVERIFIED_ZERO_CORRECTIONS'
+    aggregate.to_csv(output/'recollected_held_gap_diagnosis.csv',index=False)
+    audit=json.loads((output/'return_audit_summary.json').read_text())
+    audit.update(held_security_attribution='COMPLETED_FOR_BOTH_RECOLLECTED_STRATEGIES', held_missing_records=len(detail), held_gt100_filtered=int(detail.gt100_filtered.sum()), held_raw_price_missing=int(detail.raw_price_missing.sum()))
+    write_json(output/'return_audit_summary.json',audit)
+    return aggregate
+
+
+def run(workspace, ff3, output, run_name='vfs-vintage-run'):
     workspace, ff3, output = Path(workspace).resolve(), Path(ff3).resolve(), Path(output).resolve()
     plan = ROOT / 'config/public_rebuild_followup_plan.yaml'
     lock = json.loads((ROOT / 'config/public_rebuild_followup_lock.json').read_text())
@@ -62,13 +81,18 @@ def run(workspace, ff3, output):
     addendum = ROOT / 'config/public_rebuild_multiplicity_addendum.yaml'
     if digest(addendum) != json.loads(addendum.with_name('public_rebuild_multiplicity_addendum_lock.json').read_text())['sha256']:
         raise ValueError('multiplicity addendum changed after lock')
-    run_root = workspace / 'vfs-vintage-run'
+    if not run_name.startswith('vfs-vintage-run') or Path(run_name).name != run_name:
+        raise ValueError('invalid isolated run name')
+    run_root = workspace / run_name
     if run_root.exists():
         raise ValueError('vintage run already exists; preserve it and choose a new version')
     run_root.mkdir(mode=0o700)
     archive = subprocess.check_output(['git', '-C', str(ROOT), 'archive', 'c8abb0fd648df9eed6b80250cd25b96ca67963b2'])
     with tarfile.open(fileobj=io.BytesIO(archive), mode='r:') as tar:
         tar.extractall(run_root, filter='data')
+    # Compatibility repair in supplementary cost audit only: the primary CSV
+    # deliberately has no SMB/HML columns after the price-backtest separation.
+    shutil.copyfile(ROOT/'src/vfs_research/bias_audit.py',run_root/'src/vfs_research/bias_audit.py')
     for name in ['ff3_factors_spec_aligned.csv', 'ff3_factors_legacy_compatible.csv']:
         shutil.copyfile(ROOT / 'legacy_governance_pilot/output' / name, workspace / 'output' / name)
     env = os.environ.copy()
@@ -92,6 +116,8 @@ def run(workspace, ff3, output):
         info.update(vintage)
         write_json(file, info)
     output.mkdir(parents=True, exist_ok=True)
+    if not (output/'return_audit_summary.json').exists():
+        public_audit(ff3,output,workspace/'audit_private')
     evidence = json.loads((run_root / 'outputs/input_snapshot.json').read_text())
     old_evidence = json.loads((ROOT / 'snapshots/public-c8abb0f/input_snapshot.json').read_text())
     monthly = pd.read_csv(run_root / 'outputs/monthly_returns.csv', parse_dates=['date'])
@@ -103,6 +129,7 @@ def run(workspace, ff3, output):
     panel = pd.read_parquet(run_root / 'data/private/pit_panel.parquet')
     gaps = holdings_gaps(panel, workspace / 'data/private')
     gaps.to_csv(output / 'recollected_held_missing_monthly.csv', index=False)
+    diagnose_held_gaps(workspace, ff3, output)
     import vfs_research.backtest as engine
     original_weights = engine.make_weights
     def neutral_weights(q, equal_weight=False):
@@ -150,6 +177,8 @@ def run(workspace, ff3, output):
                'independent_oos': 'UNVERIFIED', 'source_redistribution': 'UNVERIFIED_NO_GITHUB_UPLOAD',
                'factor_source': 'PUBLISHED_LEGACY_FACTOR_AGGREGATES_CONDITIONAL_MODEL',
                'old_per_file_raw_responses_available': False,
+               'isolated_run_name':run_name,
+               'auxiliary_audit_compatibility_fix':'cost_regression_merges_factor_columns_without_replacing_primary_rf',
                'hash_difference_interpretation': 'current_receipts_and_serialization_are_recorded_no_old_hash_is_forced'}
     write_json(output / 'raw_replay_summary.json', summary)
     return summary
@@ -160,8 +189,9 @@ def main():
     parser.add_argument('--workspace', required=True)
     parser.add_argument('--ff3-root', required=True)
     parser.add_argument('--output', required=True)
+    parser.add_argument('--run-name',default='vfs-vintage-run')
     args = parser.parse_args()
-    print(json.dumps(run(args.workspace, args.ff3_root, args.output), ensure_ascii=False))
+    print(json.dumps(run(args.workspace, args.ff3_root, args.output,args.run_name), ensure_ascii=False))
 
 
 if __name__ == '__main__':

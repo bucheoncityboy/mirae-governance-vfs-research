@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from vfs_research.reconstruction import g_neutral_weights, collect, configure_key, legacy_modules
+from vfs_research.reconstruction import g_neutral_weights, collect, configure_key, legacy_modules, price_return_audit, single_collector
 
 
 def test_g_neutral_matches_pbr_budgets_without_selecting_on_g():
@@ -46,3 +46,27 @@ def test_adapter_rejects_collection_inside_public_repository():
     from vfs_research.data_ingest import ROOT
     with pytest.raises(ValueError, match='outside both repositories'):
         legacy_modules(ROOT / 'data/private', Path('/unused-source'))
+
+
+def test_price_audit_preserves_returns_with_no_price_row():
+    # Unit-test fixture only; never used in empirical outputs.
+    dates = pd.to_datetime(['2021-01-01', '2021-02-01', '2021-03-01'])
+    source = pd.DataFrame({'code': ['A', 'A', 'B'], 'date': dates, 'return': [np.nan, np.nan, np.nan]})
+    prices = pd.DataFrame({'code': ['A', 'A'], 'date': dates[:2],
+                           'item_code': 'S410000700', 'value': [1., 3.]})
+    result = price_return_audit(source, prices)
+    assert len(result) == len(source)
+    assert result.missing_return.sum() == 3
+    assert result.gt100_filtered.sum() == 1
+    absent = result.loc[result.code.eq('B')].iloc[0]
+    assert absent.price_join == 'left_only' and absent.price_unavailable
+    assert np.isnan(absent['return'])
+
+
+def test_second_collector_cannot_spend_the_same_workspace_budget(tmp_path):
+    with single_collector(tmp_path):
+        with pytest.raises(ValueError, match='another collection process'):
+            with single_collector(tmp_path):
+                pytest.fail('concurrent collector acquired the lock')
+    with single_collector(tmp_path):
+        pass

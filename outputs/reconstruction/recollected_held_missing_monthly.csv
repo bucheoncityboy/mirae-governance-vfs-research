@@ -1,0 +1,11 @@
+date,strategy,missing_held_securities
+2022-01-01,Value,2
+2022-03-01,VFS,1
+2022-07-01,VFS,1
+2022-07-01,Value,1
+2023-07-01,VFS,2
+2023-07-01,Value,1
+2024-07-01,VFS,2
+2024-10-01,Value,1
+2025-09-01,VFS,1
+2025-09-01,Value,1

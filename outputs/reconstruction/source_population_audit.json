@@ -1,0 +1,14 @@
+{
+  "source_population": "INHERITED_FNGUIDE_PANEL_EXCHANGE_WIDE_COMPLETENESS_UNVERIFIED",
+  "source_companies": 1054,
+  "source_records": 226563,
+  "companies_with_last_month_before_study_end": 263,
+  "companies_observed_in_study_period": 861,
+  "book_equity_rows_after_study_cutoff_in_source": 11676,
+  "future_book_equity_rows_used_in_primary": 0,
+  "survivorship_status": "UNVERIFIED",
+  "delisting_payoff_verification": "UNVERIFIED",
+  "future_date_existence_is_not_evidence_of_use": true,
+  "observed_primary_max_formation_year": 2025,
+  "future_calendar_gate": "PASS_DATE_AND_FORMATION_YEAR_CUTOFF_ORIGINAL_VINTAGE_UNVERIFIED"
+}

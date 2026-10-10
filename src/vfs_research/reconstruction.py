@@ -11,6 +11,8 @@ import zipfile
 import io
 import xml.etree.ElementTree as ET
 import urllib.request
+from contextlib import contextmanager
+import fcntl
 
 import numpy as np
 import pandas as pd
@@ -103,6 +105,20 @@ def configure_key(file):
         os.environ['DART_API_KEY'] = value
 
 
+@contextmanager
+def single_collector(workspace):
+    """Prevent independent agents/processes from spending the same API budget."""
+    fd = os.open(Path(workspace) / '.collection.lock', os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
+    try:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise ValueError('another collection process owns this workspace') from None
+        yield
+    finally:
+        os.close(fd)
+
+
 def smoke(workspace, ff3, key_file=None, budget=200):
     if not 1 <= budget <= 200:
         raise ValueError('smoke budget must be between 1 and 200')
@@ -158,15 +174,62 @@ def collect(workspace, ff3, key_file=None, budget=19000, stage='50'):
     # reused by verified digest. The request budget remains independently capped.
     client = acquire.Client(Path(workspace) / 'data', budget=budget, interval=.15, opener=official_api_opener)
     acquire.Client = lambda *args, **kwargs: client
-    acquire.mapping()
-    acquire.fetch(stage)
+    with single_collector(workspace):
+        acquire.mapping()
+        acquire.fetch(stage)
     return json.loads((Path(workspace) / 'output/acquisition_status.json').read_text())
 
 
-def build(workspace, ff3):
+def build(workspace, ff3, output=None):
     _, builder = legacy_modules(workspace, ff3)
     builder.build()
+    files=[]
+    for name in ['joint_panel.parquet','governance_pit.parquet','verified_financials.parquet']:
+        path=Path(workspace)/'data/private'/name
+        files.append({'file':name,'sha256':digest(path),'bytes':path.stat().st_size,
+                      'rows':len(pd.read_parquet(path)),'source':'FRESH_OFFICIAL_DART_AND_OWNER_AUTHORIZED_FF3',
+                      'redistribution':'UNVERIFIED_NO_GITHUB_UPLOAD'})
+    write_json(Path(output or ROOT/'outputs/reconstruction')/'recollected_input_manifest.json',
+               {'scope':'CURRENT_VINTAGE_RECOLLECTED_INPUTS','files':files,'old_hash_forcing':False})
     return json.loads((Path(workspace) / 'output/pit_status.json').read_text())
+
+
+def verify_collection(workspace, output):
+    """Hash every saved response before using the freshly collected inputs."""
+    workspace, output = Path(workspace), Path(output)
+    acquired = json.loads((workspace/'output/acquisition_status.json').read_text())
+    if acquired['stage'] != 'all':
+        raise ValueError('full historical collection stage has not completed')
+    logs = pd.read_csv(workspace/'data/api_log_sanitized.csv', dtype={'status':str})
+    raw = workspace/'data/raw'
+    bad=[]; statuses={}; objects=set()
+    for file in raw.glob('*.meta.json'):
+        meta=json.loads(file.read_text()); target=raw/meta['raw_file']
+        if not target.exists() or digest(target)!=meta['source_hash']:
+            bad.append(meta['request_id'])
+        objects.add(meta['source_hash']); statuses[meta['status']]=statuses.get(meta['status'],0)+1
+    if bad:
+        raise ValueError(f'cached response digest failures: {len(bad)}')
+    filings=pd.read_parquet(workspace/'data/private/annual_filings.parquet')
+    mapping=pd.read_csv(workspace/'data/ticker_map_audit.csv')
+    audit=pd.read_csv(workspace/'data/source_audit.csv')
+    pairs=list((workspace/'data/private').glob('*.pair.json'))
+    dates=pd.to_datetime(logs.collected_at,utc=True)
+    result={'status':'CURRENT_VINTAGE_COLLECTION_COMPLETED_PARTIAL_EVIDENCE_COVERAGE',
+            'historical_filings':len(filings),
+            'mapped_source_tickers':int(mapping.loc[mapping.status.eq('UNIQUE_OFFICIAL'),'stock_code'].nunique()),
+            'source_mapping_statuses':mapping.status.value_counts().to_dict(),
+            'company_report_jobs':len(pairs), 'recorded_api_requests':len(logs),
+            'duplicate_request_ids':int(logs.request_id.duplicated().sum()),
+            'cached_request_metadata':sum(statuses.values()), 'cached_raw_body_objects':len(objects),
+            'cache_hash_failures':0, 'cached_response_statuses':statuses,
+            'source_assembly_statuses':audit.status.value_counts().to_dict(),
+            'collection_window_utc':[dates.min().isoformat(),dates.max().isoformat()],
+            'api_account_request_count':'NOT_INDEPENDENTLY_AVAILABLE',
+            'acquisition':acquired, 'prior_private_files_used':False,
+            'raw_redistribution':'UNVERIFIED_NO_GITHUB_UPLOAD'}
+    write_json(output/'collection_summary.json',result)
+    return result
 
 
 def g_neutral_weights(classified):
@@ -176,6 +239,21 @@ def g_neutral_weights(classified):
         leg = classified.loc[classified.pbr_group.eq(group)].set_index('stock_code').lag_me
         weights.append(.5 * capped_weights(leg))
     return pd.concat(weights)
+
+
+def price_return_audit(source, raw):
+    """Retain source records even when their underlying price row is absent."""
+    price = raw.loc[raw.item_code.eq('S410000700'), ['code', 'date', 'value']].sort_values(['code', 'date']).copy()
+    price['unfiltered'] = price.groupby('code').value.pct_change(fill_method=None)
+    price['previous_price'] = price.groupby('code').value.shift(1)
+    price['first_price'] = price.groupby('code').cumcount().eq(0)
+    z = source.merge(price, on=['code', 'date'], how='left', indicator='price_join', validate='one_to_one')
+    z['gt100_filtered'] = z.unfiltered.abs().gt(1) & z['return'].isna()
+    z['missing_return'] = z['return'].isna()
+    z['price_unavailable'] = z.value.isna()
+    z['first_price'] = z.first_price.fillna(False).astype(bool)
+    z['previous_price_unavailable'] = z.previous_price.isna() & ~z.first_price
+    return z
 
 
 def public_audit(ff3, output, private):
@@ -207,20 +285,18 @@ def public_audit(ff3, output, private):
                           'end': str(frame.date.max()), 'redistribution': 'UNVERIFIED_NO_NEW_UPLOAD'})
     write_json(output / 'ff3_input_inventory.json', {'files': inventory, 'source_role': 'OWNER_AUTHORIZED_LOCAL_ANALYSIS_NOT_OPEN_DATA_LICENSE'})
     raw = pd.read_parquet(ff3 / 'data/market_data_long.parquet')
-    price = raw.loc[raw.item_code.eq('S410000700'), ['code', 'date', 'value']].sort_values(['code', 'date'])
-    price['unfiltered'] = price.groupby('code').value.pct_change(fill_method=None)
-    z = pd.read_parquet(ff3 / 'data/stock_returns.parquet').merge(price, on=['code', 'date'], validate='one_to_one')
-    z['gt100_filtered'] = z.unfiltered.abs().gt(1) & z['return'].isna()
-    z['missing_return'] = z['return'].isna()
-    z['first_price'] = z.groupby('code').cumcount().eq(0)
-    z['price_unavailable'] = z.value.isna()
-    z['previous_price_unavailable'] = z.groupby('code').value.shift(1).isna() & ~z.first_price
+    z = price_return_audit(pd.read_parquet(ff3 / 'data/stock_returns.parquet'), raw)
     z.to_parquet(private / 'price_audit.parquet', index=False)
     z.groupby('date').agg(gt100_filtered=('gt100_filtered', 'sum'), missing_returns=('missing_return', 'sum'),
                          first_price=('first_price', 'sum'), price_unavailable=('price_unavailable', 'sum'),
                          previous_price_unavailable=('previous_price_unavailable', 'sum')).to_csv(output / 'price_filter_monthly.csv')
     finite = z['return'].notna() & z.unfiltered.notna()
     events = {'gt100_filtered': int(z.gt100_filtered.sum()), 'missing_returns': int(z.missing_return.sum()),
+              'audit_scope': 'ALL_STOCK_RETURN_RECORDS_LEFT_JOINED_TO_PRICES', 'stock_return_rows': len(z),
+              'missing_price_rows_preserved': int(z.price_join.eq('left_only').sum()),
+              'previous_inner_join_missing_count': int(z.loc[z.price_join.eq('both'), 'missing_return'].sum()),
+              'study_2016_01_to_2026_04_missing_returns': int(z.loc[z.date.between('2016-01-01','2026-04-01'), 'missing_return'].sum()),
+              'study_2016_01_to_2026_04_gt100_filtered': int(z.loc[z.date.between('2016-01-01','2026-04-01'), 'gt100_filtered'].sum()),
               'price_arithmetic_max_abs_error': float((z.loc[finite, 'return'] - z.loc[finite, 'unfiltered']).abs().max()),
               'economic_returns_corrected': 0, 'official_corporate_action_verification': 'UNVERIFIED',
               'original_ff3_inputs_modified': False,
@@ -234,12 +310,24 @@ def public_audit(ff3, output, private):
                             'first_month': str(group.date.min().date()), 'last_month': str(group.date.max().date()),
                             'role': 'PUBLISHED_PATH_DIAGNOSTIC_NOT_HOLDINGS_RECONSTRUCTION'})
     pd.DataFrame(reasons).to_csv(output / 'published_missing_path_reasons.csv', index=False)
+    p = pd.read_parquet(ff3/'data/panel_data.parquet')
+    u = p.groupby('code').date.agg(['min','max'])
+    b = pd.read_parquet(ff3/'data/book_equity_monthly.parquet')
+    population = {'source_population':'INHERITED_FNGUIDE_PANEL_EXCHANGE_WIDE_COMPLETENESS_UNVERIFIED',
+                  'source_companies':len(u), 'source_records':len(p),
+                  'companies_with_last_month_before_study_end':int(u['max'].lt('2026-04-01').sum()),
+                  'companies_observed_in_study_period':int(p.loc[p.date.between('2016-01-01','2026-04-01'),'code'].nunique()),
+                  'book_equity_rows_after_study_cutoff_in_source':int(b.date.gt('2026-04-01').sum()),
+                  'future_book_equity_rows_used_in_primary':'NOT_USED_BY_CUTOFF_AND_FORMATION_YEAR_RULE_VERIFY_IN_REPLAY',
+                  'survivorship_status':'UNVERIFIED', 'delisting_payoff_verification':'UNVERIFIED',
+                  'future_date_existence_is_not_evidence_of_use':True}
+    write_json(output/'source_population_audit.json', population)
     return {**events, 'published_arithmetic': 'PASS', 'paired_months': len(paired), 'own_months': len(own)}
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('command', choices=['prepare', 'public-audit', 'smoke', 'collect', 'build'])
+    parser.add_argument('command', choices=['prepare', 'public-audit', 'smoke', 'collect', 'build','verify-collection'])
     parser.add_argument('--ff3-root', required=True)
     parser.add_argument('--workspace', required=True)
     parser.add_argument('--output', default=str(ROOT / 'outputs/reconstruction'))
@@ -254,7 +342,9 @@ def main():
     elif args.command == 'collect':
         result = collect(args.workspace, args.ff3_root, args.key_file, args.budget or 19000, args.stage)
     elif args.command == 'build':
-        result = build(args.workspace, args.ff3_root)
+        result = build(args.workspace, args.ff3_root, args.output)
+    elif args.command == 'verify-collection':
+        result = verify_collection(args.workspace, args.output)
     else:
         result = prepare(args.workspace, args.ff3_root)
     print(json.dumps(result, ensure_ascii=False, allow_nan=False))

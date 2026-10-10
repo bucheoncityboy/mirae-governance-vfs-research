@@ -1,0 +1,9 @@
+{
+  "status": "PASS_PARTIAL_COVERAGE",
+  "role": "RAW_RECOLLECTION_SMOKE_NOT_PORTFOLIO_BACKTEST",
+  "request_budget": 200,
+  "new_requests": 89,
+  "verified_governance_rows": 18,
+  "verified_financial_rows": 14,
+  "retrieved_vintage": "CURRENT_RESPONSE_ORIGINAL_BEFORE_CORRECTION_UNVERIFIED"
+}

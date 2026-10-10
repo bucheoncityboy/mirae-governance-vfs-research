@@ -1,0 +1,42 @@
+{
+  "status": "RAW_SOURCE_VFS_REPLAY_COMPLETED",
+  "baseline_commit": "c8abb0fd648df9eed6b80250cd25b96ca67963b2",
+  "old_private_files_used": false,
+  "current_evidence": {
+    "governance_verified": 4540,
+    "financial_verified": 4382,
+    "raw_objects_rehashed": 9186,
+    "joint_observations": 38742,
+    "joint_companies": 782,
+    "source_panel_sha256": "7514bb99c521b8178a04cdaab7864da4645bc2afcceed0cd9ea47ec1e397d8db",
+    "market_panel_sha256": "7b7535158649ac6c304a68aedc71a6a301107d75541811aafcdea9380382f584",
+    "live_DART_refresh": "AUTHENTICATED_RECOLLECTION_THEN_OFFLINE_BACKTEST",
+    "current_snapshot_revisions": "current_official_retrieval_original_before_correction_unverified",
+    "collection_window_utc": [
+      "2026-10-10T18:48:26.501684+00:00",
+      "2026-10-10T19:41:37.870774+00:00"
+    ],
+    "baseline_fixed_provenance_label_corrected_in_separate_run": true
+  },
+  "old_joint_panel_sha256": "c32cac10522ba3971dbda01cb79b68e30ccaa104ab85d08241961d5bbff13d54",
+  "joint_panel_hash_equal": false,
+  "changed_monthly_returns_above_1e_12": {
+    "VFS": 0,
+    "Value": 0,
+    "Market": 0
+  },
+  "economic_returns_repaired": 0,
+  "held_missing_records": 13,
+  "g_neutral_common_contiguous_months": 2,
+  "independent_oos": "UNVERIFIED",
+  "source_redistribution": "UNVERIFIED_NO_GITHUB_UPLOAD",
+  "factor_source": "PUBLISHED_LEGACY_FACTOR_AGGREGATES_CONDITIONAL_MODEL",
+  "old_per_file_raw_responses_available": false,
+  "isolated_run_name": "vfs-vintage-run-v2",
+  "auxiliary_audit_compatibility_fix": "cost_regression_merges_factor_columns_without_replacing_primary_rf",
+  "hash_difference_interpretation": "current_receipts_and_serialization_are_recorded_no_old_hash_is_forced",
+  "first_failed_audit_attempt_preserved": true,
+  "pre_post_audit_fix_monthly_csv_sha256_equal": true,
+  "monthly_csv_sha256": "a5c9fd658289338266f1335c11357548b259c45fa90d871eff4ca81a86a75d3d",
+  "auxiliary_audit_file_sha256": "49ee6a3270a486a33f5689a1f6cc14f3a23708bb90b256b5bf7899cb3b7f5444"
+}

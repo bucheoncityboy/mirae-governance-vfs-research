@@ -1,0 +1,16 @@
+{
+  "governance_verified": 4540,
+  "financial_verified": 4382,
+  "raw_objects_rehashed": 9186,
+  "joint_observations": 38742,
+  "joint_companies": 782,
+  "source_panel_sha256": "7514bb99c521b8178a04cdaab7864da4645bc2afcceed0cd9ea47ec1e397d8db",
+  "market_panel_sha256": "7b7535158649ac6c304a68aedc71a6a301107d75541811aafcdea9380382f584",
+  "live_DART_refresh": "AUTHENTICATED_RECOLLECTION_THEN_OFFLINE_BACKTEST",
+  "current_snapshot_revisions": "current_official_retrieval_original_before_correction_unverified",
+  "collection_window_utc": [
+    "2026-10-10T18:48:26.501684+00:00",
+    "2026-10-10T19:41:37.870774+00:00"
+  ],
+  "baseline_fixed_provenance_label_corrected_in_separate_run": true
+}

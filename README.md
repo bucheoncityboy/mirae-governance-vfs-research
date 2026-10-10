@@ -4,6 +4,8 @@
 
 **VFS 백테스트 상태: 부분 관측 / EMPIRICAL_LIMITED.** VFS 자체의 최장 연속 관측은 2021-07~2022-02(8개월)이며, 누적 가격수익률은 VFS -17.30%, 같은 기간 KOSPI -18.96%입니다. Value와 동일 조건으로 비교하는 공통 연속 기간은 2021-07~2021-12(6개월)입니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며, VFS−Value 월평균 차이는 +0.43%p입니다. 원천 PIT 결합 표본은 782기업·38,742 주식-월입니다. MSCI G 대신 사외이사 비율을 썼으며 **PRICE_RETURN_ONLY**, gross 0bp, 배당·상폐·독립 OOS 미검증입니다. FF3는 성과 해석을 위한 보조 검정으로 하단에 구분했습니다.
 
+**2026-10-11 원천 재현 검증:** 이전 비공개 파일 없이 공식 OpenDART를 재수집해 아래 8개월·6개월 성과를 다시 실행했습니다. VFS·Value·시장 월수익률의 차이는 허용오차 1e-12 이내에서 0건입니다. 원천 SHA의 차이, 결측 감사 보완과 G-neutral 2개월 제약은 [재구축 검증](docs/PUBLIC_SOURCE_REBUILD.md)과 [PDF 검증 부록](reports/PUBLIC_SOURCE_REBUILD_APPENDIX.pdf)에 구분했습니다. 기존 원문 대응 본문과 성과 스냅샷을 보존했습니다.
+
 [공식 원문 PDF](https://securities.miraeasset.com/bbs/maildownload/20260527170512707_154) · [독립 연구보고서](reports/RESEARCH_REPORT.pdf) · [Executive Brief](reports/EXECUTIVE_BRIEF.md) · [VFS 보유경로](outputs/figures/vfs_observed.png) · [배포 대시보드](https://bucheoncityboy.github.io/mirae-governance-vfs-research/) · [재현 방법](docs/REPRODUCIBILITY.md)
 
 읽는 순서: 원문 배경 p5 → 가치평가 가설 p10 → 스타일 비교 p17 → **[VFS 규칙 p20](#04-rebuilding-the-vfs-strategy)** → **[원문과 실증 p21-23](#05-original-results-vs-our-backtest)** → **[다기간 검증 p28](#06-alpha-regimes--robustness)** → 결론 p25. [전체 목차·근거 매핑](docs/REPORT_TO_IMPLEMENTATION_MAP.md)은 p2의 모든 항목과 본문 표·그림을 연결합니다.
@@ -143,3 +145,19 @@ p26 자기자본비용 추정과 p27 MSCI 다차원 점수·요인 계산(그림
 ## Methods / Reproducibility / Data Dictionary / Limitations
 
 [방법과 가정](docs/ASSUMPTIONS.md) · [실행·공개 숫자 재계산](docs/REPRODUCIBILITY.md) · [데이터 사전](docs/DATA_DICTIONARY.md) · [게이트 A](docs/GATE_A.md) · [편향 감사](outputs/bias_audit.csv) · [이관 상태](MIGRATION_STATUS.md).
+
+## Appendix B. Public-source Reconstruction / 2026-10-11
+
+**원문 주장과 대응 (p20-23, p28)** — 투자규칙을 과거 시점 자료로 구성하고 여러 기간에서 성과를 검증해야 합니다.
+
+**실제 구현** — GitHub 기준 코드를 새 환경에 복원해 공식 공시 45,570건과 고유 법인 매핑 877종목을 확인했습니다. G 4,540건·재무 4,382건과 원응답 객체 9,186개를 재검증한 뒤 기존 엔진을 별도 폴더에서 실행했습니다. 기존 주 분석 잠금과 11개 강건성 사양을 유지했습니다.
+
+**실증 결과** — 기존 8개월·6개월의 성과와 월별 수익률은 일치했습니다. 전체 원수익률 결측은 2,068건으로, 가격 행과 매칭된 1,716건 외에 기존 내부 조인이 제외한 352건을 새 감사에서 보존했습니다. 전체 가격 필터는 659건이며 목표 기간에는 213건입니다. 보유 경로의 첫 중단 기록은 VFS 7건·Value 6건입니다. PBR 구간 예산을 맞춘 탐색 G-neutral 비교는 공통 연속 2개월이라 FF3/HAC/CI를 추정하지 않았습니다.
+
+![새 원천에서 재현한 VFS와 기존 공개 스냅샷: 동일 8개월, PRICE_RETURN_ONLY](outputs/reconstruction/figures/replay_comparison.svg)
+
+![전체 원패널과 연구기간을 구분한 결측 감사: 중복되는 범위이므로 막대를 더하지 않음](outputs/reconstruction/figures/return_audit.svg)
+
+**원문과 비교·한계** — 원천부터 재실행한 사실은 확인했지만 MSCI G, 배당 포함 수익률, 원문 전체 기간을 맞추지는 못했습니다. 공식 공시 제목에서 기업행동 후보 58개를 찾았어도 지급 대가·조정 조건은 미검증이므로 수익률 수정은 0건입니다. SHA 차이는 이전 원파일 부재로 필드별 원인을 확정할 수 없습니다. 생존·상폐·정정 이전 값·독립 OOS·장기 알파는 여전히 미완료입니다.
+
+[원천 입력 해시](outputs/reconstruction/recollected_input_manifest.json) · [재실행 요약](outputs/reconstruction/raw_replay_summary.json) · [보유 결측 진단](outputs/reconstruction/recollected_held_gap_diagnosis.csv) · [공식 공시 후보 감사](outputs/reconstruction/official_event_audit.json) · [검증 부록 PDF](reports/PUBLIC_SOURCE_REBUILD_APPENDIX.pdf). PR의 문서·대시보드 변경은 승인 후 병합·배포해야 합니다.

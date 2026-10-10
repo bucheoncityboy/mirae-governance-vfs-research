@@ -1,0 +1,40 @@
+{
+  "status": "CURRENT_VINTAGE_COLLECTION_COMPLETED_PARTIAL_EVIDENCE_COVERAGE",
+  "historical_filings": 45570,
+  "mapped_source_tickers": 877,
+  "source_mapping_statuses": {
+    "UNIQUE_OFFICIAL": 877,
+    "NO_OFFICIAL_MAPPING": 177
+  },
+  "company_report_jobs": 8544,
+  "recorded_api_requests": 17852,
+  "duplicate_request_ids": 281,
+  "cached_request_metadata": 17571,
+  "cached_raw_body_objects": 13409,
+  "cache_hash_failures": 0,
+  "cached_response_statuses": {
+    "000": 13407,
+    "013": 4163,
+    "NON_JSON": 1
+  },
+  "source_assembly_statuses": {
+    "PASS": 4543,
+    "G_EXCLUDED": 3859,
+    "PIT_UNVERIFIED": 142
+  },
+  "collection_window_utc": [
+    "2026-10-10T18:48:26.501684+00:00",
+    "2026-10-10T19:41:37.870774+00:00"
+  ],
+  "api_account_request_count": "NOT_INDEPENDENTLY_AVAILABLE",
+  "acquisition": {
+    "stage": "all",
+    "G_rows": 4685,
+    "G_PIT_pass": 4543,
+    "verified_financial_rows": 4382,
+    "companies": 820,
+    "new_requests": 15816
+  },
+  "prior_private_files_used": false,
+  "raw_redistribution": "UNVERIFIED_NO_GITHUB_UPLOAD"
+}

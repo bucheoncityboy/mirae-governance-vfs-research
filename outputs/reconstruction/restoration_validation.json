@@ -1,0 +1,23 @@
+{
+  "status": "PASS_OWNER_LOCAL_BACKUP_OFFLINE_RAW_REPLAY",
+  "backup_files_sha256_reverified": 39552,
+  "backup_bytes": 301339448,
+  "backup_hash_failures_after_restore": 0,
+  "credentials_backed_up": false,
+  "credentials_required_for_replay": false,
+  "github_raw_data_upload": false,
+  "api_requests_during_offline_replay": 0,
+  "aggregate_csv_bytes_identical": {
+    "recollected_monthly_returns.csv": "a5c9fd658289338266f1335c11357548b259c45fa90d871eff4ca81a86a75d3d",
+    "recollected_performance_summary.csv": "5daece7e0fb2c127251f3c4979fab120ae138efe012720ef785bf886be2cfe4e",
+    "recollected_vfs_strategy_summary.csv": "761395b5db3b618a8ae4c844115078e4247563ea70253a4f701065fffdd38714",
+    "recollected_ff3_alphas.csv": "9813c414e6a224717f80fdb05d1c3143db6ee77332fe1c3119e7d6ad538dcbd5",
+    "recollected_robustness.csv": "5d0723ac52376b53d9102d3ebb92d2961a47ee53a7fe37349ca0d14aab0ec9f6",
+    "recollected_held_gap_diagnosis.csv": "e42c28917c30d1ef51a6082d29a0eabfb598aaa1e0b27872591afd74b5447718",
+    "exploratory_g_neutral_monthly.csv": "feba3595b7b5ea6c60f012e40da1a68406535623448f28d8f0a54cf1f9f54b87",
+    "exploratory_g_neutral_alpha.csv": "2b4d6decb8819f1f5917bae0c3499446ff0175cad7d1eefd4e11beee823ec040"
+  },
+  "current_primary_engine_and_cost_audit_used": true,
+  "sensitive_local_location_disclosed_publicly": false,
+  "constraints": "OWNER_LOCAL_ANALYSIS_COPY_REDISCLOSURE_RIGHTS_UNVERIFIED"
+}

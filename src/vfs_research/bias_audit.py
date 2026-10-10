@@ -8,6 +8,12 @@ from .factors import load_factors
 from .stats import regression,performance
 
 
+def cost_regression_inputs(primary,factors,bps):
+    q=primary.merge(factors.drop(columns='rf'),on='date',validate='one_to_one')
+    q['VFS']=q[f'VFS_net_{bps}bp'];q['Value']=q[f'Value_net_{bps}bp'];q['spread']=q.VFS-q.Value
+    return q
+
+
 def audit_all():
     legacy,_=paths();p=pd.read_parquet(ROOT/'data/private/pit_panel.parquet');f=load_factors(legacy)
     d=pd.read_csv(ROOT/'outputs/monthly_returns.csv',parse_dates=['date']);primary=d.loc[d.primary_window]
@@ -22,7 +28,7 @@ def audit_all():
         comparable=len(same)>0 and same.common_valid.all()
         rows.append({'spec_id':name,'role':'EXPLORATORY_SENSITIVITY_NOT_NEW_PRIMARY','valid_common_months':int(z.common_valid.sum()),'longest_months':len(window),'window_start':str(window[0].date()) if window else '', 'window_end':str(window[-1].date()) if window else '', 'same_primary_months_valid':bool(comparable),'primary_window_mean_spread':float(same.spread.mean()) if comparable else np.nan,'alpha':alpha['alpha'],'p_hac':alpha['p_hac'],'alpha_status':alpha['status']})
     for bps in [10,30]:
-        q=primary.copy();q['VFS']=q[f'VFS_net_{bps}bp'];q['Value']=q[f'Value_net_{bps}bp'];q['spread']=q.VFS-q.Value
+        q=cost_regression_inputs(primary,f,bps)
         a=regression(q,'spread');ok=q[['VFS','Value']].notna().all().all()
         rows.append({'spec_id':f'cost_{bps}bp','role':'EXPLORATORY_COST_ASSUMPTION','valid_common_months':int(q[['VFS','Value']].notna().all(axis=1).sum()),'longest_months':len(q) if ok else 0,'window_start':str(q.date.min().date()),'window_end':str(q.date.max().date()),'same_primary_months_valid':bool(ok),'primary_window_mean_spread':float(q.spread.mean()) if ok else np.nan,'alpha':a['alpha'],'p_hac':a['p_hac'],'alpha_status':a['status']})
     rob=pd.DataFrame(rows);rob['p_holm']=np.nan

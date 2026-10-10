@@ -1,0 +1,54 @@
+{
+  "as_of_kst": "2026-10-11",
+  "credential_value_published": false,
+  "credential_validity": "VALIDATED_AUTHENTICATED_JSON",
+  "attempts": 3,
+  "results": [
+    {
+      "endpoint": "list.json",
+      "status": "VALIDATED_JSON",
+      "api_status": "000",
+      "rows": 1
+    },
+    {
+      "endpoint": "outcmpnyDrctrNdChangeSttus.json",
+      "status": "VALIDATED_JSON",
+      "api_status": "000",
+      "rows": 1
+    },
+    {
+      "endpoint": "fnlttSinglAcnt.json",
+      "status": "VALIDATED_JSON",
+      "api_status": "000",
+      "rows": 30
+    },
+    {
+      "endpoint": "fnlttSinglAcnt.json",
+      "http_status": 200,
+      "content_type": "application/json;charset=UTF-8",
+      "bytes": 16643,
+      "source_hash": "1fc014fa992916fd9496b56f8b4d278470f11e75b938c02f2199ea9c21aeec58",
+      "response_title": "",
+      "api_status": "000"
+    },
+    {
+      "endpoint": "list.json",
+      "http_status": 200,
+      "content_type": "application/json;charset=UTF-8",
+      "bytes": 318,
+      "source_hash": "ae0de3e1ec68c5ce4e14e2699acdfd6d606367f837d9238c1ca050e7bf82f1d3",
+      "response_title": "",
+      "api_status": "000"
+    },
+    {
+      "endpoint": "outcmpnyDrctrNdChangeSttus.json",
+      "http_status": 200,
+      "content_type": "application/json;charset=UTF-8",
+      "bytes": 241,
+      "source_hash": "0631597fe95b9f6909afed7149c3d0460e2398347d94932c07d37cb41f9a643c",
+      "response_title": "",
+      "api_status": "000"
+    }
+  ],
+  "scope": "ACCESS_PROBE_NOT_SOURCE_PANEL_REBUILD"
+}

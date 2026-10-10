@@ -1,0 +1,106 @@
+{
+  "files": [
+    {
+      "file": "book_equity_monthly.parquet",
+      "sha256": "a5123e505d439306af1eb8b8d118236ae7f12424fe07134a35343e568c6d5474",
+      "bytes": 296175,
+      "rows": 275556,
+      "columns": [
+        "code",
+        "date",
+        "be",
+        "be_year",
+        "be_positive_flag"
+      ],
+      "start": "2000-07-01 00:00:00",
+      "end": "2027-06-01 00:00:00",
+      "redistribution": "UNVERIFIED_NO_NEW_UPLOAD"
+    },
+    {
+      "file": "financial_data_long.parquet",
+      "sha256": "173ee2ec2ccfe1a5a3bfa5030dc61945e6519b9758239ad18e6449ea623bee56",
+      "bytes": 1550045,
+      "rows": 1459200,
+      "columns": [
+        "code",
+        "name",
+        "item_code",
+        "date",
+        "value"
+      ],
+      "start": "1999-12-01 00:00:00",
+      "end": "2026-03-01 00:00:00",
+      "redistribution": "UNVERIFIED_NO_NEW_UPLOAD"
+    },
+    {
+      "file": "market_data_long.parquet",
+      "sha256": "5f84d807d8aee8cb1c566ec87a94bae6734404b6b32298dfc84cd5a1e3b89606",
+      "bytes": 2823954,
+      "rows": 722729,
+      "columns": [
+        "code",
+        "name",
+        "item_code",
+        "date",
+        "value"
+      ],
+      "start": "1999-12-01 00:00:00",
+      "end": "2026-05-01 00:00:00",
+      "redistribution": "UNVERIFIED_NO_NEW_UPLOAD"
+    },
+    {
+      "file": "market_excess_return.parquet",
+      "sha256": "43c571529783259c5859a6cef3381ac01ba2de69cbd169f68d4e6fbac5e6cb4c",
+      "bytes": 11755,
+      "rows": 316,
+      "columns": [
+        "date",
+        "mkt_return",
+        "rf",
+        "mkt_rf"
+      ],
+      "start": "2000-02-01 00:00:00",
+      "end": "2026-05-01 00:00:00",
+      "redistribution": "UNVERIFIED_NO_NEW_UPLOAD"
+    },
+    {
+      "file": "panel_data.parquet",
+      "sha256": "7b7535158649ac6c304a68aedc71a6a301107d75541811aafcdea9380382f584",
+      "bytes": 3889235,
+      "rows": 226563,
+      "columns": [
+        "code",
+        "name",
+        "date",
+        "return",
+        "me",
+        "me_june",
+        "be",
+        "bm",
+        "port_year",
+        "is_kosdaq"
+      ],
+      "start": "1999-12-01 00:00:00",
+      "end": "2026-05-01 00:00:00",
+      "redistribution": "UNVERIFIED_NO_NEW_UPLOAD"
+    },
+    {
+      "file": "stock_returns.parquet",
+      "sha256": "df05bb5c91d00699ee4b1dec0313da7edd0487e5f6fd01bc1ae3d2290ef27d75",
+      "bytes": 3452310,
+      "rows": 226563,
+      "columns": [
+        "code",
+        "name",
+        "date",
+        "return",
+        "me",
+        "shrout"
+      ],
+      "start": "1999-12-01 00:00:00",
+      "end": "2026-05-01 00:00:00",
+      "redistribution": "UNVERIFIED_NO_NEW_UPLOAD"
+    }
+  ],
+  "source_role": "OWNER_AUTHORIZED_LOCAL_ANALYSIS_NOT_OPEN_DATA_LICENSE"
+}

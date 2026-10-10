@@ -1,0 +1,11 @@
+{
+  "governance_verified": 4540,
+  "financial_verified": 4382,
+  "raw_objects_rehashed": 9186,
+  "joint_observations": 38742,
+  "joint_companies": 782,
+  "source_panel_sha256": "c32cac10522ba3971dbda01cb79b68e30ccaa104ab85d08241961d5bbff13d54",
+  "market_panel_sha256": "7b7535158649ac6c304a68aedc71a6a301107d75541811aafcdea9380382f584",
+  "live_DART_refresh": "NOT_PERFORMED_NO_API_KEY",
+  "current_snapshot_revisions": "as_retrieved_2026-10-09_original_before_correction_unverified"
+}

@@ -1,0 +1,12 @@
+{
+  "status": "LOCAL_BASELINE_PREPARED",
+  "source_companies": 1054,
+  "source_stock_months": 226563,
+  "planned_annual_company_year_jobs": 8617,
+  "minimum_pair_requests_before_mapping_or_retries": 17234,
+  "per_run_budget": 19000,
+  "full_collection_gate": "AUTHENTICATED_SMOKE_REQUIRED",
+  "historical_mapping": "GLOBAL_ANNUAL_FILINGS_REQUIRED_CURRENT_CORPCODE_ALONE_INSUFFICIENT",
+  "market_classification": "DO_NOT_USE_TICKER_DIGITS",
+  "raw_redistribution": "UNVERIFIED_DO_NOT_UPLOAD"
+}

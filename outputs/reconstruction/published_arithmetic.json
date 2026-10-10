@@ -1,0 +1,88 @@
+{
+  "status": "PASS",
+  "scope": "PUBLISHED_AGGREGATE_ARITHMETIC_ONLY",
+  "raw_vfs_rebuilt": false,
+  "paired_months": 6,
+  "vfs_own_months": 8,
+  "paired": [
+    {
+      "strategy": "VFS",
+      "start": "2021-07-01",
+      "end": "2021-12-01",
+      "n_months": 6,
+      "total_return": -0.11141154572392231,
+      "cagr": -0.21041055892725102,
+      "volatility": 0.14952053139851462,
+      "sharpe": -1.5364324200558304,
+      "sortino": -1.8733636399587958,
+      "mdd": -0.16456483063002314,
+      "role": "SHORT_WINDOW_DIAGNOSTIC",
+      "return_basis": "PRICE_RETURN_ONLY",
+      "cost_bps": 0
+    },
+    {
+      "strategy": "Value",
+      "start": "2021-07-01",
+      "end": "2021-12-01",
+      "n_months": 6,
+      "total_return": -0.13724336383600233,
+      "cagr": -0.2556509867549833,
+      "volatility": 0.18938358495498342,
+      "sharpe": -1.4870866384951595,
+      "sortino": -1.7440250581869612,
+      "mdd": -0.19564061711382308,
+      "role": "SHORT_WINDOW_DIAGNOSTIC",
+      "return_basis": "PRICE_RETURN_ONLY",
+      "cost_bps": 0
+    },
+    {
+      "strategy": "Market",
+      "start": "2021-07-01",
+      "end": "2021-12-01",
+      "n_months": 6,
+      "total_return": -0.10495307115025132,
+      "cagr": -0.1988909951566329,
+      "volatility": 0.12351539173341505,
+      "sharpe": -1.768309335151861,
+      "sortino": -2.0045713432025223,
+      "mdd": -0.1471617756652298,
+      "role": "SHORT_WINDOW_DIAGNOSTIC",
+      "return_basis": "PRICE_RETURN_ONLY",
+      "cost_bps": 0
+    }
+  ],
+  "vfs_own": [
+    {
+      "strategy": "VFS",
+      "start": "2021-07-01",
+      "end": "2022-02-01",
+      "n_months": 8,
+      "total_return": -0.17296637955336547,
+      "cagr": -0.24788413937762444,
+      "volatility": 0.16540645467830922,
+      "sharpe": -1.6702757922402087,
+      "sortino": -1.7962965298513172,
+      "mdd": -0.19120702170876847,
+      "role": "SHORT_WINDOW_DIAGNOSTIC",
+      "return_basis": "PRICE_RETURN_ONLY",
+      "cost_bps": 0
+    },
+    {
+      "strategy": "Market",
+      "start": "2021-07-01",
+      "end": "2022-02-01",
+      "n_months": 8,
+      "total_return": -0.18959201558579064,
+      "cagr": -0.2704491516919375,
+      "volatility": 0.1590253240728837,
+      "sharpe": -1.928330938001268,
+      "sortino": -1.8941467370285348,
+      "mdd": -0.20016550789929144,
+      "role": "SHORT_WINDOW_DIAGNOSTIC",
+      "return_basis": "PRICE_RETURN_ONLY",
+      "cost_bps": 0
+    }
+  ],
+  "mean_monthly_spread_percentage_points": 0.4325133902684567,
+  "alpha_status": "NOT_ESTIMATED"
+}

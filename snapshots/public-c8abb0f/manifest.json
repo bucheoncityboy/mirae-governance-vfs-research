@@ -1,0 +1,51 @@
+{
+  "source_commit": "c8abb0fd648df9eed6b80250cd25b96ca67963b2",
+  "label": "PUBLISHED_BASELINE_NOT_RAW_REBUILD",
+  "files": [
+    {
+      "source": "outputs/monthly_returns.csv",
+      "snapshot": "snapshots/public-c8abb0f/monthly_returns.csv",
+      "sha256": "a5c9fd658289338266f1335c11357548b259c45fa90d871eff4ca81a86a75d3d"
+    },
+    {
+      "source": "outputs/performance_summary.csv",
+      "snapshot": "snapshots/public-c8abb0f/performance_summary.csv",
+      "sha256": "5daece7e0fb2c127251f3c4979fab120ae138efe012720ef785bf886be2cfe4e"
+    },
+    {
+      "source": "outputs/vfs_strategy_summary.csv",
+      "snapshot": "snapshots/public-c8abb0f/vfs_strategy_summary.csv",
+      "sha256": "761395b5db3b618a8ae4c844115078e4247563ea70253a4f701065fffdd38714"
+    },
+    {
+      "source": "outputs/ff3_alphas.csv",
+      "snapshot": "snapshots/public-c8abb0f/ff3_alphas.csv",
+      "sha256": "9813c414e6a224717f80fdb05d1c3143db6ee77332fe1c3119e7d6ad538dcbd5"
+    },
+    {
+      "source": "outputs/public_result_summary.json",
+      "snapshot": "snapshots/public-c8abb0f/public_result_summary.json",
+      "sha256": "aaa693798df19cce0d1cd7d36c236c530719b15e72286af6f07b06150b06cace"
+    },
+    {
+      "source": "outputs/results_status.json",
+      "snapshot": "snapshots/public-c8abb0f/results_status.json",
+      "sha256": "428ae9319cfb94aad10ecfc75589164746fb41805961ee132d42716ebe5a2019"
+    },
+    {
+      "source": "outputs/input_snapshot.json",
+      "snapshot": "snapshots/public-c8abb0f/input_snapshot.json",
+      "sha256": "00599723bd367bf5559d45babc5b85743df840aec52f5d7f0d333b9ad5d173e2"
+    }
+  ],
+  "protected_artifact_hashes": {
+    "README.md": "58de279fa7388ac992ee21c7593534ed70129fcdfeed0415d4c64c61544b0ac1",
+    "reports/RESEARCH_REPORT.pdf": "eec8639e61c7a9a866374a005d19b946e602603268ad2c8d42b0aa6d9a8325fd",
+    "reports/RESEARCH_REPORT.md": "dcdd5e1ec52a807a8d6afe9e41b790e327c0776506857bc3f1f71d2ec3d00b44",
+    "dashboard/index.html": "54594124927ccf68ff45c3adb0b63c407671bc4fcaf18cf8cfb82a44fd45d812",
+    "config/vfs_pre_analysis_plan.yaml": "7031ec9953b685caadcbd8a23fff160fae89d1dc5fee215308394fa861926741",
+    "config/design_lock.json": "6fc3301872085d1559fb959f664d22c1c64931039eafc962de686c0a384504be",
+    "src/vfs_research/backtest.py": "c993518fba0f058adb0c95c382b59ec1beee7b27f621783cf55fe46953d81076",
+    "src/vfs_research/portfolio.py": "ca08bc60c959fa775817d145ad7685ba172cb13d56f4b0482aeeae24cddcded8"
+  }
+}

@@ -1,0 +1,10 @@
+registered_on_kst: 2026-10-11
+parent_followup_sha256: fc59e762c55e1d819795fa6fba4ac3abed55138d1d4e770564928c068a465f59
+role: EXPLORATORY_PRE_NEW_PORTFOLIO_OUTCOMES_ADDENDUM
+family: [VFS, Value, VFS_minus_Value, VFS_minus_PBR_budget_matched_G_neutral]
+hac_lags: [3, 6]
+minimum_contiguous_months: 24
+p_adjustment: Holm_across_all_estimable_members_of_this_eight_test_family
+confidence_intervals: individual_95pct_HAC_not_simultaneous_family_intervals
+prior_results_known: true
+independent_oos: UNVERIFIED

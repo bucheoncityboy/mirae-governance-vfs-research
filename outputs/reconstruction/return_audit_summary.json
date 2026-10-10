@@ -1,0 +1,10 @@
+{
+  "gt100_filtered": 659,
+  "missing_returns": 1716,
+  "price_arithmetic_max_abs_error": 0.0,
+  "economic_returns_corrected": 0,
+  "official_corporate_action_verification": "UNVERIFIED",
+  "original_ff3_inputs_modified": false,
+  "held_security_attribution": "BLOCKED_MISSING_JOINT_G_PIT_PANEL",
+  "missingness_categories_overlap": true
+}

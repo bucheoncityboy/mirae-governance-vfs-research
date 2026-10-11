@@ -46,7 +46,20 @@ const parts: [string, string][] = [
   ['자료 및 재현', appendix]
 ];
 const readme = '# ' + title + '\n\n미래에셋 VFS에서 출발한 공개 거버넌스 대리지표 실증 · 2026-10-12\n\n' + parts.map(([h, b]) => '## ' + h + '\n\n' + b).join('\n\n') + '\n';
-writeFileSync(resolve(root, 'README.md'), readme);
+// Visual evidence belongs to the submission README only; keep Pages and
+// the archival research report unchanged.
+const readmeVisuals: [string, string][] = [
+  ['**분석 범위:**', '![PBR과 사외이사 비율로 나눈 네 집단 및 VFS 구성](outputs/supplement/figures/structure.svg)'],
+  ['**주의:** 두 결과', '![저PBR과 고PBR의 월평균 Good−Bad 수익률 차이 — 비교기간이 서로 다름](outputs/supplement/figures/pbr_spread.svg)'],
+  ['같은 형성연도·PBR 집단에서 시가총액', '![규모·ROE·PBR 매칭 전후 Good−Bad 상대성과](outputs/supplement/figures/matching.svg)'],
+  ['## Ⅲ. 결론 — 투자적 시사점', '![시총가중·동일가중에서 VFS−Value 성과 차이가 달라지는 모습](outputs/supplement/figures/implementation.svg)']
+];
+let illustratedReadme = readme;
+for (const [anchor, visual] of readmeVisuals) {
+  if (!illustratedReadme.includes(anchor)) throw new Error('README chart anchor missing: ' + anchor);
+  illustratedReadme = illustratedReadme.replace(anchor, visual + '\n\n' + anchor);
+}
+writeFileSync(resolve(root, 'README.md'), illustratedReadme);
 const relative = (text: string): string => text.replace(/\]\(([^)]+)\)/g, (_, link: string) => '](' + (link.startsWith('http') || link.startsWith('#') ? link : '../' + link) + ')');
 writeFileSync(resolve(root, 'reports/RESEARCH_REPORT.md'), relative(readme));
 writeFileSync(resolve(root, 'reports/EXECUTIVE_BRIEF.md'), relative('# ' + title + '\n\n' + headline + '\n\n' + executive + '\n\n' + conclusion + '\n\n' + legacy + '\n'));

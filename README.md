@@ -2,7 +2,7 @@
 
 **미래에셋의 VFS 투자규칙을 실제 공시 시점에 맞춰 구성하면 어떤 수익률·위험·보유경로가 나타나는가?** 유건호 연구원의 「멀티플 탈출」(2026-05-28)을 따라 VFS 자체의 백테스트와 Value·시장 비교를 수행하는 독립 개인 연구입니다.
 
-**VFS 백테스트 상태: 부분 관측 / EMPIRICAL_LIMITED.**
+**한정 연구 완료: COMPLETE_LIMITED_EVIDENCE · VFS 실증 범위: EMPIRICAL_LIMITED.**
 
 VFS 자체의 최장 연속 관측은 2021-07~2022-02(8개월)이며 누적 가격수익률은 VFS -17.30%, 같은 기간 KOSPI -18.96%입니다. Value와 동일 조건으로 비교하는 공통 연속 기간은 2021-07~2021-12(6개월)입니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며, VFS−Value 월평균 차이는 +0.43%p입니다.
 
@@ -11,6 +11,8 @@ VFS 자체의 최장 연속 관측은 2021-07~2022-02(8개월)이며 누적 가�
 **2026-10-11 원천 재현 검증:** 이전 비공개 파일 없이 공식 OpenDART를 재수집해 아래 8개월·6개월 성과를 다시 실행했습니다. VFS·Value·시장의 월수익률을 대조한 결과 허용오차 1e-12를 넘는 차이는 0건입니다. 원천 SHA의 차이, 결측 감사 보완과 G-neutral 2개월 제약은 [재구축 검증](docs/PUBLIC_SOURCE_REBUILD.md)과 [PDF 검증 부록](reports/PUBLIC_SOURCE_REBUILD_APPENDIX.pdf)에서 각각 설명했습니다. 기존 원문 대응 본문과 성과 스냅샷을 보존했습니다.
 
 [공식 원문 PDF](https://securities.miraeasset.com/bbs/maildownload/20260527170512707_154) · [독립 연구보고서](reports/RESEARCH_REPORT.pdf) · [Executive Brief](reports/EXECUTIVE_BRIEF.md) · [VFS 보유경로](outputs/figures/vfs_observed.png) · [배포 대시보드](https://bucheoncityboy.github.io/mirae-governance-vfs-research/) · [재현 방법](docs/REPRODUCIBILITY.md)
+
+![VFS 자체의 실제 연속 보유경로: 2021-07~2022-02 N=8 PRICE_RETURN_ONLY gross 0bp; Value 비교는 별도 공통 6개월](outputs/figures/vfs_observed.png)
 
 읽는 순서: 원문 배경 p5 → 가치평가 가설 p10 → 스타일 비교 p17 → **[VFS 규칙 p20](#04-rebuilding-the-vfs-strategy)** → **[원문과 실증 p21-23](#05-original-results-vs-our-backtest)** → **[다기간 검증 p28](#06-alpha-regimes--robustness)** → 결론 p25. [전체 목차·근거 매핑](docs/REPORT_TO_IMPLEMENTATION_MAP.md)은 p2의 모든 항목과 본문 표·그림을 연결합니다.
 
@@ -21,8 +23,6 @@ VFS 자체의 최장 연속 관측은 2021-07~2022-02(8개월)이며 누적 가�
 **우리의 구현** — 같은 모집단에서 VFS와 Value를 비교하고 수익률 차이와 FF3 조정 차이를 분리했습니다. 결과를 보기 전 [설계 커밋](https://github.com/bucheoncityboy/mirae-governance-vfs-research/commit/09a105ce651bc28eaad1e0993b12678a41acf61f)을 남겼지만 이전 G 연구를 알고 있었으므로 탐색 연구입니다.
 
 **실증 결과** — VFS 자체의 최장 연속 관측은 2021-07~2022-02(8개월)이며 누적 가격수익률은 VFS -17.30%, 같은 기간 KOSPI -18.96%입니다. Value와 비교할 때는 두 전략에 동일한 조건을 적용했습니다. 공통 연속 기간은 2021-07~2021-12(6개월)입니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며 VFS−Value 월평균 차이는 +0.43%p입니다.
-
-![VFS 자체의 실제 연속 보유경로: 2021-07~2022-02 N=8 PRICE_RETURN_ONLY gross 0bp; Value 비교는 별도 공통 6개월](outputs/figures/vfs_observed.png)
 
 **판정: ADAPTED / 부분 관측.** VFS 자체의 8개월 기록과 세 전략의 공통 6개월 비교는 서로 다른 분석입니다. 원수익과 보유경로를 먼저 검증하며 FF3 추정 가능 여부로 VFS 백테스트의 존재 여부를 판정하지 않습니다. [보유경로 중단 원인과 구현 가정](docs/VFS_BACKTEST_DIAGNOSIS.md).
 
@@ -128,6 +128,20 @@ VFS 자체의 최장 연속 관측은 2021-07~2022-02(8개월)이며 누적 가�
 
 **판정: NOT_ESTIMATED / OOS NOT VERIFIED.** 실패한 검증 게이트는 전략 실패의 확정도, 알파 부재의 확정도 아닙니다. 현재 자료로는 질문에 통계적으로 답할 수 없습니다.
 
+<!-- FINAL_EVIDENCE_START -->
+### 결측은 어떤 경제적 사건이었는가?
+
+원문 p21·p28의 장기 성과와 비교하려면 종목의 가격뿐 아니라 현금·신주·거래 가능성까지 이어져야 합니다. VFS 7건과 Value 6건의 첫 보유 결측을 중복 제거한 **11개 사건**을 조사했습니다. 후보 58개에서 관련 **16개 접수번호·37개 공식 본문 절**을 확인했습니다. 일부 교환 대가와 일정은 확인했지만 실제 지급·월말 평가·수정주가 기준을 함께 입증하지 못해 **수익률 수정은 0건**입니다. [사건별 근거와 판정](docs/ECONOMIC_RETURN_RECOVERY.md).
+
+2021년 12월의 현금·신주 권리 전환은 공통기간 마지막 달의 경제적 평가에도 영향을 줄 수 있습니다. 2022/2024년에는 6월 말 형성 이전 거래정지 사례도 확인했습니다. 따라서 기존 8/6개월 수치는 동일 정의의 **가격 데이터 경로**를 재현한 결과이며 투자 가능한 총수익률은 아닙니다. 이번 오프라인 재실행에서도 월수익률 차이 1e-12 초과는 0건입니다.
+
+![관측된 최초 중단 노출: 2022-01~2025-09, 10개 전략 중단월·13개 보유 기록·11개 고유 사건; 가격경로 gross 0bp, 원문 수치 아님](outputs/final/figures/held_gap_exposure.svg)
+
+미확인 비중에 -100/-50/+50/+100% 수익률을 가정한 기여분을 별도 표시했습니다. **실측 성과·신뢰구간·가능 범위의 상하한이 아니며 NAV를 연장하지 않습니다.** 작은 비중도 결측을 0으로 채울 근거가 되지 않습니다.
+
+![가정 기반 미확인 포지션 기여분: 같은 10개 중단월, 실측 비중 × 가정 수익률; 배당·비용 반영 포트폴리오 성과 아님, 기간 연장 없음](outputs/final/figures/missing_scenarios.svg)
+<!-- FINAL_EVIDENCE_END -->
+
 ## 07. What Held Up, What Did Not
 
 **원문 (p25 「결론: 멀티플 탈출의 조건」)** — 가격 수준보다 거버넌스와 이익이 뒷받침하는 가치의 이유를 강조합니다.
@@ -137,6 +151,8 @@ VFS 자체의 최장 연속 관측은 2021-07~2022-02(8개월)이며 누적 가�
 **실증 결과** — Value와의 비교는 동일한 조건을 적용한 공통 연속 기간 2021-07~2021-12(6개월)을 기준으로 했습니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며 VFS−Value 월평균 차이는 +0.43%p입니다. 원본에서 절대 가격수익률 100% 초과 659건을 제거한 사실도 다시 확인했습니다. 배당과 상폐 대가, 수정주가·공시 정정 이전 값, 역사적 모집단을 확보해야 검증을 진전시킬 수 있습니다.
 
 **판정: EMPIRICAL_LIMITED.** 규칙과 데이터 연결은 재구현했지만 투자 가능한 장기 전략·유의한 FF3 알파·거버넌스 인과효과는 입증하지 못했습니다. 다음 분석은 같은 설계를 유지한 완전한 기업행동·총수익률 자료와 충분한 신규 독립기간에서 수행해야 합니다.
+
+연구 결과물은 원천 재현·11건 사건 감사·미추정 판정을 갖춘 한정 연구로 완결했습니다. [가설별 결론](docs/RESEARCH_CONCLUSION.md), [면접 요약](docs/INTERVIEW_BRIEF.md), [기준 대비 최종 비교](outputs/final/baseline_vs_final.csv)를 함께 제공합니다. 장기 투자전략·FF3 알파·독립 OOS의 검증 완료를 뜻하지 않습니다.
 
 ## Appendix A. Scope of Replication
 
@@ -162,6 +178,6 @@ p26 자기자본비용 추정과 p27 MSCI 다차원 점수·요인 계산(그림
 
 ![전체 원패널과 연구기간을 구분한 결측 감사: 중복되는 범위이므로 막대를 더하지 않음](outputs/reconstruction/figures/return_audit.svg)
 
-**원문과 비교·한계** — 원천부터 재실행한 사실은 확인했지만 MSCI G, 배당 포함 수익률, 원문 전체 기간을 맞추지는 못했습니다. 공식 공시 제목에서 기업행동 후보 58개를 찾았어도 지급 대가·조정 조건은 미검증이므로 수익률 수정은 0건입니다. SHA 차이는 이전 원파일 부재로 필드별 원인을 확정할 수 없습니다. 생존·상폐·정정 이전 값·독립 OOS·장기 알파는 여전히 미완료입니다.
+**원문과 비교·한계** — 원천부터 재실행한 사실은 확인했지만 MSCI G, 배당 포함 수익률, 원문 전체 기간을 맞추지는 못했습니다. 이전 제목 후보는 58개입니다. 후속 본문에서 일부 계약상 교환 조건을 확인했지만 양월 경제적 평가·실제 지급은 미검증이어서 수정은 0건입니다. SHA 차이는 이전 원파일 부재로 필드별 원인을 확정할 수 없습니다. 생존·상폐·정정 이전 값·독립 OOS·장기 알파는 여전히 미완료입니다.
 
-[원천 입력 해시](outputs/reconstruction/recollected_input_manifest.json) · [재실행 요약](outputs/reconstruction/raw_replay_summary.json) · [보유 결측 진단](outputs/reconstruction/recollected_held_gap_diagnosis.csv) · [공식 공시 후보 감사](outputs/reconstruction/official_event_audit.json) · [검증 부록 PDF](reports/PUBLIC_SOURCE_REBUILD_APPENDIX.pdf). 문서·대시보드 변경은 PR 승인을 거쳐 병합·배포해야 합니다.
+[원천 입력 해시](outputs/reconstruction/recollected_input_manifest.json) · [재실행 요약](outputs/reconstruction/raw_replay_summary.json) · [보유 결측 진단](outputs/reconstruction/recollected_held_gap_diagnosis.csv) · [공식 공시 후보 감사](outputs/reconstruction/official_event_audit.json) · [검증 부록 PDF](reports/PUBLIC_SOURCE_REBUILD_APPENDIX.pdf). 공개 변경은 PR 필수 검사와 배포 검증을 거칩니다. [최종 검증](outputs/final/raw_replay_validation.json).

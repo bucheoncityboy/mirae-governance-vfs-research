@@ -11,3 +11,5 @@ __pycache__/
 
 # Temporary raster intermediates for the published SVG/PDF appendix.
 outputs/reconstruction/figures/*.png
+outputs/final/figures/*.png
+_workspace/

@@ -1,0 +1,22 @@
+study: Held-return economic evidence audit
+registered_on_kst: 2026-10-11
+role: EXPLORATORY_EXTENSION_PRIOR_RESULTS_AND_11_GAPS_KNOWN
+baseline_main: d6b379508a913346d74387c046f80ed0f8e65a7d
+primary_design: unchanged
+population: all_11_unique_first_held_gap_security_months_13_strategy_records
+evidence: official_DART_body_attachments_KRX_KIND_issuer_IR
+request_cap: 100_document_downloads_no_full_recollection
+repair_requires: verified_month_boundary_prices_quantity_cash_rights_dates_adjustment_basis
+double_adjustment: forbidden
+unverified_payoff: no_return_imputation_no_path_extension
+source_returns_gt100: not_automatically_errors_or_repairs
+publication: aggregate_or_anonymous_event_ids_no_licensed_security_rows_raw_bodies_or_keys
+sensitivity:
+  role: ASSUMPTION_ONLY_NOT_OBSERVED_RETURNS_NOT_NAV_EXTENSION
+  unknown_asset_returns: [-1.0, -0.5, 0.5, 1.0]
+  measure: first_break_missing_weight_times_assumed_return_percentage_points
+  interpretation: omitted_position_contribution_only_no_complete_portfolio_return
+  not_a_bound: returns_above_100pct_possible_and_no_probability_assigned
+inference_minimum_contiguous_months: 24
+new_strategy_optimization: forbidden
+independent_oos: UNVERIFIED

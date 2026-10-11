@@ -11,8 +11,11 @@ def test_original_snapshots_engine_and_primary_design_are_preserved():
     manifest=json.loads((ROOT/'snapshots/public-c8abb0f/manifest.json').read_text())
     for row in manifest['files']:
         assert digest(ROOT/row['snapshot'])==row['sha256']
-    for path in ['config/vfs_pre_analysis_plan.yaml','config/design_lock.json','src/vfs_research/backtest.py','src/vfs_research/portfolio.py','reports/RESEARCH_REPORT.pdf','reports/RESEARCH_REPORT.md']:
+    for path in ['config/vfs_pre_analysis_plan.yaml','config/design_lock.json','src/vfs_research/backtest.py','src/vfs_research/portfolio.py']:
         assert digest(ROOT/path)==manifest['protected_artifact_hashes'][path]
+    # Publication advances; the original reports remain byte-exact archived evidence.
+    for path in ['reports/RESEARCH_REPORT.pdf','reports/RESEARCH_REPORT.md']:
+        assert digest(ROOT/'snapshots/public-c8abb0f'/path)==manifest['protected_artifact_hashes'][path]
 
 
 def test_recollected_metrics_and_change_counts_are_recomputed():

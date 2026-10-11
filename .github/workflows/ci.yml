@@ -16,3 +16,5 @@ jobs:
       - run: python -m pytest -q
       - run: python -m compileall -q src
       - run: python -m vfs_research.cli verify-public
+      - name: Committed publication matches verified generation
+        run: git diff --exit-code

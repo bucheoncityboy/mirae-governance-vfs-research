@@ -28,7 +28,7 @@
 WORK="$PWD/vfs-public-work"
 mkdir -p "$WORK/private"
 chmod 700 "$WORK/private"
-git clone --branch codex/public-source-rebuild-20261011 https://github.com/bucheoncityboy/mirae-governance-vfs-research.git "$WORK/vfs"
+git clone https://github.com/bucheoncityboy/mirae-governance-vfs-research.git "$WORK/vfs"
 git clone https://github.com/bucheoncityboy/fama-french-integrated-research.git "$WORK/ff3"
 python3.12 -m venv "$WORK/.venv"
 "$WORK/.venv/bin/python" -m pip install -r "$WORK/vfs/requirements.txt"
@@ -88,3 +88,9 @@ FnGuide 일반 정책은 분석 용도와 무단 공유를 구분한다. 공개 
 [복원 검증 영수증](../outputs/reconstruction/restoration_validation.json): 같은 소유자 계정의 로컬 보관본 39,552파일·301,339,448바이트를 복사 전후 및 오프라인 실행 후 SHA256으로 확인했다. 인증키는 보관하지 않았고 복원 백테스트도 키 없이 실행했다. 수익률·성과표·알파 상태·강건성·보유 결측·G-neutral 등 8개 CSV가 앞선 성공 실행과 바이트 단위로 같았다. 민감한 로컬 위치는 공개 문서에 넣지 않았다.
 
 복원 환경에서 별도 결과 폴더를 지정해도 `reconstruction_replay`는 누락된 가격 감사를 원 FF3 입력으로 자동 계산한다. 이전 PC의 parquet나 캐시를 요구하지 않는다. 로컬 보관 위치·전체 해시 목록·접근 권한·복사 명령은 소유자용 `DATA_HANDOFF_MANIFEST.md`, `DATA_HANDOFF_MANIFEST.json`, `DATA_RESTORE_GUIDE.md`에 두고 GitHub에는 올리지 않았다. 다른 환경으로 전송하기 전 개별 FnGuide 사용 계약과 재배포 권한을 별도로 확인해야 한다.
+
+## 최종 후속 검증
+
+앞선 제목 탐색·원천 재수집 영수증은 덮어쓰지 않았다. 이번 오프라인 원천 재실행에서 5개 주요 집계 CSV는 바이트 단위로 같았고 월수익률 차이 1e-12 초과는 0건이다. 소유자 보관본 39,552파일의 SHA256도 다시 확인해 실패 0건이었다. [이번 검증 영수증](../outputs/final/raw_replay_validation.json).
+
+11개 사건의 16개 접수번호·37개 본문 절을 인증 없이 확인했다. 일부 계약 조건과 일정은 확인했지만 KRX 월말 가격 접근은 로그인 요구로 차단됐고 실제 경제적 평가는 미검증이다. 경제적 수정은 0건이다. 과거 문서의 “본문 미검증”은 제목 탐색 단계의 기록이며 [최종 경제적 감사](ECONOMIC_RETURN_RECOVERY.md)가 후속 상태다. 새 PDF·README·Pages는 COMPLETE_LIMITED_EVIDENCE의 연구 결론을 담는다. 기존 성과·설계·원보고서는 snapshots에 보존한다.

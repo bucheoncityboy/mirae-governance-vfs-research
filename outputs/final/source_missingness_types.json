@@ -1,0 +1,21 @@
+{
+  "full_source": {
+    "missing": 2068,
+    "current_price_absent": 352,
+    "previous_price_or_first_observation_unavailable": 1054,
+    "extreme_filter": 659,
+    "other_source_gap": 3,
+    "classification": "EXCLUSIVE_SOURCE_FIELDS_NOT_VERIFIED_CORPORATE_ACTION_CAUSES"
+  },
+  "study_2016_01_to_2026_04": {
+    "missing": 339,
+    "current_price_absent": 0,
+    "previous_price_or_first_observation_unavailable": 124,
+    "extreme_filter": 213,
+    "other_source_gap": 2,
+    "classification": "EXCLUSIVE_SOURCE_FIELDS_NOT_VERIFIED_CORPORATE_ACTION_CAUSES"
+  },
+  "all_659_filtered_positive": true,
+  "filtered_are_subset_of_missing": true,
+  "officially_verified_errors": 0
+}

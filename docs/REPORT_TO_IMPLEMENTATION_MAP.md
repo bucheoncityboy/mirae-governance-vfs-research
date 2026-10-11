@@ -29,3 +29,14 @@ Official p2 Contents was directly verified; every contents entry is mapped below
 | 28 | 밸류 포커스 스타일 다기간 검증; figures 40-42 | Annual returns / Sharpe | H2/H5 stats, bias_audit (OUR EXTENSION) | annual_returns.csv, bootstrap.json, bias_audit.csv | NOT_ESTIMATED VFS full years; OOS NOT VERIFIED |
 
 FF3, paired spread inference, PIT, survival, multiple testing and independent OOS are our independent extensions. None are labelled exact reproductions of the official report. The README follows original main sections, then our p28 extension and conclusion. It does not infer a significant governance premium from a short curve.
+
+## Final economic evidence extension - 2026-10-11
+
+| Original page / research role | Final evidence and implementation | Test / figure | Interpretation |
+| --- | --- | --- | --- |
+| p20-21 annual formation / original trading details unspecified | economic_recovery.economic_return; private held-price/identity join; 16 receipts / 37 body sections | test_economic_recovery.py; event_evidence_register.csv | ADAPTED; contract terms verified in part, monthly economics UNVERIFIED; no repairs |
+| p21-23 original total-return performance | final_evidence.export; baseline_vs_final.csv | same-month return/MDD regression; held_gap_exposure.svg | OUR_RESULT: same 8/6 price months; December rights and June tradability remain material |
+| p28 long multi-period analysis | locked separate assumption-only exposure contribution and G-neutral N=2 | missing_scenarios.svg; robustness_and_alpha_status.csv | EXPLORATORY_EXTENSION; no imputation or NAV extension; FF3 NOT_ESTIMATED |
+| p25 independent conclusion | RESEARCH_CONCLUSION.md / INTERVIEW_BRIEF.md / updated ten-page PDF and three-page appendix | completion_status.json | COMPLETE_LIMITED_EVIDENCE product; long investable strategy / OOS NOT_VERIFIED |
+
+Original printed contents and every preceding mapping are retained. The current source-recollection and economic audit are append-only extensions; they do not modify the original primary design or promote original performance into OUR_RESULT.

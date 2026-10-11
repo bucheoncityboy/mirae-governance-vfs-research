@@ -1,0 +1,35 @@
+{
+  "classification": "COMPLETE_LIMITED_EVIDENCE",
+  "empirical_status": "EMPIRICAL_LIMITED",
+  "basis": "11_EVENTS_OFFICIAL_BODIES_READ_CURRENT_SOURCES_RERUN_AND_LIMITS_PUBLISHED",
+  "unique_held_security_months": 11,
+  "strategy_security_records": 13,
+  "official_documents": 16,
+  "official_sections": 37,
+  "economic_returns_repaired": 0,
+  "vfs_own_contiguous_months": 8,
+  "paired_contiguous_months": 6,
+  "g_neutral_contiguous_months": 2,
+  "primary_alpha": "NOT_ESTIMATED",
+  "independent_oos": "UNVERIFIED",
+  "long_investable_strategy_verified": false,
+  "source_security_rows_uploaded": false,
+  "primary_design_changed": false,
+  "unresolved": [
+    "Verified month-boundary quantity/cash/price and adjustment basis",
+    "June formation tradability for E04/E07",
+    "Cash entitlement timing may affect December 2021 diagnostic marks",
+    "2016-2020 joint PIT G and financial coverage",
+    "Historical exchange-wide universe and corrected-filing vintage",
+    "MSCI G equivalence, dividends, delisting payoffs, independent OOS"
+  ],
+  "blocked_access": [
+    "Official historical KRX price query requires login; no access bypass",
+    "FnGuide redistribution rights unverified; no source uploads"
+  ],
+  "publication": {
+    "pr_state": "VALIDATED_LOCAL_PENDING_PR",
+    "main_ci": "PENDING_NEW_COMMIT",
+    "pages": "PENDING_NEW_COMMIT"
+  }
+}

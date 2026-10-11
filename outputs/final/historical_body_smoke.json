@@ -1,0 +1,16 @@
+{
+  "role": "PRE2020_OFFICIAL_BODY_ACCESS_SMOKE_NOT_RECONSTRUCTED_G_PANEL",
+  "fiscal_year": 2019,
+  "rcept_no": "20200330000246",
+  "url": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20200330000246&dcmNo=7183384&eleId=20&offset=661170&length=31543&dtd=dart3.xsd",
+  "body_sha256": "099003ef91a321d67ff44c3f256d47831be73844ac92bcdb30a097a2db298d6b",
+  "retrieved_at_utc": "2026-10-11T04:57:14.518247+00:00",
+  "body_access": "PASS",
+  "structured_G_API": "013_IN_EXISTING_CACHE",
+  "historical_G_panel": "NOT_VERIFIED_FULL_COVERAGE_AND_EXTRACTION_REQUIRED",
+  "new_requests": 2,
+  "narrative_directors_total": 5,
+  "roster_directors_total": 6,
+  "signal_status": "UNVERIFIED_NARRATIVE_ROSTER_AND_ASOF_DATE_CONFLICT",
+  "parsed_G_signal_used": false
+}

@@ -1,0 +1,85 @@
+{
+  "scope": "EXISTING_ANNUAL_PAIR_CACHE_REVIEW_NO_NEW_API_REQUESTS",
+  "years": {
+    "2015": {
+      "annual_pair_cache": 743,
+      "g_013": 743,
+      "financial_013": 38,
+      "financial_000": 705
+    },
+    "2016": {
+      "annual_pair_cache": 752,
+      "g_013": 752,
+      "financial_000": 706,
+      "financial_013": 46
+    },
+    "2017": {
+      "annual_pair_cache": 759,
+      "g_013": 759,
+      "financial_000": 723,
+      "financial_013": 36
+    },
+    "2018": {
+      "annual_pair_cache": 763,
+      "g_013": 763,
+      "financial_000": 736,
+      "financial_013": 27
+    },
+    "2019": {
+      "annual_pair_cache": 769,
+      "g_013": 767,
+      "financial_000": 741,
+      "financial_013": 28,
+      "g_000": 2,
+      "normal_G_receipts_after_2020_formation": 2,
+      "normal_G_receipt_years": [
+        2022,
+        2023
+      ]
+    },
+    "2020": {
+      "annual_pair_cache": 782,
+      "g_000": 759,
+      "financial_000": 745,
+      "financial_013": 37,
+      "g_013": 23
+    },
+    "2021": {
+      "annual_pair_cache": 783,
+      "g_000": 774,
+      "financial_000": 754,
+      "g_013": 9,
+      "financial_013": 29
+    },
+    "2022": {
+      "annual_pair_cache": 794,
+      "g_000": 778,
+      "financial_000": 757,
+      "g_013": 16,
+      "financial_013": 37
+    },
+    "2023": {
+      "annual_pair_cache": 802,
+      "g_000": 788,
+      "financial_000": 787,
+      "g_013": 14,
+      "financial_013": 15
+    },
+    "2024": {
+      "annual_pair_cache": 804,
+      "g_000": 796,
+      "financial_000": 795,
+      "g_013": 8,
+      "financial_013": 9
+    },
+    "2025": {
+      "annual_pair_cache": 789,
+      "g_000": 787,
+      "financial_000": 785,
+      "financial_013": 4,
+      "g_013": 2
+    }
+  },
+  "source_file_objects": 8544,
+  "unavailable_API_is_not_absence_of_original_filings": true
+}

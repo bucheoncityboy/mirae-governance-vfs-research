@@ -1,0 +1,25 @@
+{
+  "status": "PASS_CURRENT_SOURCE_OFFLINE_RERUN",
+  "credentials_used_for_replay": false,
+  "source_manifest": "../reconstruction/recollected_input_manifest.json",
+  "aggregate_csv_bytes_identical": {
+    "recollected_monthly_returns.csv": true,
+    "recollected_performance_summary.csv": true,
+    "recollected_vfs_strategy_summary.csv": true,
+    "recollected_robustness.csv": true,
+    "exploratory_g_neutral_monthly.csv": true
+  },
+  "monthly_changes_above_1e_12": {
+    "VFS": 0,
+    "Value": 0,
+    "Market": 0
+  },
+  "historical_receipt_documents": 16,
+  "readable_sections": 37,
+  "public_web_requests": 53,
+  "official_historical_prices_access": "BLOCKED_ACCESS_KRX_UI_REQUIRES_LOGIN",
+  "official_terms_do_not_prove_month_end_valuation": true,
+  "backup_rehash_files": 39552,
+  "backup_rehash_bytes": 301339448,
+  "backup_rehash_failures": 0
+}

@@ -1,0 +1,16 @@
+{
+  "role": "AUTHOR_CURATED_OFFICIAL_DOCUMENT_FINDINGS_NOT_PRICE_INPUTS",
+  "events": [
+    {"event_id":"E01","event_type":"CASH_SHARE_EXCHANGE","fact":"주식교환 2021-12-28, 현금 85,000원/주, 교부 예정 2022-01-11","reason":"예정 지급의 실제 이행과 12월 말 현금채권 평가·기존 가격의 반영 여부가 미확인. 1월 현금 유입을 수익으로 중복 계상할 수 없음."},
+    {"event_id":"E02","event_type":"SHARE_MERGER","fact":"합병기일 2021-12-28, 교환 0.0768974주/구주, 신주 상장 예정 2022-01-18","reason":"승계 주식의 월말 가격·실제 배정·단주 대금과 12월 말 NAV 기준이 미확인."},
+    {"event_id":"E03","event_type":"SHARE_EXCHANGE","fact":"교환일 2022-03-01, 1.41347204주/구주, 거래정지 2022-02-25~03-21","reason":"승계 주식의 월말 가격·배정·단주 처리와 원가격 조정 기준이 미확인."},
+    {"event_id":"E04","event_type":"SHARE_MERGER_FORMATION_HALT","fact":"합병기일 2022-07-01, 2.8051744주/구주, 거래정지 예정 2022-06-27~07-19","reason":"6월 말 형성 시 거래 가능성과 승계 주식의 월말 가격·배정·단주가 미확인. 결측 7월만 수정해 투자 가능성을 주장할 수 없음."},
+    {"event_id":"E05","event_type":"FILTERED_RETURN_UNRELATED_BOND_LEAD","fact":"후보 본문은 2023-09 사모 교환사채 발행. 2023-07 보통주 수량 조정의 증거가 아님","reason":"100% 초과 가격수익률을 오류로 단정할 수 없음. 공식 양월 종가·조정 기준 미확인으로 필터 해제도 보류."},
+    {"event_id":"E06","event_type":"FILTERED_RETURN_EARLIER_MERGER","fact":"후보 합병종료 본문의 합병기일 2023-01-01. 결측 월은 2023-07","reason":"1월 사건을 7월 가격 변화에 적용할 근거가 없음. 공식 양월 종가·조정 기준 미확인."},
+    {"event_id":"E07","event_type":"CASH_SHARE_EXCHANGE_FORMATION_HALT","fact":"교환 2024-06-25, 현금 7,000원/주, 지급 예정 2024-07-10, 거래정지 06-21~07-09","reason":"형성 전에 주식교환·거래정지가 발생. 6월 말 매수 가능성과 현금채권 평가·실제 지급·원가격 조정 기준 미확인."},
+    {"event_id":"E08","event_type":"FILTERED_RETURN_LATER_CAPITAL_REDUCTION","fact":"정정 감자 본문의 10:1 병합 기준일 2024-09-09. 결측 월은 2024-07","reason":"9월 수량 변화를 7월 수익률에 적용하면 시점 오류. 공식 양월 종가와 조정 주가 기준 미확인."},
+    {"event_id":"E09","event_type":"SHARE_MERGER","fact":"합병 예정일 2024-09-07, 0.1558169주/구주, 단주 외 별도 교부금 없음","reason":"실제 교부 수량·승계 종목 월말 가격·단주 및 9월 말 NAV 반영 여부 미확인."},
+    {"event_id":"E10","event_type":"DELISTING_SETTLEMENT_TRADING","fact":"거래소 정리매매 2025-09-02~09-10, KIND 상장폐지일 2025-09-11","reason":"정리매매 마지막 가격을 자동 실현가로 간주할 수 없음. 실제 매도·잔존 비상장 주식 평가·청산 대가 미확인. -100% 대체 금지."},
+    {"event_id":"E11","event_type":"FILTERED_RETURN_LATER_SHARE_EXCHANGE","fact":"2025-09 정정 본문상 교환 예정일 2025-12-17, 보통주 비율 0.0611643","reason":"12월 예정 교환비율은 9월 급등을 조정하는 근거가 아님. 공식 양월 종가·조정 기준 미확인."}
+  ]
+}

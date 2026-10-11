@@ -94,7 +94,8 @@ def build_appendix():
     table([['전략','첫 연간 중단 월수','결측 보유 기록']]+[[s,len(x),int(x.missing_held_securities.sum())] for s,x in gaps.groupby('strategy')],[170,145,145])
     p('배당·액면분할·합병·상폐 대가의 경제적 수익률 수정은 0건이다. 결측 종목 사후 제거, 결측 0 대체, 극단수익률 자동 복원은 수행하지 않았다. 따라서 원천 재구축이 장기 투자성과 검증의 완료를 뜻하지 않는다.')
     events=json.loads((out/'official_event_audit.json').read_text())
-    p(f"공식 공시검색 {events['new_requests']}회로 실제 보유 결측 {events['unique_held_security_months']}개 종목·월 주변의 후보 접수번호 {events['unique_candidate_receipts']}개를 찾았다. 이는 제목 기준 탐색이다. 공시 본문과 거래소 조정 조건·실제 지급 대가가 미검증이므로 수익률 수정의 증빙으로 사용하지 않았다.")
+    final=json.loads((ROOT/'outputs/final/completion_status.json').read_text())
+    p(f"이전 제목 탐색은 후보 {events['unique_candidate_receipts']}개였다. 이번 감사는 11개 사건의 {final['official_documents']}개 접수번호·{final['official_sections']}개 공식 본문 절을 읽었다. 계약상 교환 조건과 일정 일부는 확인했으나 양월 평가가격·수량·실제 지급·조정 기준은 미검증이다. 2021년 12월 권리 전환과 형성 이전 거래정지도 확인해 투자 가능성의 한계를 분리했다. 수정은 0건이다.")
     story.append(PageBreak())
     p('G-neutral 탐색 비교와 남은 검증', 'Heading1')
     p(f"같은 PIT 모집단에서 Low/High PBR 예산을 50:50으로 맞추고 G 선별을 제거했다. 구간 내 lagged-ME capped-VW를 사용하며 셀 cap 25%를 유지했다. VFS와 공통 연속기간은 {len(q)}개월이다. 연속 PBR 분포·규모·산업이 완전히 같아지는 비교는 아니다.")
@@ -103,7 +104,7 @@ def build_appendix():
     p(f"FF3 및 G-neutral spread의 HAC3/6 검정: 추정 가능한 검정 {int(status.p_hac.notna().sum())}개 / 8개 사양. 최소 연속 24개월 미충족에는 alpha/t/p/CI를 NA로 남긴다. 추정 가능한 경우 Holm 보정을 적용하고, 개별 95% HAC 구간을 동시 신뢰구간으로 표현하지 않는다.")
     p(f"수집 로그 {acquisition['recorded_api_requests']:,}건에 응답 상태와 수집시각을 남겼다. 재시작 중 중복 기록 {acquisition['duplicate_request_ids']}건도 보존했다. 캐시 해시 검증 실패는 {acquisition['cache_hash_failures']}건이다. 실제 요청량은 API 계정의 최종 과금·쿼터 기록과 별개다.")
     p('MSCI G와 사외이사 비율의 차이, 법정 요건·규모 혼동, 역사적 거래소 전체 모집단, 총수익률·상폐 대가, 정정 이전 공시, 독립 OOS는 미검증이다. 공개된 기존 FF3 팩터를 사용하는 보조 검정도 조건부 모델이다. 기존 비유의 거버넌스 파일럿을 새 VFS 결과로 바꾸지 않았다.')
-    p('재현: docs/PUBLIC_SOURCE_REBUILD.md. 데이터 버전·해시: outputs/reconstruction/raw_replay_summary.json 및 collection_summary.json. 원천·종목별 파생자료·인증키는 GitHub에 올리지 않았다. FnGuide 재배포 권한과 개별 사용 계약은 확정하지 않았다.')
+    p('COMPLETE_LIMITED_EVIDENCE: 원천 재현·사건 감사·미추정 결론을 갖춘 한정 연구의 완결이다. 장기 투자성과 검증이 아니다. KRX 역사적 가격은 로그인 요구로 미확보다. 상세 근거: docs/ECONOMIC_RETURN_RECOVERY.md와 outputs/final. 원천·개별 파생자료·키는 GitHub에 올리지 않았고 재배포 권한은 미확정이다.')
     path=ROOT/'reports/PUBLIC_SOURCE_REBUILD_APPENDIX.pdf'
     doc=SimpleDocTemplate(str(path),pagesize=(595.28,841.89),leftMargin=66,rightMargin=66,topMargin=48,bottomMargin=48,title='VFS public source rebuild evidence appendix')
     def footer(canvas,doc):

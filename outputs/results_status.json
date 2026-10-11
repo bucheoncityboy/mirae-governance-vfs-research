@@ -31,7 +31,7 @@
   "new_repo_ci": "success",
   "dashboard_url": "https://bucheoncityboy.github.io/mirae-governance-vfs-research/",
   "cleanup_pr": "https://github.com/bucheoncityboy/fama-french-integrated-research/pull/2",
-  "portfolio_pr": "https://github.com/bucheoncityboy/portfolio-index/pull/1",
+  "portfolio_pr": "https://github.com/bucheoncityboy/portfolio-index/pull/3",
   "original_full_US_suite": "UNRESOLVED_235_pass_23_fail_16_error_1_skip",
   "research_focus": "VFS_PORTFOLIO_BACKTEST",
   "ff3_role": "SUPPLEMENTARY_ATTRIBUTION",
@@ -53,5 +53,11 @@
   "cleanup_pr_merged": true,
   "portfolio_pr_merged": true,
   "source_ff3_head": "dc47a81b214cfb1aac210d0568938eb652f75b03",
-  "separation_status": "COMPLETED_USER_APPROVED_MERGE"
+  "separation_status": "COMPLETED_USER_APPROVED_MERGE",
+  "research_product_status": "COMPLETE_LIMITED_EVIDENCE",
+  "final_evidence": "outputs/final/completion_status.json",
+  "economic_returns_repaired": 0,
+  "economic_event_receipts": 16,
+  "economic_event_sections": 37,
+  "current_source_manifest": "outputs/reconstruction/recollected_input_manifest.json"
 }

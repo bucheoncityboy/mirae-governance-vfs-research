@@ -28,8 +28,18 @@
     "FnGuide redistribution rights unverified; no source uploads"
   ],
   "publication": {
-    "pr_state": "VALIDATED_LOCAL_PENDING_PR",
-    "main_ci": "PENDING_NEW_COMMIT",
-    "pages": "PENDING_NEW_COMMIT"
+    "state": "MERGED_AND_DEPLOYED_VERIFIED",
+    "verified_research_commit": "053c281287879b6c6d7c1b226ba6a107e18ab54c",
+    "research_pr": "https://github.com/bucheoncityboy/mirae-governance-vfs-research/pull/3",
+    "main_ci": "https://github.com/bucheoncityboy/mirae-governance-vfs-research/actions/runs/38113448752",
+    "main_ci_conclusion": "success",
+    "pages_run": "https://github.com/bucheoncityboy/mirae-governance-vfs-research/actions/runs/38113448660",
+    "pages_conclusion": "success",
+    "dashboard": "https://bucheoncityboy.github.io/mirae-governance-vfs-research/",
+    "live_content_sha256_matches": true,
+    "portfolio_pr": "https://github.com/bucheoncityboy/portfolio-index/pull/3",
+    "portfolio_merge": "17cdc1b436d5a98b73bef47e18005439a8edc546",
+    "portfolio_merged": true,
+    "verification_scope": "Actual checked publication revision; receipt-only successor is also checked after merge"
   }
 }

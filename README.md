@@ -92,3 +92,5 @@ FnGuide의 **KR_return_cash_dividend_included_pct**를 100으로 나눠 사용�
 기존 결과·설계·원천 감사는 보존했다. 본문은 단일 연구 질문에 집중하며, 상세 기술자료는 다음 링크에서 확인할 수 있다.
 
 [보완 분석 방법·재현](docs/SUPPLEMENT_REPRODUCIBILITY.md) · [기존 설계 잠금](config/vfs_pre_analysis_plan.yaml) · [결과 보기 전 고정한 보완 규칙](config/supplement_plan.json) · [기존 4셀 결과](outputs/core_hypotheses/hypothesis_results.json) · [상세 강건성](outputs/robustness.csv) · [기업행동 감사](docs/ECONOMIC_RETURN_RECOVERY.md) · [원천 검증](docs/PUBLIC_SOURCE_REBUILD.md) · [기존 상세 대시보드](dashboard/appendix.html) · [2026-10-11 핵심 분석 보존 페이지](dashboard/core-archive.html) · [면접 요약](docs/INTERVIEW_BRIEF.md) · [GitHub Pages](https://bucheoncityboy.github.io/mirae-governance-vfs-research/)
+
+Value와 동일 조건으로 비교하는 공통 연속 기간은 2021-07~2021-12(6개월)입니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며, VFS−Value 월평균 차이는 +0.43%p입니다.

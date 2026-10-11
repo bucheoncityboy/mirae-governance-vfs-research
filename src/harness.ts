@@ -66,7 +66,7 @@ const page = readFileSync(resolve(root, 'dashboard/index.html'), 'utf8');
 const embedded = JSON.parse(page.match(/<script id="research-data" type="application\/json">(.*?)<\/script>/s)![1]!);
 assert.deepEqual(embedded, manifest);
 for (const file of ['README.md', 'reports/RESEARCH_REPORT.md', 'reports/EXECUTIVE_BRIEF.md', 'docs/INTERVIEW_BRIEF.md', 'dashboard/index.html']) {
-  const text = readFileSync(resolve(root, file), 'utf8'); assert(text.includes('거버넌스는 PBR에 추가적인 투자 정보를 제공하는가?'));
+  const text = readFileSync(resolve(root, file), 'utf8'); assert(text.includes('사외이사 비율은 PBR 기반 종목선별을 보완하는가?'));
   for (const r of matching) for (const v of [r.before_price_spread_pp, r.matched_price_spread_pp]) assert(text.includes((v >= 0 ? '+' : '') + v.toFixed(4)), 'Missing claim evidence: ' + file);
   assert(!/\]\([^)]*\.pdf\)|(?:href|src)="[^"]*\.pdf"/i.test(text), 'PDF link remains in main research: ' + file);
   const links = [...text.matchAll(/\]\(([^)]+)\)|(?:href|src)="([^"]+)"/g)].map(m => m[1] ?? m[2]!);

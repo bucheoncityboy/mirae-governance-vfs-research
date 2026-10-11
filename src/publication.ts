@@ -59,6 +59,14 @@ for (const [anchor, visual] of readmeVisuals) {
   if (!illustratedReadme.includes(anchor)) throw new Error('README chart anchor missing: ' + anchor);
   illustratedReadme = illustratedReadme.replace(anchor, visual + '\n\n' + anchor);
 }
+// The submission README makes evidence boundaries explicit without changing
+// the archived reports or the GitHub Pages publication.
+const portfolioOldConclusion = "**사외이사 비율 하나를 PBR에 추가한다고 해서 종목선별 성과가 일관되게 개선되지는 않았다.**";
+if (!illustratedReadme.includes(portfolioOldConclusion)) throw new Error('Missing portfolio conclusion');
+illustratedReadme = illustratedReadme.replace(portfolioOldConclusion, "**현재 관측 가능한 자료에서는 사외이사 비율을 PBR에 추가한 종목선별의 일관된 성과 개선을 확인하지 못했다.**");
+illustratedReadme = illustratedReadme.replace("따라서 **단일 공개 지표의 선별력에는 한계가 있으며, 규모·수익성과 투자 구현 조건을 함께 고려해야 한다.**", "따라서 **현재 자료만으로 사외이사 비율의 독립적인 선별력을 인정하기 어렵고, 기업규모·수익성과 포트폴리오 구성 방식을 함께 평가해야 한다.**");
+illustratedReadme = illustratedReadme.replace("\n\n*해석 범위: 연속 가격경로는 4–6개월로 짧고, 58개월 단면은 투자 가능한 연속 수익률이 아니다. 배당 포함 수익률은 부분 표본에서만 검증했다.*", '');
+illustratedReadme = illustratedReadme.trimEnd() + '\n\n' + "## 이전 프로젝트 보존 기록\n\n과거 탐색 연구와 스냅샷은 현재 실증과 별도로 보존했다. [보존 자료 범위 안내](docs/ARCHIVED_MATERIALS.md)에서 구분을 확인할 수 있다.\n\n## 연구 한계\n\n- **대리지표:** 사외이사 비율은 원문의 MSCI Governance Score와 다르며 거버넌스 전반을 대변하지 않는다.\n- **관측기간:** 연속 가격경로는 4~6개월이며, 58개월 단면은 투자 가능한 장기 NAV가 아니다.\n- **수익률 검증:** 배당 포함 자료는 부분 표본이고 상폐·기업행동 대가 및 거래 가능성은 완전히 검증하지 못했다.\n- **식별 및 재현성:** 매칭으로 인과효과를 분리하지 못했으며 통계적 유의성·독립 OOS도 미검증이다." + '\n';
 writeFileSync(resolve(root, 'README.md'), illustratedReadme);
 const relative = (text: string): string => text.replace(/\]\(([^)]+)\)/g, (_, link: string) => '](' + (link.startsWith('http') || link.startsWith('#') ? link : '../' + link) + ')');
 writeFileSync(resolve(root, 'reports/RESEARCH_REPORT.md'), relative(readme));

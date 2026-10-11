@@ -1,0 +1,27 @@
+{
+  "date_kst": "2026-10-12",
+  "role": "POST_BASELINE_EXPLORATORY_SPECIFIED_BEFORE_SUPPLEMENT_OUTCOMES",
+  "question": "Does governance add investment information within PBR after considering size and PIT ROE?",
+  "original_design_modified": false,
+  "windows": {"Low": ["2021-07", "2021-12"], "High": ["2022-07", "2022-10"], "Strategy": ["2021-07", "2021-12"]},
+  "dividend": {
+    "field": "KR_return_cash_dividend_included_pct",
+    "conversion": "divide by 100",
+    "primary": "Original price-path beginning-of-month weights frozen; substitute FnGuide returns. Complete result only when every held return matches; otherwise matched-weight conditional moments, no NAV or full-portfolio label.",
+    "secondary": "If complete: same original formation and budgets, drift weights using FnGuide returns; no new rebalancing or window extension.",
+    "payoff_verified": false
+  },
+  "matching": {
+    "within": ["formation cohort", "original PBR group"],
+    "method": "Outcome-blind greedy one-to-one without replacement; sort all admissible edges by sum of squared normalized covariate distances then stock identifiers for ties.",
+    "max_abs_log_me_difference": 0.6931471805599453,
+    "max_abs_roe_difference": 0.05,
+    "max_abs_log_pbr_difference": 0.4054651081081644,
+    "missing_roe": "exclude from both eligible-before and matched-after samples, disclose attrition",
+    "outcomes": "58 same calendar months, equal mean across monthly observed price-return differences; matched monthly difference uses only pairs with both returns observed. Before sample is PIT-ROE-eligible firms on the identical calendar months. No compounded NAV, p-values or causal inference.",
+    "balance": "By-cohort aggregate means, medians and standardized mean differences; report coverage and residual imbalance. Fixed calipers will not be retuned."
+  },
+  "daily_audit": "Original 11 unique first-held-gap events and extreme filters only; inspect original and adjusted month-end levels and adjustment factors. No imputation or repair without economic payoff evidence.",
+  "factor_file": "Schema and units inspected only; no factor/FF3 outcome used.",
+  "publication": "Aggregates and hashes only; no FnGuide securities, raw sheets, daily levels, financial observations or keys."
+}

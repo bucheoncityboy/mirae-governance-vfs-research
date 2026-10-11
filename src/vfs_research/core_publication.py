@@ -124,6 +124,13 @@ def charts(root=ROOT):
 
 
 def sync(root=ROOT):
+    # The focused supplement owns the current research narrative. Preserve the
+    # historical publisher for archived runs; do not invoke its PDF path.
+    if (Path(root)/'outputs/supplement/summary.json').exists():
+        import subprocess
+        subprocess.run(['node', str(Path(root)/'node_modules/tsx/dist/cli.mjs'),
+                        str(Path(root)/'src/publication.ts')], cwd=root, check=True)
+        return
     root=Path(root);r,_=inputs(root);parts=sections(root)
     figures={'Research Design':'structure','H1 — Does Governance Differentiate Value Traps?':'h1','H2 — Does Governance Differentiate High-PBR Firms?':'h2','H3 — Does VFS Improve Portfolio Outcomes?':'h3'}
     text='# VFS: 세 가지 핵심 투자 가설의 실증\n\n독립 개인 Quant/ESG 연구 · 2026-10-11 KST · 탐색적 확장 · PRICE_RETURN_ONLY\n\n'
@@ -261,7 +268,11 @@ def verify(root=ROOT):
     embedded=json.loads(re.search(r'<script id="core-hypotheses-data" type="application/json">(.*?)</script>',page,re.S)[1]);assert embedded==r
     for file in ['README.md','reports/RESEARCH_REPORT.md','reports/EXECUTIVE_BRIEF.md','docs/CORE_HYPOTHESES.md','docs/INTERVIEW_BRIEF.md','dashboard/index.html']:
         text=(root/file).read_text()
-        for h in ['H1','H2','H3']:assert h in text
+        if (root/'outputs/supplement/summary.json').exists():
+            if file!='docs/CORE_HYPOTHESES.md':
+                assert '거버넌스는 PBR에 추가적인 투자 정보를 제공하는가?' in text
+        else:
+            for h in ['H1','H2','H3']:assert h in text
         for key in ['H1_low_pbr_governance','H2_high_pbr_governance']:
             assert f"{r[key]['mean_monthly_good_minus_bad_pp']:+.4f}" in text,'numeric narrative mismatch '+file
     forbidden={'stock_code','code','name','rcept_no','source_hash','financial_source_hash'}

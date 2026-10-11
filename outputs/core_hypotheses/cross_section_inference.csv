@@ -1,0 +1,3 @@
+pbr_group,security_months,firms,months,formation_cohorts,model,status,reason,good_coefficient,p_cluster,ci_low,ci_high,p_holm
+High,18450,496,58,5,MONTH_FE_GOOD_LOG_ME_PBR_PIT_ROE_TWO_WAY_FIRM_COHORT,NOT_ESTIMATED,fewer_than_10_annual_formation_clusters,,,,,
+Low,18846,478,58,5,MONTH_FE_GOOD_LOG_ME_PBR_PIT_ROE_TWO_WAY_FIRM_COHORT,NOT_ESTIMATED,fewer_than_10_annual_formation_clusters,,,,,

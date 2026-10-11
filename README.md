@@ -1,183 +1,134 @@
-# Value Focus Style | 공시 기반 거버넌스 가치전략의 독립 재구현 및 검증
+# VFS: 세 가지 핵심 투자 가설의 실증
 
-**미래에셋의 VFS 투자규칙을 실제 공시 시점에 맞춰 구성하면 어떤 수익률·위험·보유경로가 나타나는가?** 유건호 연구원의 「멀티플 탈출」(2026-05-28)을 따라 VFS 자체의 백테스트와 Value·시장 비교를 수행하는 독립 개인 연구입니다.
+독립 개인 Quant/ESG 연구 · 2026-10-11 KST · 탐색적 확장 · PRICE_RETURN_ONLY
 
-**한정 연구 완료: COMPLETE_LIMITED_EVIDENCE · VFS 실증 범위: EMPIRICAL_LIMITED.**
+## Executive Summary
 
-VFS 자체의 최장 연속 관측은 2021-07~2022-02(8개월)이며 누적 가격수익률은 VFS -17.30%, 같은 기간 KOSPI -18.96%입니다. Value와 동일 조건으로 비교하는 공통 연속 기간은 2021-07~2021-12(6개월)입니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며, VFS−Value 월평균 차이는 +0.43%p입니다.
+기업의 가치평가(PBR)에 거버넌스 정보를 결합하면 저평가 기업의 가치 함정을 구분하고 고평가 기업을 선별하며 투자 포트폴리오를 개선할 수 있는가?
 
-원천 PIT 결합 표본은 782기업·38,742 주식-월입니다. MSCI G 대신 사외이사 비율을 썼으며 **PRICE_RETURN_ONLY**, gross 0bp, 배당·상폐·독립 OOS 미검증입니다. FF3는 성과 해석을 위한 보조 검정으로 하단에 구분했습니다.
-
-**2026-10-11 원천 재현 검증:** 이전 비공개 파일 없이 공식 OpenDART를 재수집해 아래 8개월·6개월 성과를 다시 실행했습니다. VFS·Value·시장의 월수익률을 대조한 결과 허용오차 1e-12를 넘는 차이는 0건입니다. 원천 SHA의 차이, 결측 감사 보완과 G-neutral 2개월 제약은 [재구축 검증](docs/PUBLIC_SOURCE_REBUILD.md)과 [PDF 검증 부록](reports/PUBLIC_SOURCE_REBUILD_APPENDIX.pdf)에서 각각 설명했습니다. 기존 원문 대응 본문과 성과 스냅샷을 보존했습니다.
-
-[공식 원문 PDF](https://securities.miraeasset.com/bbs/maildownload/20260527170512707_154) · [독립 연구보고서](reports/RESEARCH_REPORT.pdf) · [Executive Brief](reports/EXECUTIVE_BRIEF.md) · [VFS 보유경로](outputs/figures/vfs_observed.png) · [배포 대시보드](https://bucheoncityboy.github.io/mirae-governance-vfs-research/) · [재현 방법](docs/REPRODUCIBILITY.md)
-
-![VFS 자체의 실제 연속 보유경로: 2021-07~2022-02 N=8 PRICE_RETURN_ONLY gross 0bp; Value 비교는 별도 공통 6개월](outputs/figures/vfs_observed.png)
-
-읽는 순서: 원문 배경 p5 → 가치평가 가설 p10 → 스타일 비교 p17 → **[VFS 규칙 p20](#04-rebuilding-the-vfs-strategy)** → **[원문과 실증 p21-23](#05-original-results-vs-our-backtest)** → **[다기간 검증 p28](#06-alpha-regimes--robustness)** → 결론 p25. [전체 목차·근거 매핑](docs/REPORT_TO_IMPLEMENTATION_MAP.md)은 p2의 모든 항목과 본문 표·그림을 연결합니다.
-
-## 00. Research Question & Findings
-
-**원문 (p3 Executive Summary)** — 저PBR만으로는 가치 함정을 구분하기 어려워 거버넌스가 우수한 저PBR와 고PBR 기업을 함께 담는 전략을 제안합니다.
-
-**우리의 구현** — 같은 모집단에서 VFS와 Value를 비교하고 수익률 차이와 FF3 조정 차이를 분리했습니다. 결과를 보기 전 [설계 커밋](https://github.com/bucheoncityboy/mirae-governance-vfs-research/commit/09a105ce651bc28eaad1e0993b12678a41acf61f)을 남겼지만 이전 G 연구를 알고 있었으므로 탐색 연구입니다.
-
-**실증 결과** — VFS 자체의 최장 연속 관측은 2021-07~2022-02(8개월)이며 누적 가격수익률은 VFS -17.30%, 같은 기간 KOSPI -18.96%입니다. Value와 비교할 때는 두 전략에 동일한 조건을 적용했습니다. 공통 연속 기간은 2021-07~2021-12(6개월)입니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며 VFS−Value 월평균 차이는 +0.43%p입니다.
-
-**판정: ADAPTED / 부분 관측.** VFS 자체의 8개월 기록과 세 전략의 공통 6개월 비교는 서로 다른 분석입니다. 원수익과 보유경로를 먼저 검증하며 FF3 추정 가능 여부로 VFS 백테스트의 존재 여부를 판정하지 않습니다. [보유경로 중단 원인과 구현 가정](docs/VFS_BACKTEST_DIAGNOSIS.md).
-
-## 01. Why Governance?
-
-**원문 (p5 「두개의 날개, 반도체와 거버넌스 개혁」, p8)** — 반도체 이익과 거버넌스 개혁을 시장 배경으로 설명합니다.
-
-**우리의 구현** — 이 배경에서 투자 규칙의 검증 질문을 가져왔습니다. 정책 효과나 반도체 경기의 인과효과를 재추정하지 않았습니다.
-
-**실증 결과** — 정책 이벤트 분석 **NOT_TESTED**. [규모·G 진단](outputs/size_G_diagnostics.csv)은 이사회 비율과 기업규모의 혼동 가능성을 점검할 뿐입니다.
-
-**판정: CONTEXT_ONLY.** 사외이사 비율은 종합 거버넌스 품질이 아니며 법정 선임요건·기업규모와 함께 움직일 수 있습니다.
-
-## 02. From Valuation to Hypothesis
-
-**원문 (p10 「코스피의 적정 멀티플을 찾아서」, p11·13·15)** — ROE와 COE를 연결해 적정 멀티플과 시나리오를 논의합니다.
-
-**우리의 구현** — [공시일 PIT](src/vfs_research/pit_features.py)와 공식 재무자료로 확인한 BE를 이용해 형성 시점 PBR을 계산했습니다. COE 모형, 전망 ROE와 적정 PBR 예측은 구현하지 않았습니다.
-
-**실증 결과** — 원시 증빙 9,186개 해시를 다시 확인했습니다. 과거 G와 재무자료가 동시에 연결되는 기간은 2021년 이후이며 [월별 커버리지](outputs/coverage_matrix.csv)에 공백을 남겼습니다.
-
-![실제 월별 데이터 커버리지: 2016-01~2026-04 기업수, 배당 및 상폐 미검증](outputs/figures/coverage.png)
-
-**판정: ADAPTED PBR / NOT_TESTED COE.** 주가 상승이나 이사회 비율만으로 할인율 하락을 추론하지 않습니다.
-
-## 03. Why Value Alone May Fail
-
-**원문 (p17 「코스피 아웃퍼폼의 조건」, p18)** — 단일 가치·성장 스타일의 한계와 시장 반응을 다룹니다.
-
-**우리의 구현** — [연간 백테스트](src/vfs_research/backtest.py)에서 같은 G·BE 적격기업, 같은 형성일과 수익률 데이터로 저PBR Value를 만들었습니다. Value는 시총가중이며 VFS와 다르게 상한을 추가하지 않았습니다.
-
-**실증 결과** — 아래 표는 실제 공통기간 2021-07~2021-12, 월 N=6, 배당 미포함 gross 0bp입니다.
-
-| 전략 (OUR_RESULT) | 6개월 누적 | 연환산 CAGR* | 연환산 변동성* | Sharpe* | 월간 MDD |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| VFS | -11.14% | -21.04% | 14.95% | -1.54 | -16.46% |
-| Value | -13.72% | -25.57% | 18.94% | -1.49 | -19.56% |
-| Market | -10.50% | -19.89% | 12.35% | -1.77 | -14.72% |
-
-*CAGR·변동성·Sharpe·Sortino는 월자료를 연환산한 6개월 진단치입니다. 장기 기대수익률을 의미하지 않습니다. MDD는 첫 투자 직전 NAV=1을 포함합니다.*
-
-**판정: ADAPTED.** 이 표로 원문 2016-2026년 가치전략의 부진을 검증했다고 주장할 수 없습니다.
-
-## 04. Rebuilding the VFS Strategy
-
-**원문 (p20 표6, p21 투자규칙)** — PBR×G 네 셀 중 Low-Good과 High-Good을 각각 절반씩 담고 셀 안의 종목 비중을 25%로 제한합니다.
-
-**우리의 구현** — [분류](src/vfs_research/sorts.py)와 [수렴하는 상한 재배분](src/vfs_research/portfolio.py)을 구현했습니다. 6월 말까지 공개된 연간 자료로 7월 수익률부터 투자하며 PBR 중앙값과 각 PBR군 내부 G 중앙값은 **우리 가정**입니다. 동점은 Low/Bad에 모두 남겨 인위적으로 쪼개지 않았습니다.
-
-**실증 결과** — [연간 셀 기업수](outputs/cell_formation_coverage.csv)와 [형성 비중·거래량](outputs/formation_summary.csv)을 공개했습니다. 25%/12.5%는 형성 시점에 검증했으며 연중 보유비중의 드리프트는 월별 집계에 별도로 남겼습니다. 결측 보유종목을 사후 제외하면 다른 포트폴리오가 되므로 해당 연간 경로를 중단했습니다.
-
-![실제 연간 4셀 기업수: 2016~2025년 7월 형성, 수익률 유효성과 별개](outputs/figures/cells.png)
-
-**판정: REIMPLEMENTED 규칙 / ADAPTED 입력.** MSCI의 다차원 점수와 사외이사 비율의 의미는 다릅니다. 원문 완전 재현이 아닙니다. [원문과 구현 구분](docs/ORIGINAL_VS_IMPLEMENTATION.md), [가정](docs/ASSUMPTIONS.md).
-
-## 05. Original Results vs Our Backtest
-
-**원문 (p21 표7·그림37-38, p22 표8-9, p23 표10)** — 원문은 2016.01~2026.04의 배당 포함 VFS 성과와 대형주·성장·가치 혼합 노출을 제시합니다.
-
-**우리의 구현** — 성과·표본·점수·가격/총수익률 차이를 분리했습니다. 종목별 FnGuide 원천과 유료 파생자료는 재배포하지 않았고 규모·ROE·집중도 집계만 공개했습니다. 원문 편입종목이나 현재 업종을 과거로 소급하지 않았습니다.
-
-**실증 결과**
-
-| 평가항목 | 미래에셋 원문 REFERENCE_ONLY | 우리 OUR_RESULT | 직접 비교 가능성 |
+| 핵심 가설 | 비교군 | 결과 | 실증 판정 |
 | --- | --- | --- | --- |
-| G | MSCI governance score | OpenDART 사외이사/전체 이사 | 정의 다름 |
-| 수익률 | 현금배당 포함, 윈저화 | PRICE_RETURN_ONLY; 기존 가격필터 미해결 | 제한 |
-| 기간/표본 | 2016.01~2026.04, MSCI 커버리지 | 2021.07~12, 6개월; 전체 PIT 결합 782기업 | 불일치 |
-| VFS | 연평균 20.14%, Sharpe 0.75 | 6개월 누적 -11.14%, Sharpe -1.54* | 동일 재현 아님 |
-| Value | 연평균 12.63%, Sharpe 0.50 | 6개월 누적 -13.72%, Sharpe -1.49* | 우리 내부 쌍별 비교 |
-| KOSPI | 연평균 18.10%, Sharpe 0.66 | 6개월 누적 -10.50% | 불일치 |
-| FF3 α / HAC p / CI | 표7에 없음 | NOT_ESTIMATED (6<24개월) | OUR EXTENSION |
+| H1 가치 함정 구분 | Low-Good vs Low-Bad | 6개월 누적 -14.38% / -9.05%; 월평균 차이 -1.0340%p | INSUFFICIENT_EVIDENCE |
+| H2 고PBR 선별 | High-Good vs High-Bad | 4개월 누적 +2.59% / -7.47%; 월평균 차이 +2.5481%p | INSUFFICIENT_EVIDENCE |
+| H3 VFS 포트폴리오 | VFS vs Value / G-neutral / KOSPI | Value 공통 6개월 -11.14% / -13.72%; 월평균 차이 +0.4325%p; EW -0.4158%p | MIXED_EVIDENCE |
 
-*원문 연평균수익률의 정확한 산식은 확인되지 않아 CAGR로 바꾸지 않았습니다. 원문 연평균과 우리 6개월 누적값은 다른 기간·정의의 지표입니다. 수치를 나란히 둔 목적은 일치나 우위 주장이 아니라 비교 불가능한 이유를 드러내는 것입니다.*
+H1은 짧은 가격수익률 비교에서 가설 방향과 반대였고, H2는 가설 방향과 같았습니다. 두 표본 모두 24개월 최소기간에 못 미쳐 경제적 가설 판정은 INSUFFICIENT_EVIDENCE입니다. H3는 Value 대비 양수 차이가 동일가중에서 음수로 바뀌어 MIXED_EVIDENCE입니다. 미추정은 통계적으로 비유의한 결과나 효과 0과 다릅니다.
 
-![Figure 1 실제 공통기간 누적지수: 2021-07~12 N=6 PRICE_RETURN_ONLY gross 0bp](outputs/figures/cumulative.png)
+새 기여는 네 셀의 실제 보유경로, 셀별 결측 감사, 형성 특성, 관측 단면 및 12개월 후속 가격 손실을 계산한 것입니다. 이는 기존 결과를 알고 구성한 탐색적 확장입니다.
 
-**Figure 2 - FF3 α와 95% CI: NOT_ESTIMATED.** 표본이 부족하므로 숫자나 모의 오차막대를 그리지 않았습니다. [알파 상태 CSV](outputs/ff3_alphas.csv).
+## Research Design
 
-**판정: ADAPTED / NOT_ESTIMATED.** VFS의 누적손실이 Value보다 작다는 진단과, 거버넌스의 독립적 보상은 다른 주장입니다.
+기존 적격기업을 7월에 형성합니다. 6월 말까지 공개된 G·장부자본과 lagged ME로 PBR 중앙값을 나누며 동점은 Low, 각 PBR군의 G 중앙값 동점은 Bad입니다. G는 사외이사/전체 이사 비율이며 원문의 MSCI 거버넌스 점수와 다릅니다.
 
-## 06. Alpha, Regimes & Robustness
+네 셀은 형성 시 시가총액 가중 및 종목 25% 상한을 적용합니다. VFS는 Low-Good 50% + High-Good 50%로 최종 종목 상한 12.5%를 유지합니다. 형성 후에는 연간 보유와 비중 드리프트를 적용합니다. 보유수익률 하나라도 결측이면 해당 셀의 연간 경로를 다음 형성까지 중단하며 결측을 채우거나 재선정하지 않습니다.
 
-**원문 (p28 「밸류 포커스 스타일 다기간 검증」, 그림40-42)** — 연도별 롱/롱숏 수익률과 Sharpe를 비교하며 Sharpe 그림은 RF 2%를 가정합니다.
+모든 실측 수익률은 PRICE_RETURN_ONLY, gross 0bp입니다. 각 가설의 가장 긴 공통 연속기간을 독립적으로 보고합니다. 단면 탐색은 최초 형성의 구성원을 계속 추적해 관측된 종목 수익률만 요약하므로 투자 가능한 NAV가 아닙니다.
 
-**우리의 구현 - OUR EXTENSION** — FF3 세 회귀(VFS, Value, VFS−Value), HAC3/6, 95% CI, 블록 부트스트랩, 비용·가중·상위5 제외·G 컷·PIT 지연·규모중립 민감도를 사전 고정했습니다. spread에서 RF를 다시 차감하지 않습니다. 미완성 연도에서 결측월만 빼고 연간 수익률을 계산하지 않습니다.
+원천 G 4,540건·재무 4,382건·증빙 객체 9,186개를 재검증했습니다. PIT 결합 782기업·38,742개 적격 주식-월입니다. 원문 2016–2020년의 결합 PIT 공백은 남습니다. 기존 분석계획과 해시는 보존했습니다.
 
-이 절의 FF3는 보조 위험조정 검정입니다. 주 작업인 VFS 구성·가중·리밸런싱·원수익 백테스트는 SMB/HML 자료 없이도 실행됩니다. α·t·p·CI는 최소 24개월 미충족으로 NOT_ESTIMATED이며 이는 VFS 원수익이 존재하지 않는다는 뜻이 아닙니다.
+![Research Design: 실제 관측기간과 표본은 본문 참조](outputs/core_hypotheses/figures/structure.svg)
 
-| 원문 다기간 분석 | 우리 독립 검증 | 결과 |
+## H1 — Does Governance Differentiate Value Traps?
+
+**2021-07~2021-12, 공통 6개월.** Good -14.3847%, Bad -9.0482%, 월평균 Good−Bad -1.0340%p. 차이가 양수인 월 1/6, 음수인 월 5/6입니다.
+
+| 표본 단위 | Good | Bad |
 | --- | --- | --- |
-| 연도별 롱/롱숏 수익률 | [연간 수익률 상태](outputs/annual_returns.csv) | VFS 완전한 12개월 연도 없음 |
-| 연도별 Sharpe | 12개월 rolling volatility | NOT_ESTIMATED; 공통 6개월 |
-| 표7 원수익·위험지표 | [FF3 및 spread HAC](outputs/ff3_alphas.csv) | α/t/p/CI 모두 NA |
-| 다기간 성과 | [등록된 11개 민감도](outputs/robustness.csv) | 모든 사양/NA 공개; 알파 미추정 |
-| 독립 OOS 미제시 | Independent OOS - NOT VERIFIED | UNVERIFIED; 기존 연구 이력으로 전 기간 인지 |
+| 같은 기간 형성 기업 수 | 150 | 183 |
+| 같은 기간 보유 기업-월 | 900 | 1098 |
 
-![실제 동일 6개월 민감도 월평균 spread: 가격수익률, 비용 사양 별도, 추론 CI 없음](outputs/figures/robustness.png)
+| 형성 특성 (관측 종목 평균) | Good | Bad |
+| --- | --- | --- |
+| PBR 중앙값 | 0.687 | 0.677 |
+| 시총 중앙값 (십억원) | 496.40 | 209.26 |
+| ROE 평균 / 가용 기업 | 2.48% / 148 | 2.61% / 182 |
 
-**실증 결과** — [편향 감사](outputs/bias_audit.csv)와 [블록 부트스트랩](outputs/bootstrap.json)은 해결한 절차와 남은 자료 제약을 나눕니다. 생존·상폐·기업행동·배당·역사적 업종·법정 규모요건·독립 OOS는 미검증입니다. Holm 보정에 투입할 추정 가능한 알파 검정도 없습니다.
+별도 관측 단면은 58개월의 월별 종목 평균을 비교했습니다. 월평균 Good−Bad +0.1315%p, 양수 월 29, 음수 월 29. 월평균 결측률은 Good 0.188%, Bad 0.511%입니다. 모든 월을 투자 가능한 셀 수익률로 연결한 결과가 아닙니다. 규모 3분위·형성연도·PIT ROE별 결과와 PBR 분포는 별도 집계 CSV로 공개합니다.
 
-[ROE·12-1 가격 모멘텀 노출 진단](outputs/control_exposure_diagnostics.csv)은 형성 이전 자료만 쓰며 각 변수의 관측 비중을 함께 표시합니다. 이는 빠진 산업·배당·유동성 통제를 해결한 인과 검정이 아닙니다. EW 사양에서는 같은 6개월의 VFS−Value 월평균 차이가 음수로 바뀌어 성과 차이의 규모·가중 방식 의존성도 남았습니다.
+탐색적 가치 함정 결과변수는 형성 후 12개월 가격 누적손실 ≤-30%입니다. 모든 12개월 수익률을 관측한 종목만 계산하며 결측과 2025년 형성군의 우측 검열을 별도 보고합니다. 종목 생존·기업행동 선택편향 때문에 가치 함정을 회피했다는 인과 결론은 내리지 않습니다. 후속 수익성 악화는 독립 검증된 일관된 재무 시계열이 없어 NOT_TESTED입니다.
 
-**판정: NOT_ESTIMATED / OOS NOT VERIFIED.** 실패한 검증 게이트는 전략 실패의 확정도, 알파 부재의 확정도 아닙니다. 현재 자료로는 질문에 통계적으로 답할 수 없습니다.
+| 셀 | 형성 기업·연도 | 완전한 12개월 경로 | 우측 검열 | 결측/비정상 | -30% 이하 손실(완전 경로) |
+| --- | --- | --- | --- | --- | --- |
+| Low-Good | 756 | 598 | 154 | 4 | 105/598 (17.56%) |
+| Low-Bad | 893 | 714 | 168 | 11 | 103/714 (14.43%) |
+| High-Good | 738 | 579 | 147 | 12 | 141/579 (24.35%) |
+| High-Bad | 908 | 717 | 174 | 17 | 218/717 (30.40%) |
 
-<!-- FINAL_EVIDENCE_START -->
-### 결측은 어떤 경제적 사건이었는가?
+Low-Good 손실률은 완전 경로 105/598 (17.56%), Low-Bad는 103/714 (14.43%)입니다. 2021–2024년의 4개 형성군 모두 Good의 손실률이 더 높아 이 가격손실 대리지표도 가치 함정 회피를 뒷받침하지 않았습니다. 이는 독립 기업 N에 대한 유의성 검정이 아니며 재무 악화·경제적 상폐 손실을 포괄하지 않습니다.
 
-원문 p21·p28의 장기 성과와 비교하려면 종목의 가격뿐 아니라 현금·신주·거래 가능성까지 이어져야 합니다. VFS 7건과 Value 6건의 첫 보유 결측을 중복 제거한 **11개 사건**을 조사했습니다. 후보 58개에서 관련 **16개 접수번호·37개 공식 본문 절**을 확인했습니다. 일부 교환 대가와 일정은 확인했지만 실제 지급·월말 평가·수정주가 기준을 함께 입증하지 못해 **수익률 수정은 0건**입니다. [사건별 근거와 판정](docs/ECONOMIC_RETURN_RECOVERY.md).
+관측된 가장 긴 Low-PBR 비교는 Good가 열위였습니다. 다만 6개월 방향을 장기 가치 함정 가설의 기각이나 비유의 검정으로 해석하지 않습니다.
 
-2021년 12월의 현금·신주 권리 전환은 공통기간 마지막 달의 경제적 평가에도 영향을 줄 수 있습니다. 2022/2024년에는 6월 말 형성 이전 거래정지 사례도 확인했습니다. 따라서 기존 8/6개월 수치는 동일 정의의 **가격 데이터 경로**를 재현한 결과이며 투자 가능한 총수익률은 아닙니다. 이번 오프라인 재실행에서도 월수익률 차이 1e-12 초과는 0건입니다.
+판정: **INSUFFICIENT_EVIDENCE**. FF3·HAC3/6·95% CI는 **NOT_ESTIMATED**.
 
-![관측된 최초 중단 노출: 2022-01~2025-09, 10개 전략 중단월·13개 보유 기록·11개 고유 사건; 가격경로 gross 0bp, 원문 수치 아님](outputs/final/figures/held_gap_exposure.svg)
+![H1 — Does Governance Differentiate Value Traps?: 실제 관측기간과 표본은 본문 참조](outputs/core_hypotheses/figures/h1.svg)
 
-미확인 비중에 -100/-50/+50/+100% 수익률을 가정한 기여분을 별도 표시했습니다. **실측 성과·신뢰구간·가능 범위의 상하한이 아니며 NAV를 연장하지 않습니다.** 작은 비중도 결측을 0으로 채울 근거가 되지 않습니다.
+## H2 — Does Governance Differentiate High-PBR Firms?
 
-![가정 기반 미확인 포지션 기여분: 같은 10개 중단월, 실측 비중 × 가정 수익률; 배당·비용 반영 포트폴리오 성과 아님, 기간 연장 없음](outputs/final/figures/missing_scenarios.svg)
-<!-- FINAL_EVIDENCE_END -->
+**2022-07~2022-10, 공통 4개월.** Good +2.5935%, Bad -7.4670%, 월평균 Good−Bad +2.5481%p. 차이가 양수인 월 3/4, 음수인 월 1/4입니다.
 
-## 07. What Held Up, What Did Not
+| 표본 단위 | Good | Bad |
+| --- | --- | --- |
+| 같은 기간 형성 기업 수 | 124 | 177 |
+| 같은 기간 보유 기업-월 | 496 | 708 |
 
-**원문 (p25 「결론: 멀티플 탈출의 조건」)** — 가격 수준보다 거버넌스와 이익이 뒷받침하는 가치의 이유를 강조합니다.
+| 형성 특성 (관측 종목 평균) | Good | Bad |
+| --- | --- | --- |
+| PBR 중앙값 | 1.416 | 1.433 |
+| 시총 중앙값 (십억원) | 1175.62 | 245.57 |
+| ROE 평균 / 가용 기업 | 3.10% / 120 | -1.86% / 170 |
 
-**우리의 구현** — 투자규칙을 공시 시점에 맞춰 번역하고 실제 보유경로가 어디서 끊기는지 확인했습니다. 원문과 같은 성과를 얻기 위해 표본이나 조건을 바꾸지 않았습니다.
+별도 관측 단면은 58개월의 월별 종목 평균을 비교했습니다. 월평균 Good−Bad +0.4678%p, 양수 월 32, 음수 월 26. 월평균 결측률은 Good 0.575%, Bad 0.814%입니다. 모든 월을 투자 가능한 셀 수익률로 연결한 결과가 아닙니다. 규모 3분위·형성연도·PIT ROE별 결과와 PBR 분포는 별도 집계 CSV로 공개합니다.
 
-**실증 결과** — Value와의 비교는 동일한 조건을 적용한 공통 연속 기간 2021-07~2021-12(6개월)을 기준으로 했습니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며 VFS−Value 월평균 차이는 +0.43%p입니다. 원본에서 절대 가격수익률 100% 초과 659건을 제거한 사실도 다시 확인했습니다. 배당과 상폐 대가, 수정주가·공시 정정 이전 값, 역사적 모집단을 확보해야 검증을 진전시킬 수 있습니다.
+Good의 양수 차이는 고PBR군 내부의 관측된 가격수익률 정보입니다. PBR·규모·ROE 차이와 단면 선택편향이 남으며, 적정 PBR이나 자기자본비용(COE)의 인과적 정당화는 검정하지 않았습니다. H1의 2021년 결과와 H2의 2022년 결과도 같은 시장기간의 효과 크기처럼 비교하지 않습니다.
 
-**판정: EMPIRICAL_LIMITED.** 규칙과 데이터 연결은 재구현했지만 투자 가능한 장기 전략·유의한 FF3 알파·거버넌스 인과효과는 입증하지 못했습니다. 다음 분석은 같은 설계를 유지한 완전한 기업행동·총수익률 자료와 충분한 신규 독립기간에서 수행해야 합니다.
+판정: **INSUFFICIENT_EVIDENCE**. FF3·HAC3/6·95% CI는 **NOT_ESTIMATED**.
 
-연구 결과물은 원천 재현·11건 사건 감사·미추정 판정을 갖춘 한정 연구로 완결했습니다. [가설별 결론](docs/RESEARCH_CONCLUSION.md), [면접 요약](docs/INTERVIEW_BRIEF.md), [기준 대비 최종 비교](outputs/final/baseline_vs_final.csv)를 함께 제공합니다. 장기 투자전략·FF3 알파·독립 OOS의 검증 완료를 뜻하지 않습니다.
+![H2 — Does Governance Differentiate High-PBR Firms?: 실제 관측기간과 표본은 본문 참조](outputs/core_hypotheses/figures/h2.svg)
 
-## Appendix A. Scope of Replication
+## H3 — Does VFS Improve Portfolio Outcomes?
 
-p26 자기자본비용 추정과 p27 MSCI 다차원 점수·요인 계산(그림39)은 **NOT_REPLICATED**입니다. FF3는 우리 조건부 위험조정 확장입니다. 원문 목차와 정확한 페이지는 [근거 매핑](docs/REPORT_TO_IMPLEMENTATION_MAP.md)에 있습니다.
+기존 VFS 결과와 주 분석은 그대로입니다. VFS 자체 2021-07~2022-02의 8개월 누적 -17.30%와 비교군 공통 6개월은 별도 표본입니다.
 
-## Prior Research & Limitations
+| 2021-07~12 / N=6 | 누적 | 월수익률 연환산 변동성* | MDD |
+| --- | --- | --- | --- |
+| VFS | -11.14% | 14.95% | -16.46% |
+| Value | -13.72% | 18.94% | -19.56% |
+| Market | -10.50% | 12.35% | -14.72% |
 
-[기존 거버넌스 탐색연구](legacy_governance_pilot/output/RESEARCH_NOTE.md)와 [비유의 보조 결과](legacy_governance_pilot/output/RESULT_STATUS.json)는 이관해 보존했습니다. 과거 고정150단계 표본의 2024.04~2026.03 24개월 α +0.5145%/월, HAC p=0.3888(비유의)은 **LEGACY_ONLY**이며 새 VFS 실적이 아닙니다. 기존 전수 4셀 주 검정은 연속 3개월로 미추정이었습니다. [연구 이력](docs/LEGACY_HISTORY.md), [이관 명세](docs/MIGRATION_MANIFEST.md).
+VFS−Value 월평균 +0.4325%p. PBR 50:50 G-neutral과 VFS의 별도 공통기간은 2021-07~2021-08, 2개월이며 누적 -4.0659% / -3.7833%, 월평균 차이 -0.1441%p입니다. 서로 다른 기간의 누적치를 동일 성과 순위로 나열하지 않습니다. *짧은 표본의 연환산 변동성은 진단값입니다.
 
-## Methods / Reproducibility / Data Dictionary / Limitations
+동일 6개월 동일가중에서는 월평균 차이 -0.4158%p로 부호가 역전됐습니다. 형성연도별 G와 log(ME)의 상관은 0.3945~0.4731입니다. VFS는 Low/High 예산·셀 상한·시총가중이 Value와 달라 순수 G 효과를 분리하지 못합니다. H1/H2의 형성 진단은 PBR 분포·규모·ROE·HHI·유효 종목수·결측률도 기록합니다. G-neutral은 PBR군 예산만 맞춘 비교군이며 연속 PBR와 규모까지 같지 않습니다.
 
-[방법과 가정](docs/ASSUMPTIONS.md) · [실행·공개 숫자 재계산](docs/REPRODUCIBILITY.md) · [데이터 사전](docs/DATA_DICTIONARY.md) · [게이트 A](docs/GATE_A.md) · [편향 감사](outputs/bias_audit.csv) · [이관 상태](MIGRATION_STATUS.md).
+거래비용 10/30bp는 기존 one-way 매수+매도 가정과 회전율에 따른 민감도로 남깁니다. 경로 중단 후 이전 비중이 불명확하면 재형성 비용도 NA입니다. 독립 규모 매칭 전략은 소수 형성군·기업행동·결측 제약으로 추가하지 않았으며 규모 층화는 탐색 단면 진단으로 제공합니다.
 
-## Appendix B. Public-source Reconstruction / 2026-10-11
+판정: **MIXED_EVIDENCE**. Value 대비 제한적 양수 차이와 EW 부호 반전이 공존합니다. 장기 투자성과·거버넌스 증분 알파는 INSUFFICIENT_EVIDENCE이며 FF3 알파는 NOT_ESTIMATED입니다.
 
-**원문 주장과 대응 (p20-23, p28)** — 투자규칙을 과거 시점 자료로 구성하고 여러 기간에서 성과를 검증해야 합니다.
+![H3 — Does VFS Improve Portfolio Outcomes?: 실제 관측기간과 표본은 본문 참조](outputs/core_hypotheses/figures/h3.svg)
 
-**실제 구현** — GitHub 기준 코드를 새 환경에 복원해 공식 공시 45,570건과 고유 법인 매핑 877종목을 확인했습니다. G 4,540건·재무 4,382건과 원응답 객체 9,186개를 재검증한 뒤 기존 엔진을 별도 폴더에서 실행했습니다. 기존 주 분석 잠금과 11개 강건성 사양을 유지했습니다.
+![동일기간 가중 방식의 부호 반전](outputs/core_hypotheses/figures/robustness.svg)
 
-**실증 결과** — 기존 8개월·6개월의 성과와 월별 수익률은 일치했습니다. 전체 원수익률 결측은 2,068건으로, 가격 행과 매칭된 1,716건 외에 기존 내부 조인이 제외한 352건을 새 감사에서 보존했습니다. 전체 가격 필터는 659건이며 목표 기간에는 213건입니다. 보유 경로의 첫 중단 기록은 VFS 7건·Value 6건입니다. 탐색 G-neutral 비교에서는 PBR 구간 예산을 맞췄습니다. 공통 연속 기간은 2개월이어서 FF3/HAC/CI를 추정하지 않았습니다.
+## Conclusion & Limitations
 
-![새 원천에서 재현한 VFS와 기존 공개 스냅샷: 동일 8개월, PRICE_RETURN_ONLY](outputs/reconstruction/figures/replay_comparison.svg)
+H1·H2를 실제 원천에서 계산했지만 가치 함정 회피, 정당한 프리미엄, 장기 G 알파를 입증하지 못했습니다. H3의 양수 spread도 가중 방식에 의존했습니다. 연구의 기여는 유리한 결과를 선택하는 데 있지 않고, 비교군·관측기간·결측·혼동요인을 일관되게 검증하는 데 있습니다.
 
-![전체 원패널과 연구기간을 구분한 결측 감사: 중복되는 범위이므로 막대를 더하지 않음](outputs/reconstruction/figures/return_audit.svg)
+단면 자료는 782개 고유 기업, 38,254개 기대 기업-월, 38,050개 관측 기업-월, 58개 달, 5개 연간 형성군입니다. 반복 기업-월을 독립 표본으로 취급하지 않습니다. 월 고정효과·Good·log(ME)·연속 PBR·PIT ROE의 기업/형성군 이중 군집 검정 코드를 구현했지만 형성군 5개가 사양의 최소 10개에 못 미쳐 실제 계수·p·CI는 미추정입니다. 58개월의 선택된 단면을 58개월 투자 가능한 전략으로 바꾸거나 FF3의 24개월 조건을 우회하지 않았습니다.
 
-**원문과 비교·한계** — 원천부터 재실행한 사실은 확인했지만 MSCI G, 배당 포함 수익률, 원문 전체 기간을 맞추지는 못했습니다. 이전 제목 후보는 58개입니다. 후속 본문에서 일부 계약상 교환 조건을 확인했지만 양월 경제적 평가·실제 지급은 미검증이어서 수정은 0건입니다. SHA 차이는 이전 원파일 부재로 필드별 원인을 확정할 수 없습니다. 생존·상폐·정정 이전 값·독립 OOS·장기 알파는 여전히 미완료입니다.
+2016–2020년 PIT 공백, 원문 MSCI G와의 차이, 배당·상폐 대가·기업행동, 전체 역사적 모집단, 정정 이전 공시, 독립 OOS는 미검증입니다. 기존 보유 결측 11개 사건에 대해 16개 접수번호·37개 공식 본문 절을 조사했으나 경제적 수익률 수정은 0건입니다. 2021년 12월 권리 전환과 형성 전 거래정지 때문에 관측 가격 NAV의 투자 가능성도 확정하지 못했습니다.
 
-[원천 입력 해시](outputs/reconstruction/recollected_input_manifest.json) · [재실행 요약](outputs/reconstruction/raw_replay_summary.json) · [보유 결측 진단](outputs/reconstruction/recollected_held_gap_diagnosis.csv) · [공식 공시 후보 감사](outputs/reconstruction/official_event_audit.json) · [검증 부록 PDF](reports/PUBLIC_SOURCE_REBUILD_APPENDIX.pdf). 공개 변경은 PR 필수 검사와 배포 검증을 거칩니다. [최종 검증](outputs/final/raw_replay_validation.json).
+추정 가능한 셀·spread의 HAC3/6 총 16개 사양에는 Holm 보정을 적용하는 코드가 있고 이번에는 전부 미추정입니다. 단면 2개 계수 검정은 별도 탐색 가족으로 관리합니다. 개별 95% CI를 동시 신뢰구간으로 주장하지 않습니다.
+
+## Appendix
+
+원문의 목차별 해설과 기존 실증·감사를 보존한 [이전 메인 보고서](snapshots/pre-core-hypotheses-f0cf8db/reports/RESEARCH_REPORT.pdf), [기존 README](snapshots/pre-core-hypotheses-f0cf8db/README.md), [기술 감사 대시보드](dashboard/appendix.html)를 함께 제공합니다.
+
+| 보존 자료 | 문서 |
+| --- | --- |
+| 원문 목차·개혁·반도체·COE/적정 멀티플 | [원문 대응표](docs/REPORT_TO_IMPLEMENTATION_MAP.md) · [원문/구현 차이](docs/ORIGINAL_VS_IMPLEMENTATION.md) |
+| 과거 공시·PIT·원천 재구축·SHA256 | [재구축](docs/PUBLIC_SOURCE_REBUILD.md) · [원천 영수증](outputs/reconstruction/recollected_input_manifest.json) |
+| 기업행동·상폐·11개 결측 사건 | [경제적 수익률 감사](docs/ECONOMIC_RETURN_RECOVERY.md) · [수정 0건](outputs/final/return_repair_status.csv) |
+| FF3·강건성·설계 잠금·기존 결과 | [설계](config/vfs_pre_analysis_plan.yaml) · [강건성](outputs/robustness.csv) · [불변성 목록](docs/core_baseline_hashes.json) |
+| 신규 탐색 계획·의사결정·재현 | [계획](config/core_hypotheses_exploratory_plan.yaml) · [이력](docs/CORE_DECISIONS.md) · [재현](docs/CORE_REPRODUCIBILITY.md) |
+
+[핵심 집계 JSON](outputs/core_hypotheses/hypothesis_results.json) · [면접 요약](docs/INTERVIEW_BRIEF.md) · [연구 PDF](reports/RESEARCH_REPORT.pdf) · [Executive Brief](reports/EXECUTIVE_BRIEF.pdf) · [GitHub Pages](https://bucheoncityboy.github.io/mirae-governance-vfs-research/)
+
+기존 주 분석 기준 문구: Value와 동일 조건으로 비교하는 공통 연속 기간은 2021-07~2021-12(6개월)입니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며, VFS−Value 월평균 차이는 +0.43%p입니다.

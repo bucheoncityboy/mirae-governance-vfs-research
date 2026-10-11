@@ -226,6 +226,9 @@ p26 자기자본비용 추정과 p27 MSCI 다차원 점수·요인 계산(그림
 
 
 def report():
+    if (ROOT/'outputs/core_hypotheses/hypothesis_results.json').exists():
+        from .core_publication import sync
+        return sync()
     d,_,_,_=public_inputs();export_strategy_diagnostics(d)
     text,brief,summary=narrative()
     (ROOT/'README.md').write_text(text)
@@ -251,6 +254,9 @@ def report():
 
 
 def verify_public():
+    if (ROOT/'outputs/core_hypotheses/hypothesis_results.json').exists():
+        from .core_publication import verify
+        verify()
     d,q,perf,s=public_inputs()
     if not np.allclose(d.spread,d.VFS-d.Value,equal_nan=True):raise ValueError('spread arithmetic')
     from .stats import contiguous

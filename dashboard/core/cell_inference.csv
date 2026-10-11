@@ -1,0 +1,17 @@
+strategy,hac_lags,n_months,status,reason,alpha,t_hac,p_hac,ci_low,ci_high,beta_mkt,beta_smb,beta_hml,rf_subtracted,hypothesis,model,pair_months,p_holm,multiplicity_family
+Low-Good,3,6,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,True,H1,FF3,6,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+Low-Bad,3,6,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,True,H1,FF3,6,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+spread,3,6,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,False,H1,FF3,6,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+spread,3,6,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,False,H1,MEAN_SPREAD,6,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+Low-Good,6,6,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,True,H1,FF3,6,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+Low-Bad,6,6,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,True,H1,FF3,6,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+spread,6,6,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,False,H1,FF3,6,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+spread,6,6,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,False,H1,MEAN_SPREAD,6,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+High-Good,3,4,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,True,H2,FF3,4,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+High-Bad,3,4,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,True,H2,FF3,4,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+spread,3,4,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,False,H2,FF3,4,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+spread,3,4,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,False,H2,MEAN_SPREAD,4,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+High-Good,6,4,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,True,H2,FF3,4,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+High-Bad,6,4,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,True,H2,FF3,4,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+spread,6,4,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,False,H2,FF3,4,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY
+spread,6,4,NOT_ESTIMATED,less_than_24_contiguous_months,,,,,,,,,False,H2,MEAN_SPREAD,4,,CORE_CELL_16_HAC_SPECIFICATIONS_EXPLORATORY

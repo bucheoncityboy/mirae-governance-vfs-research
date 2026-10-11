@@ -5,7 +5,7 @@ import { root, json, csv, numeric } from './research_io.js';
 
 const repo = 'https://github.com/bucheoncityboy/mirae-governance-vfs-research';
 const pages = 'https://bucheoncityboy.github.io/mirae-governance-vfs-research/';
-const title = '거버넌스는 PBR에 추가적인 투자 정보를 제공하는가?';
+const title = '사외이사 비율은 PBR 기반 종목선별을 보완하는가?';
 const out = resolve(root, 'outputs/supplement'); const dashboard = resolve(root, 'dashboard');
 interface Matching { group: string; before_price_spread_pp: number; matched_price_spread_pp: number; total_formation_pairs: number; observed_pair_months: number; expected_pair_months: number; dual_observed_pair_months: number; dual_price_spread_pp: number; matched_total_spread_pp: number; max_abs_post_smd: number; }
 interface Dividend { group: string; weighting: string; original_price_spread_pp: number; matched_price_spread_pp: number; dividend_conditional_spread_pp: number; min_weight_coverage: number; expected_security_months: number; matched_security_months: number; }
@@ -22,23 +22,33 @@ const table = (rows: (string | number)[][]): string => rows.map((r, i) => '| ' +
 const formation = csv(resolve(root, 'outputs/core_hypotheses/formation_diagnostics.csv'));
 const f = (cell: string, date: string, field: string): number => numeric(formation.find(r => r.cell === cell && r.date === date)![field])!;
 const legacy = 'Value와 동일 조건으로 비교하는 공통 연속 기간은 2021-07~2021-12(6개월)입니다. 이 기간 누적 가격수익률은 VFS -11.14%, Value -13.72%, KOSPI -10.50%이며, VFS−Value 월평균 차이는 +0.43%p입니다.';
-const conclusion = `현재 자료에서 **PBR에 거버넌스를 더한 선별이 모든 PBR 구간에서 일관되게 유용했다고 판단할 수 없다.** 저PBR에서는 원래 연속 가격경로의 Good 열위와 매칭 후 음의 차이가 함께 나타났다. 고PBR에서는 양의 차이가 관측됐고 규모·PIT ROE·PBR을 맞춘 뒤에도 일부 남아, 일부 양의 수익률 차이가 관측된다. 다만 매칭 후 차이가 줄고 동일가중 민감도에서 부호가 바뀌어, 그 우위를 거버넌스 고유 효과로 인정할 근거는 충분하지 않다.
+const conclusion = `**공시된 사외이사 비율만으로 VFS의 PBR×거버넌스 종목선별 논리를 안정적으로 구현했다고 판단하기는 어렵다.**
 
-배당 포함 부분 표본은 이 판단을 뒤집지 않았다. 시총가중 VFS의 Value 대비 차이는 같은 매칭 부분 표본에서 양수였지만 동일가중에서는 음수였고, 전체 보유 종목의 총수익률은 확인되지 않았다. 따라서 **거버넌스 프록시를 규모·수익성과 독립된 보편적 선별 기준으로 정당화하기에는 증거가 부족하며, 고PBR의 잔여 차이도 독립적인 정보 가치의 증거로 단정할 수 없다.** 이 판단은 사외이사 비율·선택된 한국 기업·관측기간에 한정된다. MSCI G, 2016~2020년 PIT 공백, 상폐·합병 대가와 거래 가능성, 독립 OOS 및 장기 알파는 미검증이다.`;
-const executive = `같은 PBR 집단 안에서 Good의 상대성과는 저PBR의 짧은 연속 가격경로에서 음수, 고PBR에서는 양수였으며, 두 기간은 서로 다르다. 동일한 58개월 관측 단면에서 규모·PIT ROE·PBR을 맞추자 저PBR 차이는 음수로 바뀌고 고PBR의 양의 차이는 줄었다. FnGuide 배당 포함 부분 표본은 시총가중 상대성과의 방향을 유지했지만, VFS−Value는 동일가중에서 음수였고 모든 보유 종목의 총수익률은 확보되지 않았다. 따라서 고PBR의 일부 양의 차이는 관측됐지만, 원문의 Good 중심 투자 논리를 전 PBR 구간의 일관된 선별 효용이나 거버넌스 고유 효과로 확인하지 못했다.`;
+저PBR의 2021년 연속 가격경로에서는 사외이사 비율 상위 집단이 부진했고, 고PBR의 2022년 다른 기간에는 우위가 관측됐다. 같은 58개월 관측 단면에서 규모·PIT ROE·PBR이 유사한 기업으로 비교 대상을 제한하자 고PBR의 양의 차이는 축소됐고 저PBR의 차이는 음수였다. 또한 VFS의 Value 대비 상대성과는 시총가중과 동일가중에서 부호가 달랐다. 배당 포함 부분 표본도 이 민감도를 해소하지 못했다.
+
+**따라서 이번 결과는 '거버넌스가 투자에 중요하지 않다'거나 '미래에셋 VFS 전략이 틀렸다'는 결론이 아니다.** 우리가 검증한 것은 MSCI의 복합 점수가 아닌 **사외이사 비율이라는 단일 공개 대리지표의 적용 가능성**이다. 이 지표만으로 추가적인 투자성과를 확인하기에는 근거가 부족하며, 종목선별에 활용하려면 기업규모·수익성·포트폴리오 가중치의 영향을 함께 평가해야 한다.
+
+결론의 범위는 기존 공시 기반 형성군과 관측기간에 한정한다. 서로 다른 4~6개월 연속 가격경로, 관측 가능한 기업만 포함한 58개월 단면, 배당 포함 자료의 부분 커버리지, 기업행동·상폐 대가 및 독립 OOS 미검증으로 인해 장기 성과나 인과효과는 입증하지 않는다.`;
+const executive = `**핵심 발견은 단일 대리지표의 선별 성과가 일관되지 않다는 점이다.** 사외이사 비율 상위 집단의 수익률은 저PBR의 짧은 연속 가격경로에서 열위였고, 다른 기간의 고PBR 경로에서는 우위였다. 58개월 관측 단면에서 규모·PIT ROE·PBR이 유사한 기업끼리 비교하면 고PBR의 양의 차이는 줄었고, VFS−Value도 가중 방식에 따라 부호가 바뀌었다. 이는 원문 MSCI G 전략에 대한 반증이 아니라 **공개 사외이사 비율 하나를 적용한 결과**다.`;
+const purpose = `본 연구는 미래에셋증권 「멀티플 탈출」의 **PBR×거버넌스(VFS) 투자 아이디어**에서 출발해, 공개 공시자료의 **사외이사 비율**이 PBR 기반 종목선별에 보완적인 정보를 제공하는지 살펴본다. 원문의 MSCI Governance Score를 대체하거나 원문 장기 수익률을 재현하려는 연구가 아니라, **하나의 공개 대리지표를 적용했을 때 나타나는 결과와 제약**을 평가하는 독립 실증이다.`;
+const toc = `- **Ⅰ. 서론 — 연구 배경과 설계:** 원문 VFS 아이디어, 공개 대리지표의 의미, 비교 기준
+- **Ⅱ. 본론 — 실증 분석:** PBR 구간별 상대성과, 규모·ROE·PBR 매칭, VFS 구현 민감도
+- **Ⅲ. 결론 — 투자적 시사점:** 사외이사 비율만으로 확인할 수 있는 범위와 남는 한계`;
 const headline = table([
   ['검증하려는 주장', '핵심 실증', '판단'],
   ['같은 PBR 구간에서 Good이 우세한가?', `가격 Good−Bad: 저PBR ${pp(low.mean_monthly_good_minus_bad_pp)}%p/월(6개월), 고PBR ${pp(high.mean_monthly_good_minus_bad_pp)}%p/월(4개월)`, '방향이 일관되지 않으며 기간도 다름'],
   ['유사한 기업 특성에서도 차이가 남는가?', `58개월 관측 단면: 저PBR ${pp(match('Low').before_price_spread_pp)} → ${pp(match('Low').matched_price_spread_pp)}, 고PBR ${pp(match('High').before_price_spread_pp)} → ${pp(match('High').matched_price_spread_pp)}%p/월`, '매칭 표본에서 저PBR 음수·고PBR 양수'],
   ['투자 구현에 견고한가?', `VFS−Value: 시총가중 ${pp(dividend('Strategy').original_price_spread_pp)}, 동일가중 ${pp(dividend('Strategy', 'EW').original_price_spread_pp)}%p/월`, '가중 방식에 민감; 배당 포함은 부분 표본']
 ]);
-const design = `미래에셋증권 유건호 연구원의 「멀티플 탈출」(2026-05-28)은 PBR과 MSCI Governance Score를 결합해 저평가·양호 거버넌스 기업의 재평가와 고PBR·양호 거버넌스 기업의 멀티플 유지 가능성을 제시했다. 원문의 VFS는 Low-Good과 High-Good에 각각 50%를 배분하고 연간 리밸런싱하며, 셀 내부 종목별 25%·최종 종목별 12.5% 상한을 적용한다.
+const design = `PBR이 낮다는 사실만으로 저평가를 확정할 수 없고, 높다는 사실만으로 고평가를 확정할 수도 없다. 미래에셋증권 「멀티플 탈출」(2026-05-28)은 이런 문제의식에서 **PBR과 MSCI Governance Score를 결합**한 Value Focus Style(VFS)을 제안했다. 원문은 Low-Good과 High-Good에 각각 50%를 배분한다.
 
-![PBR과 거버넌스의 네 집단 및 원문 VFS 배분](outputs/supplement/figures/structure.svg)
+![원문의 PBR×G 투자 아이디어와 네 집단](outputs/supplement/figures/structure.svg)
 
-우리는 “같은 PBR 구간에서 거버넌스가 규모·수익성과 별개로 더 나은 투자 결과를 구분하는가?”를 검증한다. G는 MSCI 점수 대신 공시된 **사외이사/전체 이사 비율**이다. 기존 검증 PIT 패널의 6월 말 정보로 7월에 형성하고, 형성 모집단의 PBR 중앙값 이하를 Low, 각 PBR 내 G 중앙값 초과를 Good으로 분류한다. 중앙값 동률은 각각 Low·Bad에 둔다. 네 셀은 시총가중에 25% 상한을 적용한 뒤 다음 형성까지 비중을 자연 변동시키며, VFS는 Good 두 셀에 50:50을 배분한다. Value는 전체 Low를 시총가중한다. 비용 차감 전 가격수익률을 사용하고 보유 결측 발생 시 해당 연간 경로를 중단한다.
+**이 연구에서 달라지는 것은 G의 정의다.** 원문은 MSCI의 복합 거버넌스 평가를 사용하지만, 우리는 **공시된 사외이사 수/전체 이사 수**를 사용한다. 이하 Good·Bad는 각 PBR 구간 안에서 **사외이사 비율이 중앙값을 초과하는지**에 따른 기술적 분류일 뿐, 기업의 전반적인 거버넌스 품질을 인증하는 표현이 아니다. 따라서 우리의 결과를 원문 MSCI G의 성과나 거버넌스 개혁의 인과효과로 해석하지 않는다.
 
-공동 PIT 검증이 가능한 형성군은 2021–2025년의 5개 연간 형성군이다. 782개 고유 기업의 58개월 관측 단면과, 결측 없이 이어지는 저PBR 6개월·고PBR 4개월·VFS 비교 6개월의 가격경로를 구분한다. 새 재무자료는 공시일이 확인되지 않아 선정·통제에 쓰지 않았다. 규모·ROE 비교는 기존 PIT를 재사용하고, FnGuide는 배당 포함 수익률 민감도와 기존 가격 이상 확인에만 사용했다. 모든 보완은 기존 결과를 알고 진행한 탐색이며 독립 사전등록·OOS가 아니다.`;
+기존 검증된 공시 시점(PIT) 자료로 2021~2025년 다섯 연간 형성군을 만들고, 형성 시점의 PBR 중앙값으로 Low/High를 구분한다. 6월 말 이용 가능한 정보로 7월에 형성하며, 각 셀은 종목별 25% 상한 시총가중, VFS는 Low-Good/High-Good 50:50, Value 비교군은 Low-PBR 시총가중을 사용한다. 원래 보유 가격경로와 별도로 2021-07~2026-04 **58개월 관측 단면**을 분석하며, 둘을 하나의 장기 투자 NAV처럼 연결하지 않는다.
+
+핵심 실증은 **같은 PBR 구간에서 사외이사 비율 상위/하위 집단의 상대성과**, **규모·PIT ROE·PBR 매칭 후 변화**, **가중치와 배당 포함 수익률의 민감도**다. 새 FnGuide 재무자료는 공시일이 확인되지 않아 PIT 종목선정이나 통제변수로 사용하지 않았다.`;
 const finding1 = `**저PBR 연속 가격경로에서는 Good이 Bad보다 부진했고, 고PBR의 다른 연속기간에서는 Good이 우세했다.** 같은 형성 PBR 집단의 Good/Bad를 원래 시총 비중·연간 보유 규칙으로 비교한 결과다.
 
 ${table([

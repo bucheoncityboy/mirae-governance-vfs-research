@@ -86,7 +86,9 @@ ${table([
 매칭된 기업 짝에 배당 자료까지 있는 같은 월별 부분 표본에서도 저PBR은 가격 ${pp(match('Low').dual_price_spread_pp)} → 배당 포함 ${pp(match('Low').matched_total_spread_pp)}%p/월(${match('Low').dual_observed_pair_months.toLocaleString('en-US')} 짝-월), 고PBR은 ${pp(match('High').dual_price_spread_pp)} → ${pp(match('High').matched_total_spread_pp)}%p/월(${match('High').dual_observed_pair_months.toLocaleString('en-US')} 짝-월)로 부호가 유지됐다. 이는 같은 매칭 방법의 수익률 기준 민감도이며 추가 전략이 아니다.`.replaceAll('\\`', '`');
 const appendix = `기존 결과·설계·원천 감사는 보존했다. 본문은 단일 연구 질문에 집중하며, 상세 기술자료는 다음 링크에서 확인할 수 있다.
 
-[보완 분석 방법·재현](docs/SUPPLEMENT_REPRODUCIBILITY.md) · [기존 설계 잠금](config/vfs_pre_analysis_plan.yaml) · [결과 보기 전 고정한 보완 규칙](config/supplement_plan.json) · [기존 4셀 결과](outputs/core_hypotheses/hypothesis_results.json) · [상세 강건성](outputs/robustness.csv) · [기업행동 감사](docs/ECONOMIC_RETURN_RECOVERY.md) · [원천 검증](docs/PUBLIC_SOURCE_REBUILD.md) · [기존 상세 대시보드](dashboard/appendix.html) · [2026-10-11 핵심 분석 보존 페이지](dashboard/core-archive.html) · [면접 요약](docs/INTERVIEW_BRIEF.md) · [GitHub Pages](${pages})`;
+[보완 분석 방법·재현](docs/SUPPLEMENT_REPRODUCIBILITY.md) · [기존 설계 잠금](config/vfs_pre_analysis_plan.yaml) · [결과 보기 전 고정한 보완 규칙](config/supplement_plan.json) · [기존 4셀 결과](outputs/core_hypotheses/hypothesis_results.json) · [상세 강건성](outputs/robustness.csv) · [기업행동 감사](docs/ECONOMIC_RETURN_RECOVERY.md) · [원천 검증](docs/PUBLIC_SOURCE_REBUILD.md) · [기존 상세 대시보드](dashboard/appendix.html) · [2026-10-11 핵심 분석 보존 페이지](dashboard/core-archive.html) · [면접 요약](docs/INTERVIEW_BRIEF.md) · [GitHub Pages](${pages})
+
+${legacy}`;
 
 const parts: [string, string][] = [
   ['Executive Summary', headline + '\n\n' + executive],

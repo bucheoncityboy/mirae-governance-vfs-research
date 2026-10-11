@@ -37,11 +37,19 @@ const finding1 = '**저PBR에서는 비율 상위 집단이 부진했고, 고PBR
 const finding2 = '**규모·ROE·PBR이 유사한 기업을 비교하면 고PBR의 양의 차이는 축소됐다.**\n\n' + table([['58개월 관측 단면 · Good−Bad', '매칭 전', '매칭 후'], ['저PBR', pp(match('Low').before_price_spread_pp) + '%p/월', pp(match('Low').matched_price_spread_pp) + '%p/월'], ['고PBR', pp(match('High').before_price_spread_pp) + '%p/월', pp(match('High').matched_price_spread_pp) + '%p/월']]) + '\n\n같은 형성연도·PBR 집단에서 시가총액, 공시 시점 ROE, PBR이 유사한 기업을 1:1 매칭했다. **매칭 전후 표본 구성은 다르며**, 58개월 값은 관측 종목의 평균 차이이지 투자 가능한 전략 수익률이나 인과효과가 아니다.';
 const finding3 = legacy + '\n\n' + '다만 동일가중 기준 VFS−Value 월평균 차이는 ' + pp(dividend('Strategy','EW').original_price_spread_pp) + '%p로 **부호가 반전**됐다. FnGuide 배당 포함 수익률을 사용한 부분 표본에서도 시총가중 ' + pp(dividend('Strategy').dividend_conditional_spread_pp) + '%p, 동일가중 ' + pp(dividend('Strategy','EW').dividend_conditional_spread_pp) + '%p로 차이가 유지됐다. **배당 포함 결과는 전체 보유종목을 포함한 완전한 포트폴리오 성과가 아니다.**';
 const appendix = "[분석 방법 및 재현](docs/SUPPLEMENT_REPRODUCIBILITY.md) · [핵심 결과 데이터](outputs/supplement/summary.json) · [실증 대시보드](https://bucheoncityboy.github.io/mirae-governance-vfs-research/)";
+const structureFigure = '![PBR과 사외이사 비율에 따른 4개 집단](outputs/supplement/figures/structure.svg)';
+const pbrFigure = '![저PBR과 고PBR의 Good-Bad 월평균 차이, 관측기간 상이](outputs/supplement/figures/pbr_spread.svg)';
+const matchingFigure = '![동일 58개월 단면의 기업 특성 매칭 전후 수익률 차이](outputs/supplement/figures/matching.svg)';
+const implementationFigure = '![VFS-Value 시가총액 가중 및 동일가중 성과 민감도](outputs/supplement/figures/implementation.svg)';
 const parts: [string, string][] = [
   ['연구 목적', purpose],
   ['목차', toc],
-  ['Ⅰ. 서론 — 연구 배경과 설계', design],
-  ['Ⅱ. 본론 — 주요 실증 결과', '### 1. PBR 구간별 상대성과\n\n' + finding1 + '\n\n### 2. 기업 특성 매칭 후 비교\n\n' + finding2 + '\n\n### 3. VFS의 Value 대비 성과와 가중치 민감도\n\n' + finding3],
+  ['Ⅰ. 서론 — 연구 배경과 설계', design + '\n\n' + structureFigure],
+  ['Ⅱ. 본론 — 주요 실증 결과',
+    '### 1. PBR 구간별 상대성과\n\n' + finding1.replace('\n\n**주의:**', '\n\n' + pbrFigure + '\n\n**주의:**') +
+    '\n\n### 2. 기업 특성 매칭 후 비교\n\n' + finding2.replace('\n\n같은 형성연도', '\n\n' + matchingFigure + '\n\n같은 형성연도') +
+    '\n\n### 3. VFS의 Value 대비 성과와 가중치 민감도\n\n' + finding3 + '\n\n' + implementationFigure
+  ],
   ['Ⅲ. 결론 — 투자적 시사점', conclusion],
   ['자료 및 재현', appendix]
 ];

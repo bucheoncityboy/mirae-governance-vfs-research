@@ -299,8 +299,14 @@ def verify_public():
     for row in standalone.itertuples():
         if digest(ROOT/row.target)!=row.sha256:raise ValueError('standalone legacy changed '+row.target)
     forbidden=[]
-    for p in ROOT.rglob('*'):
-        if not p.is_file() or any(z in p.relative_to(ROOT).parts for z in ['.git','.cache','private','raw','__pycache__','.pytest_cache']):continue
+    def public_files():
+        import os
+        ignored={'.git','.cache','private','raw','__pycache__','.pytest_cache','_workspace','node_modules','.venv'}
+        for directory, folders, names in os.walk(ROOT):
+            folders[:]=[name for name in folders if name not in ignored]
+            for name in names:
+                yield Path(directory)/name
+    for p in public_files():
         if p.suffix in ['.parquet','.bundle']:forbidden.append(str(p.relative_to(ROOT)))
         if p.suffix in ['.py','.md','.json','.csv','.yaml','.yml','.html']:
             content=p.read_text(errors='replace')
@@ -308,4 +314,4 @@ def verify_public():
     if forbidden:raise ValueError('raw/proprietary publication '+str(forbidden))
     if {'SMB','HML','Mkt-RF'} & set(d.columns):raise ValueError('factor columns belong to supplementary inputs, not the VFS raw-return file')
     result={'status':'PASS','research_focus':'VFS_PORTFOLIO_BACKTEST','actual_months':len(q),'paired_comparison_months':len(q),'vfs_own_months':len(vfs_observed_window(d)),'copied_files_hash_verified':len(copied),'standalone_legacy_files_hash_verified':len(standalone),'performance_recomputed':True,'narrative_dashboard_same_results':True,'local_link_failures':0,'secret_scan':'PASS','source_rows_published':False,'empirical_completion':'EMPIRICAL_LIMITED'}
-    (ROOT/'outputs/public_verification.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))
+    (ROOT/'outputs/public_verification.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8',newline='\n');print(json.dumps(result))

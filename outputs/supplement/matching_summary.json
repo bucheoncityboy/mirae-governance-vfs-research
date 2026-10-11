@@ -1,0 +1,34 @@
+[
+  {
+    "group": "Low",
+    "months": 58,
+    "formation_cohorts": 5,
+    "total_formation_pairs": 438,
+    "before_price_spread_pp": 0.1245360592609625,
+    "matched_price_spread_pp": -0.2520227776825431,
+    "dual_price_spread_pp": -0.25481984980801253,
+    "matched_total_spread_pp": -0.2537625578676851,
+    "expected_pair_months": 5076,
+    "observed_pair_months": 5034,
+    "dual_observed_pair_months": 4793,
+    "max_abs_post_smd": 0.0759841928391274,
+    "inference": "NOT_ESTIMATED_5_COHORTS_EXPLORATORY",
+    "comparison": "Same months and PIT-ROE eligibility; different membership after matching, pairwise deletion only for moments"
+  },
+  {
+    "group": "High",
+    "months": 58,
+    "formation_cohorts": 5,
+    "total_formation_pairs": 331,
+    "before_price_spread_pp": 0.5695377425628203,
+    "matched_price_spread_pp": 0.25948938811594585,
+    "dual_price_spread_pp": 0.17016919430751687,
+    "matched_total_spread_pp": 0.17811114660432223,
+    "expected_pair_months": 3852,
+    "observed_pair_months": 3816,
+    "dual_observed_pair_months": 3644,
+    "max_abs_post_smd": 0.06877639644154826,
+    "inference": "NOT_ESTIMATED_5_COHORTS_EXPLORATORY",
+    "comparison": "Same months and PIT-ROE eligibility; different membership after matching, pairwise deletion only for moments"
+  }
+]

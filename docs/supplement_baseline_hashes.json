@@ -1,0 +1,28 @@
+{
+  "baseline": "abbd19de4a6120dd3265d4ba8dc1b735aff8374c",
+  "normalization": "UTF8_CRLF_TO_LF",
+  "files": {
+    "config/core_hypotheses_exploratory_plan.yaml": "032e5f82922598d4e46bba9dcc8ea46a7e733297b496bf0464901b587a80a6f5",
+    "config/design_lock.json": "6fc3301872085d1559fb959f664d22c1c64931039eafc962de686c0a384504be",
+    "config/vfs_pre_analysis_plan.yaml": "7031ec9953b685caadcbd8a23fff160fae89d1dc5fee215308394fa861926741",
+    "outputs/core_hypotheses/cell_continuous_segments.csv": "ef533a8b4b2df1cd95eac89d55b0f8c20fafa327aa25e59ab00560f42bbb6895",
+    "outputs/core_hypotheses/cell_inference.csv": "44f0b1bfefbe543eccbece3ac233fa24a128e456cdffe395630942d2184544f6",
+    "outputs/core_hypotheses/cell_monthly_returns.csv": "1b3d6bfbfabf5c2ad791bfd07fff4897a0ddc59b4b45dc23759ce00da76b3e7b",
+    "outputs/core_hypotheses/cross_section_inference.csv": "9fa1f6f117f9cc1c36caa9f264512fbd62e70554a095b1953a9c21a9c6353f78",
+    "outputs/core_hypotheses/formation_diagnostics.csv": "008cfdb2bec49bc9dceec35e5b3fade0f067fd71599ba3db40f79e441036a43e",
+    "outputs/core_hypotheses/forward_loss_12m.csv": "66fd66c33dcfa4c56ffe5c7e077e57fad9536c6c2e14e0ff990febeda5ca868e",
+    "outputs/core_hypotheses/hypothesis_judgments.csv": "b20bc3460bad3cf887758b505359a2ca8242491d8b77bc54359fd0a695400864",
+    "outputs/core_hypotheses/hypothesis_results.json": "4bda11b5ecdfa0d3fa037e809e46db12055fc6b285f469a32d8e9c64cb1b27e6",
+    "outputs/core_hypotheses/observed_by_formation_year.csv": "31cbc985314e29b5cd764f78772398222f0b3db8df960b916e02088cc0e5b125",
+    "outputs/core_hypotheses/observed_by_roe_stratum.csv": "d45997db2d726d47a9b531f210d01c381ee75312028ebb2000ec1bd89388bc16",
+    "outputs/core_hypotheses/observed_by_size_stratum.csv": "fc8803bcf2f3329da41557bc98b815c834b7f30d32292d2c7c308ff0a6e81d86",
+    "outputs/core_hypotheses/observed_good_bad_monthly.csv": "49c29c86a1657ab48276b3192d223ad2272cf687cf81b4d6642839c4aed014dd",
+    "outputs/core_hypotheses/observed_security_monthly.csv": "bbaf8194b8870b9c9222fe4f5df3a1f15df44fdb7c6782d952046c5112644be0",
+    "outputs/monthly_returns.csv": "a5c9fd658289338266f1335c11357548b259c45fa90d871eff4ca81a86a75d3d",
+    "outputs/robustness.csv": "5d0723ac52376b53d9102d3ebb92d2961a47ee53a7fe37349ca0d14aab0ec9f6",
+    "src/vfs_research/backtest.py": "c993518fba0f058adb0c95c382b59ec1beee7b27f621783cf55fe46953d81076",
+    "src/vfs_research/core_cross_section.py": "3eb4ceeb7a4a854f26c61f68984fc1ce6b08dec93f2ac439d0a4c38b74fab889",
+    "src/vfs_research/core_hypotheses.py": "1d71a42f5c687eb8503c22f66c72932fe68dca5ec7a72d55dcd1b1a3804b28c9",
+    "src/vfs_research/portfolio.py": "ca08bc60c959fa775817d145ad7685ba172cb13d56f4b0482aeeae24cddcded8"
+  }
+}

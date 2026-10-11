@@ -15,3 +15,6 @@ outputs/final/figures/*.png
 _workspace/
 tmp/
 outputs/core_hypotheses/figures/*.png
+node_modules/
+fnguidedata/
+outputs/supplement/figures/*.png

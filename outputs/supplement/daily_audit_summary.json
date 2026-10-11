@@ -1,0 +1,34 @@
+{
+  "file": "FnGuide_일간_주가.xlsx",
+  "sha256": "d0a9dd122607171dad4fefe7060c9edff474e8f9964501e2c3baa827e7316a60",
+  "worksheet": "Sheet1",
+  "header_row": 34,
+  "security_column": "R",
+  "item_column": "U",
+  "date_columns": "X:EZC",
+  "date_start": "2009-12-30",
+  "date_end": "2026-05-26",
+  "source_item_codes": [
+    "S410000650",
+    "S410000660",
+    "S410000670",
+    "S410000700",
+    "S410001600",
+    "S41000170F"
+  ],
+  "inspected_items": [
+    "S410000700: adjusted price KRW",
+    "S410001600: adjustment factor"
+  ],
+  "row_count": 14025,
+  "unique_original_events": 11,
+  "daily_securities_matched": 3,
+  "complete_month_boundaries": 3,
+  "extreme_events": 4,
+  "extremes_persist_above100": 3,
+  "price_basis_disagreements": 0,
+  "adjustment_factor_changes": 0,
+  "returns_repaired": 0,
+  "economic_payoff_verified": false,
+  "limits": "Daily snapshot and adjustment factors do not verify actual cash/share delivery, original close or tradability. Missing endpoint is not replaced by last available security price."
+}

@@ -270,7 +270,7 @@ def verify(root=ROOT):
         text=(root/file).read_text()
         if (root/'outputs/supplement/summary.json').exists():
             if file!='docs/CORE_HYPOTHESES.md':
-                assert '거버넌스는 PBR에 추가적인 투자 정보를 제공하는가?' in text
+                assert '사외이사 비율은 PBR 기반 종목선별을 보완하는가?' in text
         else:
             for h in ['H1','H2','H3']:assert h in text
         for key in ['H1_low_pbr_governance','H2_high_pbr_governance']:

@@ -11,6 +11,9 @@ from .data_ingest import ROOT
 
 
 def sync():
+    if (ROOT/'outputs/core_hypotheses/hypothesis_results.json').exists():
+        from .core_publication import sync as sync_core
+        return sync_core()
     final=ROOT/'outputs/final'
     status=json.loads((final/'completion_status.json').read_text())
     proof=json.loads((final/'raw_replay_validation.json').read_text())

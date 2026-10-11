@@ -1,0 +1,299 @@
+{
+  "scope": "CORE_THESIS_EXPLORATORY_POST_BASELINE",
+  "original_vfs_results_modified": false,
+  "H1_low_pbr_governance": {
+    "status": "DESCRIPTIVE_ONLY",
+    "months": 6,
+    "start": "2021-07",
+    "end": "2021-12",
+    "mean_monthly_good_minus_bad_pp": -1.034031193833158,
+    "positive_spread_months": 1,
+    "negative_spread_months": 5,
+    "paired_valid_months_all_blocks": 11,
+    "good_cumulative_pct": -14.384650534665532,
+    "bad_cumulative_pct": -9.048232333245954,
+    "inference": "NOT_ESTIMATED",
+    "note": "Post-baseline exploratory comparison. No independent OOS or causal claim.",
+    "return_basis": "PRICE_RETURN_ONLY",
+    "judgment": "INSUFFICIENT_EVIDENCE",
+    "hypothesis": "H1",
+    "good": "Low-Good",
+    "bad": "Low-Bad",
+    "formation_companies_by_cell": {
+      "Low-Good": 150,
+      "Low-Bad": 183
+    },
+    "matched_held_security_months": {
+      "Low-Good": 900,
+      "Low-Bad": 1098
+    },
+    "claim": "Return-based exploratory comparison; value-trap/premium causal interpretation unverified"
+  },
+  "H2_high_pbr_governance": {
+    "status": "DESCRIPTIVE_ONLY",
+    "months": 4,
+    "start": "2022-07",
+    "end": "2022-10",
+    "mean_monthly_good_minus_bad_pp": 2.548137815555387,
+    "positive_spread_months": 3,
+    "negative_spread_months": 1,
+    "paired_valid_months_all_blocks": 6,
+    "good_cumulative_pct": 2.593461816651832,
+    "bad_cumulative_pct": -7.466989657516898,
+    "inference": "NOT_ESTIMATED",
+    "note": "Post-baseline exploratory comparison. No independent OOS or causal claim.",
+    "return_basis": "PRICE_RETURN_ONLY",
+    "judgment": "INSUFFICIENT_EVIDENCE",
+    "hypothesis": "H2",
+    "good": "High-Good",
+    "bad": "High-Bad",
+    "formation_companies_by_cell": {
+      "High-Good": 124,
+      "High-Bad": 177
+    },
+    "matched_held_security_months": {
+      "High-Good": 496,
+      "High-Bad": 708
+    },
+    "claim": "Return-based exploratory comparison; value-trap/premium causal interpretation unverified"
+  },
+  "H3_strategy": {
+    "status": "SHORT_WINDOW_DESCRIPTIVE_ONLY",
+    "vfs_minus_value": {
+      "status": "DESCRIPTIVE_ONLY",
+      "months": 6,
+      "start": "2021-07",
+      "end": "2021-12",
+      "mean_monthly_good_minus_bad_pp": 0.43251339026846,
+      "positive_spread_months": 3,
+      "negative_spread_months": 3,
+      "paired_valid_months_all_blocks": 8,
+      "good_cumulative_pct": -11.141154572392232,
+      "bad_cumulative_pct": -13.724336383600233,
+      "inference": "NOT_ESTIMATED",
+      "note": "Post-baseline exploratory comparison. No independent OOS or causal claim.",
+      "return_basis": "PRICE_RETURN_ONLY"
+    },
+    "vfs_minus_g_neutral": {
+      "status": "DESCRIPTIVE_ONLY",
+      "months": 2,
+      "start": "2021-07",
+      "end": "2021-08",
+      "mean_monthly_good_minus_bad_pp": -0.144120948907195,
+      "positive_spread_months": 0,
+      "negative_spread_months": 2,
+      "paired_valid_months_all_blocks": 2,
+      "good_cumulative_pct": -4.065910287521335,
+      "bad_cumulative_pct": -3.7833431947220553,
+      "inference": "NOT_ESTIMATED",
+      "note": "Post-baseline exploratory comparison. No independent OOS or causal claim.",
+      "return_basis": "PRICE_RETURN_ONLY"
+    },
+    "vfs_own_months": 8,
+    "vfs_own_total_return_pct": -17.296637955336546,
+    "equal_weight_vfs_minus_value_monthly_pp": -0.41581949256548,
+    "hypothesis": "H3",
+    "judgment": "MIXED_EVIDENCE",
+    "inference": "NOT_ESTIMATED"
+  },
+  "confounding": {
+    "G_log_ME_correlation_min": 0.3944972348173976,
+    "G_log_ME_correlation_max": 0.473110454500021
+  },
+  "limitations": [
+    "MSCI governance score not available; outside-director proxy only",
+    "PBR/style/size/weighting differences mean VFS-Value is not pure G alpha",
+    "Cash dividends, corporate-action payoff, delisting, OOS unverified",
+    "No significance claim from six or two continuous months"
+  ],
+  "source_validation": {
+    "governance_verified": 4540,
+    "financial_verified": 4382,
+    "raw_objects_rehashed": 9186,
+    "joint_observations": 38742,
+    "joint_companies": 782,
+    "source_panel_sha256": "7514bb99c521b8178a04cdaab7864da4645bc2afcceed0cd9ea47ec1e397d8db",
+    "market_panel_sha256": "7b7535158649ac6c304a68aedc71a6a301107d75541811aafcdea9380382f584",
+    "live_DART_refresh": "NOT_PERFORMED_OFFLINE_CACHED_EVIDENCE",
+    "current_snapshot_revisions": "CURRENT_OFFICIAL_RESPONSES_ORIGINAL_BEFORE_CORRECTION_UNVERIFIED",
+    "status": "RAW_HASH_RECEIPT_DATE_AND_VALUE_REVERIFIED",
+    "private_paths_published": false
+  },
+  "analysis_plan_sha256": "032e5f82922598d4e46bba9dcc8ea46a7e733297b496bf0464901b587a80a6f5",
+  "analysis_plan_role": "POST_BASELINE_EXPLORATORY_NOT_PREREGISTERED",
+  "hypothesis_results": [
+    {
+      "status": "DESCRIPTIVE_ONLY",
+      "months": 6,
+      "start": "2021-07",
+      "end": "2021-12",
+      "mean_monthly_good_minus_bad_pp": -1.034031193833158,
+      "positive_spread_months": 1,
+      "negative_spread_months": 5,
+      "paired_valid_months_all_blocks": 11,
+      "good_cumulative_pct": -14.384650534665532,
+      "bad_cumulative_pct": -9.048232333245954,
+      "inference": "NOT_ESTIMATED",
+      "note": "Post-baseline exploratory comparison. No independent OOS or causal claim.",
+      "return_basis": "PRICE_RETURN_ONLY",
+      "judgment": "INSUFFICIENT_EVIDENCE",
+      "hypothesis": "H1",
+      "good": "Low-Good",
+      "bad": "Low-Bad",
+      "formation_companies_by_cell": {
+        "Low-Good": 150,
+        "Low-Bad": 183
+      },
+      "matched_held_security_months": {
+        "Low-Good": 900,
+        "Low-Bad": 1098
+      },
+      "claim": "Return-based exploratory comparison; value-trap/premium causal interpretation unverified"
+    },
+    {
+      "status": "DESCRIPTIVE_ONLY",
+      "months": 4,
+      "start": "2022-07",
+      "end": "2022-10",
+      "mean_monthly_good_minus_bad_pp": 2.548137815555387,
+      "positive_spread_months": 3,
+      "negative_spread_months": 1,
+      "paired_valid_months_all_blocks": 6,
+      "good_cumulative_pct": 2.593461816651832,
+      "bad_cumulative_pct": -7.466989657516898,
+      "inference": "NOT_ESTIMATED",
+      "note": "Post-baseline exploratory comparison. No independent OOS or causal claim.",
+      "return_basis": "PRICE_RETURN_ONLY",
+      "judgment": "INSUFFICIENT_EVIDENCE",
+      "hypothesis": "H2",
+      "good": "High-Good",
+      "bad": "High-Bad",
+      "formation_companies_by_cell": {
+        "High-Good": 124,
+        "High-Bad": 177
+      },
+      "matched_held_security_months": {
+        "High-Good": 496,
+        "High-Bad": 708
+      },
+      "claim": "Return-based exploratory comparison; value-trap/premium causal interpretation unverified"
+    },
+    {
+      "status": "SHORT_WINDOW_DESCRIPTIVE_ONLY",
+      "vfs_minus_value": {
+        "status": "DESCRIPTIVE_ONLY",
+        "months": 6,
+        "start": "2021-07",
+        "end": "2021-12",
+        "mean_monthly_good_minus_bad_pp": 0.43251339026846,
+        "positive_spread_months": 3,
+        "negative_spread_months": 3,
+        "paired_valid_months_all_blocks": 8,
+        "good_cumulative_pct": -11.141154572392232,
+        "bad_cumulative_pct": -13.724336383600233,
+        "inference": "NOT_ESTIMATED",
+        "note": "Post-baseline exploratory comparison. No independent OOS or causal claim.",
+        "return_basis": "PRICE_RETURN_ONLY"
+      },
+      "vfs_minus_g_neutral": {
+        "status": "DESCRIPTIVE_ONLY",
+        "months": 2,
+        "start": "2021-07",
+        "end": "2021-08",
+        "mean_monthly_good_minus_bad_pp": -0.144120948907195,
+        "positive_spread_months": 0,
+        "negative_spread_months": 2,
+        "paired_valid_months_all_blocks": 2,
+        "good_cumulative_pct": -4.065910287521335,
+        "bad_cumulative_pct": -3.7833431947220553,
+        "inference": "NOT_ESTIMATED",
+        "note": "Post-baseline exploratory comparison. No independent OOS or causal claim.",
+        "return_basis": "PRICE_RETURN_ONLY"
+      },
+      "vfs_own_months": 8,
+      "vfs_own_total_return_pct": -17.296637955336546,
+      "equal_weight_vfs_minus_value_monthly_pp": -0.41581949256548,
+      "hypothesis": "H3",
+      "judgment": "MIXED_EVIDENCE",
+      "inference": "NOT_ESTIMATED"
+    }
+  ],
+  "cross_section": {
+    "role": "EXPLORATORY_OBSERVED_RETURNS_NOT_INVESTABLE_NAV",
+    "firms": 782,
+    "expected_security_months": 38254,
+    "observed_security_months": 38050,
+    "calendar_months": 58,
+    "annual_formation_cohorts": 5,
+    "dependence": "Repeated firms/months/cohorts; security-month row count is not independent sample size",
+    "selection": "Missing-return firms excluded only from descriptive observed-return moments; selection bias remains",
+    "inference": "NOT_ESTIMATED_TOO_FEW_FORMATION_CLUSTERS",
+    "financial_deterioration": "NOT_TESTED_NO_INDEPENDENTLY_VERIFIED_LONGITUDINAL_PROFITABILITY_OUTCOME",
+    "groups": {
+      "High": {
+        "months": 58,
+        "mean_monthly_good_minus_bad_pp": 0.46779348057437353,
+        "positive_months": 32,
+        "negative_months": 26,
+        "mean_missing_fraction_good_pct": 0.5749758432172986,
+        "mean_missing_fraction_bad_pct": 0.8138425591887133
+      },
+      "Low": {
+        "months": 58,
+        "mean_monthly_good_minus_bad_pp": 0.13150471151701396,
+        "positive_months": 29,
+        "negative_months": 29,
+        "mean_missing_fraction_good_pct": 0.18799844153515682,
+        "mean_missing_fraction_bad_pct": 0.5109254318806951
+      }
+    },
+    "forward_loss_price_proxy": {
+      "Low": {
+        "Good": {
+          "complete_security_years": 598,
+          "loss_security_years": 105,
+          "loss_fraction": 0.17558528428093645,
+          "missing_security_years": 4,
+          "right_censored_security_years": 154
+        },
+        "Bad": {
+          "complete_security_years": 714,
+          "loss_security_years": 103,
+          "loss_fraction": 0.14425770308123248,
+          "missing_security_years": 11,
+          "right_censored_security_years": 168
+        },
+        "complete_formation_cohorts": 4,
+        "cohorts_good_lower_loss_fraction": 0,
+        "role": "DESCRIPTIVE_SELECTED_COMPLETE_PRICE_PATHS_NO_CLUSTER_INFERENCE"
+      },
+      "High": {
+        "Good": {
+          "complete_security_years": 579,
+          "loss_security_years": 141,
+          "loss_fraction": 0.24352331606217617,
+          "missing_security_years": 12,
+          "right_censored_security_years": 147
+        },
+        "Bad": {
+          "complete_security_years": 717,
+          "loss_security_years": 218,
+          "loss_fraction": 0.30404463040446306,
+          "missing_security_years": 17,
+          "right_censored_security_years": 174
+        },
+        "complete_formation_cohorts": 4,
+        "cohorts_good_lower_loss_fraction": 4,
+        "role": "DESCRIPTIVE_SELECTED_COMPLETE_PRICE_PATHS_NO_CLUSTER_INFERENCE"
+      }
+    }
+  },
+  "baseline_invariance": {
+    "changed_monthly_returns_above_1e_12": {
+      "VFS": 0,
+      "Value": 0,
+      "Market": 0
+    },
+    "primary_design_modified": false
+  }
+}

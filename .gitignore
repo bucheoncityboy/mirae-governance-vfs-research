@@ -13,3 +13,5 @@ __pycache__/
 outputs/reconstruction/figures/*.png
 outputs/final/figures/*.png
 _workspace/
+tmp/
+outputs/core_hypotheses/figures/*.png

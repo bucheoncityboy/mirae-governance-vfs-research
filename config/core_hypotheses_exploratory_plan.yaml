@@ -1,0 +1,20 @@
+scope: EXPLORATORY_POST_BASELINE_NOT_PREREGISTERED
+date_kst: '2026-10-11'
+baseline: f0cf8db2488a3364c698c0d8517a83be5771733d
+initial_implementation: b4725e6
+primary_design_modified: false
+known_before_extension: 'Published H3 results and all original sensitivity results'
+question: 'Does outside-director information differentiate firms within PBR groups and improve VFS outcomes?'
+window: ['2016-01', '2026-04']
+formation: 'Original eligible July universe; June PIT; median PBR ties Low; within-PBR median G ties Bad'
+portfolios: 'Four independent capped-VW cells; 25% formation cap; annual buy-and-hold drift'
+missing: 'Any missing held return stops that cell until next July; no imputation or reselection'
+comparison: 'Longest common consecutive block for each Good/Bad pair; all other blocks reported separately'
+inference: 'Original FF3/HAC3/6/95% CI only with >=24 consecutive valid months and complete factors; Holm across all estimated cell/spread HAC specifications'
+cross_section: 'Annual membership carried forward; observed security returns only; month/PBR, size tercile, formation year and PIT ROE strata; selection diagnostics'
+cross_section_inference: 'OLS month FE + Good + log(ME) + continuous PBR + PIT ROE; firm/cohort two-way clustered SE only with >=10 formation cohorts and >=30 firms; otherwise descriptive only'
+value_trap_outcome: 'Exploratory 12-month forward price loss <=-30%; require all 12 held security-month observations; report censoring and missingness; no economic-payoff repair'
+financial_change: 'Investigate next annual PIT ROE availability; definition consistency and disclosure timing required; otherwise NOT_TESTED'
+judgment: 'Long-horizon economic hypotheses remain INSUFFICIENT_EVIDENCE when observed strategy windows fail original inference gate; mixed H3 robustness reported explicitly'
+publication: 'Aggregate counts, moments, portfolio returns and figures only; source hashes without private paths; no security-level or raw data'
+decision_control: 'This plan follows known historical results; it is an exploratory analysis specification, not an independent preregistration or OOS test'

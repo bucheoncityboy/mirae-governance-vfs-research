@@ -13,6 +13,9 @@ from .reporting import public_inputs,pct,result_summary,strategy_brief,SOURCE,RE
 
 
 def build_pdf():
+    if (ROOT/'outputs/core_hypotheses/hypothesis_results.json').exists():
+        from .core_publication import build_pdf as build_core_pdf
+        return build_core_pdf()
     fonts=[os.getenv('VFS_KOREAN_FONT',''),'/System/Library/Fonts/Supplemental/AppleGothic.ttf','/usr/share/fonts/truetype/nanum/NanumGothic.ttf']
     font=next((p for p in fonts if p and Path(p).exists()),None)
     if not font:raise ValueError('Set VFS_KOREAN_FONT to an authorized Korean TTF; no PDF silently emitted')
@@ -106,6 +109,9 @@ def build_pdf():
 
 def build_executive_pdf():
     """Two-page decision brief, using the same public metrics and final status."""
+    if (ROOT/'outputs/core_hypotheses/hypothesis_results.json').exists():
+        from .core_publication import build_pdf as build_core_pdf
+        return build_core_pdf(brief=True)
     font=next(p for p in ['/System/Library/Fonts/Supplemental/AppleGothic.ttf','/usr/share/fonts/truetype/nanum/NanumGothic.ttf'] if Path(p).exists())
     pdfmetrics.registerFont(TTFont('BriefKorean',font))
     styles=getSampleStyleSheet()

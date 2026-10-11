@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync, copyFileSync, readdirSync, readFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync, copyFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { marked } from 'marked';
 import { root, json, csv, numeric } from './research_io.js';
@@ -127,7 +127,5 @@ const style = `:root{color-scheme:light;--ink:#12243c;--muted:#53657a;--line:#dc
 const body = parts.map(([heading, text]) => `<section id="${slug(heading)}"><h2>${escape(heading)}</h2>${String(marked.parse(browserMd(text), { async: false })).replaceAll('<table>', '<div class="table-wrap"><table>').replaceAll('</table>', '</table></div>').replace(/<p>(<img[^>]+>)<\/p>/g, '<div class="chart-wrap">$1</div>')}</section>`).join('\n');
 const scripts = [['research-data', summary], ['core-hypotheses-data', core], ['result-data', json<unknown>(resolve(root, 'outputs/public_result_summary.json'))], ['final-evidence-data', json<unknown>(resolve(root, 'outputs/final/completion_status.json'))]].map(([id, data]) => `<script id="${id}" type="application/json">${JSON.stringify(data).replaceAll('<', '\\u003c')}</script>`).join('');
 const page = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="PBR에 거버넌스가 추가 정보를 제공하는지 가격경로, PIT 규모·ROE 매칭, FnGuide 배당 민감도로 검증한 독립 연구"><title>${title} | 독립 VFS 연구</title><style>${style}.chart-wrap{overflow-x:auto}@media(max-width:700px){.chart-wrap img{min-width:700px}}</style></head><body><header><p class="eyebrow">INDEPENDENT VFS RESEARCH · 2026-10-12</p><h1>${title}</h1><p>미래에셋 VFS 투자 아이디어에 대한 독립 실증 연구</p><nav aria-label="연구 목차"><a href="#thesis">Research Thesis</a><a href="#findings">Empirical Findings</a><a href="#conclusion">Conclusion</a><a href="#appendix">Appendix</a><a href="${repo}">README · 코드</a></nav></header><main>${body}${scripts}</main><footer>공개 결과는 집계 자료입니다. 비공개 FnGuide 원천·종목별 입력·API 키는 게시하지 않았습니다.</footer></body></html>\n`;
-const beforeHtml=readFileSync(resolve(dashboard, 'index.html'), 'utf8');
-if(beforeHtml !== page){let at=0;while(at<Math.min(beforeHtml.length,page.length)&&beforeHtml[at]===page[at])at++;console.log('SYNC_HTML_FIRST_MISMATCH',at,'COMMITTED',JSON.stringify(beforeHtml.slice(Math.max(0,at-140),at+250)),'GENERATED',JSON.stringify(page.slice(Math.max(0,at-140),at+250)));}
 writeFileSync(resolve(dashboard, 'index.html'), page);
 console.log('RESEARCH_PUBLICATION_GENERATED_FROM_VERIFIED_AGGREGATES');

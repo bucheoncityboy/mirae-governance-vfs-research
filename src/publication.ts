@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync, copyFileSync, readdirSync } from 'node:fs';
+import { mkdirSync, writeFileSync, copyFileSync, readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { marked } from 'marked';
 import { root, json, csv, numeric } from './research_io.js';
@@ -139,5 +139,7 @@ const style = `:root{color-scheme:light;--ink:#12243c;--muted:#53657a;--line:#dc
 const body = parts.map(([heading, text]) => `<section id="${slug(heading)}"><h2>${escape(heading)}</h2>${String(marked.parse(browserMd(text), { async: false })).replaceAll('<table>', '<div class="table-wrap"><table>').replaceAll('</table>', '</table></div>').replace(/<p>(<img[^>]+>)<\/p>/g, '<div class="chart-wrap">$1</div>')}</section>`).join('\n');
 const scripts = [['research-data', summary], ['core-hypotheses-data', core], ['result-data', json<unknown>(resolve(root, 'outputs/public_result_summary.json'))], ['final-evidence-data', json<unknown>(resolve(root, 'outputs/final/completion_status.json'))]].map(([id, data]) => `<script id="${id}" type="application/json">${JSON.stringify(data).replaceAll('<', '\\u003c')}</script>`).join('');
 const page = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="사외이사 비율을 이용해 PBR 기반 종목선별의 결과와 한계를 검토한 독립 연구"><title>${title} | 독립 VFS 연구</title><style>${style}.chart-wrap{overflow-x:auto}@media(max-width:700px){.chart-wrap img{min-width:700px}}</style></head><body><header><p class="eyebrow">INDEPENDENT VFS RESEARCH · 2026-10-12</p><h1>${title}</h1><p>사외이사 비율에 적용한 VFS의 종목선별 논리 검증</p><nav aria-label="연구 목차"><a href="#purpose">연구 목적</a><a href="#contents">목차</a><a href="#intro">서론</a><a href="#evidence">본론</a><a href="#conclusion">결론</a><a href="#appendix">부록</a><a href="${repo}">README · 코드</a></nav></header><main>${body}${scripts}</main><footer>공개 결과는 집계 자료입니다. 비공개 FnGuide 원천·종목별 입력·API 키는 게시하지 않았습니다.</footer></body></html>\n`;
+const committedHtml=readFileSync(resolve(dashboard, 'index.html'), 'utf8');
+if(committedHtml!==page){let pos=0;while(pos<Math.min(committedHtml.length,page.length)&&committedHtml[pos]===page[pos])pos++;console.log('SYNC_HTML_MISMATCH',pos,'COMMITTED',JSON.stringify(committedHtml.slice(Math.max(0,pos-140),pos+200)),'GENERATED',JSON.stringify(page.slice(Math.max(0,pos-140),pos+200)));}
 writeFileSync(resolve(dashboard, 'index.html'), page);
 console.log('RESEARCH_PUBLICATION_GENERATED_FROM_VERIFIED_AGGREGATES');
